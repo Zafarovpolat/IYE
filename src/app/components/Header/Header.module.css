@@ -1,0 +1,190 @@
+.header {
+    background: #FFFFFFE5;
+    padding: 10px 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 3;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: block;
+}
+
+.nav {
+    display: block;
+    /* Основное меню всегда видимо */
+}
+
+.navList {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navList li a {
+    text-decoration: none;
+    color: #2C2C2C;
+    padding: 5px 0;
+    display: block;
+    font-family: "Literata", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+}
+
+.navList li a:hover {
+    color: #159F4A;
+}
+
+.social {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.socialIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background-color: transparent;
+    text-decoration: none;
+    border: 1px solid #BBC5D6;
+    color: #2C2C2C;
+    /* Начальный цвет для SVG */
+    transition: color 0.3s ease, border-color 0.3s ease;
+    /* Плавный переход */
+}
+
+.burgerButton {
+    display: none;
+    /* Скрываем бургер-кнопку по умолчанию */
+    background: none;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #2C2C2C;
+    /* Начальный цвет для SVG */
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    fill: #2C2C2C;
+    transition: fill 0.3s ease;
+}
+
+.socialIcon:hover,
+.burgerButton:hover {
+    color: #159F4A;
+}
+
+@media (max-width: 1439px) {
+
+    .navList li:nth-child(5),
+    .navList li:nth-child(6),
+    .navList li:nth-child(7),
+    .navList li:nth-child(8) {
+        display: none;
+    }
+
+    .burgerList li:nth-child(5),
+    .burgerList li:nth-child(6),
+    .burgerList li:nth-child(7),
+    .burgerList li:nth-child(8) {
+        display: none;
+    }
+
+    .burgerMenu {
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: hsla(0, 0%, 100%, 0.898);
+        padding: 0 0 20px 0;
+    }
+
+    .burgerList {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .burgerList li a {
+        text-decoration: none;
+        color: #2C2C2C;
+        padding: 5px 0;
+        display: block;
+        font-family: "Literata", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        letter-spacing: 0%;
+    }
+
+    .burgerList li a:hover {
+        color: #159F4A;
+    }
+
+    .social a:nth-child(2) {
+        display: none;
+    }
+
+    .burgerButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 1440px) {
+
+    .burgerMenu {
+        display: none;
+    }
+}
+
+@media (max-width: 999px) {
+    .header {
+        padding: 6px 0;
+    }
+
+    .social a:nth-child(1) {
+        display: none;
+    }
+
+    .navList li {
+        display: none;
+    }
+
+    .burgerList li:nth-child(5),
+    .burgerList li:nth-child(6),
+    .burgerList li:nth-child(7),
+    .burgerList li:nth-child(8) {
+        display: block;
+    }
+
+    .burgerMenu {
+        top: 56px;
+    }
+
+    .logo {
+        width: 180px;
+        height: 24px;
+    }
+}

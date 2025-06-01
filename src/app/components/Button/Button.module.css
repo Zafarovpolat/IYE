@@ -1,0 +1,59 @@
+.buttonBox {
+    width: 200px;
+    display: inline-flex;
+    justify-content: end;
+    text-decoration: none;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.text {
+    color: #159F4A;
+    font-family: 'Literata', sans-serif;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+}
+
+.arrow {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@media (max-width: 999px) {
+    .text {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .buttonBox {
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+    }
+
+    .button {
+        gap: 4px;
+    }
+
+    .arrow {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+@media (max-width: 767px) {
+    .buttonBox {
+        width: fit-content;
+    }
+}

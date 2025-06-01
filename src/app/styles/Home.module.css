@@ -1,0 +1,1521 @@
+/* HERO */
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 1550px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 0;
+    gap: 0;
+}
+
+.heroImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.heroText {
+    width: 100%;
+    height: auto;
+    padding-top: 244px;
+    max-width: 1800px;
+    z-index: 1;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #FFFFFF;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 0%;
+}
+
+
+.heroTextSmall {
+    display: none;
+}
+
+@media (max-width: 1919px) {
+    .heroText {
+        padding-top: 164px;
+    }
+
+    .hero {
+        height: 1162px;
+    }
+}
+
+@media (max-width: 1440px) {
+    .hero {
+        height: 870px;
+    }
+}
+
+@media (max-width: 999px) {
+    .subtitle {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .heroText {
+        padding-top: 156px;
+    }
+}
+
+@media (max-width: 767px) {
+    .heroTextLarge {
+        display: none;
+    }
+
+    .heroText {
+        padding-top: 116px;
+    }
+
+    .heroTextSmall {
+        display: block;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .hero {
+        height: 640px;
+    }
+}
+
+/* NUMBERS */
+
+.numbersBlock {
+    padding: 60px 0 130px;
+}
+
+.numbersHeaderBlock {
+    margin-bottom: 70px;
+    color: #2C2C2C;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.numbersHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 20px;
+    max-width: fit-content;
+}
+
+.numbersHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    max-width: 1210px;
+}
+
+.cardsContainerBlock {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 250px 250px 240px;
+    gap: 20px;
+    grid-template-areas:
+        "card1 card2 card3"
+        "card1 card2 card3"
+        "card4 card4 card3";
+}
+
+.cardBlock {
+    padding: 30px;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardBlock:nth-child(1) {
+    grid-area: card1;
+    background: #159F4A;
+    color: #fff;
+    justify-content: space-between;
+}
+
+.cardBlock:nth-child(2) {
+    grid-area: card2;
+    background: #F1F3F5;
+    color: #2C2C2C;
+    justify-content: space-between;
+}
+
+.cardBlock:nth-child(3) {
+    grid-area: card3;
+    padding: 0;
+}
+
+.cardBlock:nth-child(4) {
+    grid-area: card4;
+    background: #F1F3F5;
+    color: #2C2C2C;
+    justify-content: space-between;
+}
+
+.cardNumberWrapperBlock {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.cardNumberText {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 82px;
+    line-height: 82px;
+    letter-spacing: 0%;
+
+}
+
+.cardUnitText {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding: 0 10px 6px;
+}
+
+.cardBlock:nth-child(1) .cardUnitText {
+    background-color: white;
+    color: #159F4A;
+}
+
+.cardBlock:nth-child(2) .cardUnitText,
+.cardBlock:nth-child(4) .cardUnitText {
+    background-color: #2C2C2C;
+    color: white;
+}
+
+.cardDescriptionText {
+    font-family: 'Literata', serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    vertical-align: bottom;
+}
+
+.cardImage,
+.cardBackgroundImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.cardImage {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    justify-content: space-between;
+}
+
+.cardBackgroundImage {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.numbersHeaderLink2 {
+    display: none;
+}
+
+/* Для разрешений 1920px и выше */
+@media (min-width: 1920px) {
+    .numbersHeaderBlock {
+        gap: 390px;
+        /* Максимальное расстояние между заголовком и кнопкой */
+    }
+
+    .numbersHeaderInfo {
+        max-width: 1210px;
+    }
+}
+
+/* Для разрешений от 1440px до 1919px */
+@media (max-width: 1919px) and (min-width: 1440px) {
+    .numbersHeaderInfo {
+        font-size: 36px;
+        /* Уменьшенный размер шрифта */
+        line-height: 46px;
+        max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
+        /* Линейное уменьшение с 1210px до 1000px */
+    }
+
+    .numbersHeaderBlock {
+        gap: calc(120px + (390 - 120) * (100vw - 1440px) / (1919 - 1440));
+        /* Линейное уменьшение расстояния с 390px до 120px */
+    }
+
+    .cardsContainerBlock {
+        grid-template-rows: 213px 213px 240px;
+    }
+}
+
+/* Для разрешений от 1000px до 1439px */
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .numbersHeaderInfo {
+        font-size: 30px;
+        /* Уменьшенный размер шрифта */
+        line-height: 40px;
+        max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
+        /* Линейное увеличение с 700px до 939px */
+    }
+
+    .numbersHeaderBlock {
+        gap: calc(58px + (120 - 58) * (100vw - 1000px) / (1439 - 1000));
+        /* Линейное увеличение с 58px до 120px */
+    }
+
+    .numbersHeaderBlock {
+        margin-bottom: 50px;
+    }
+
+    .cardNumberText {
+        font-size: 72px;
+    }
+
+    .cardsContainerBlock {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 225px 225px 240px;
+        grid-template-areas:
+            "card1 card2"
+            "card1 card2"
+            "card4 card3";
+    }
+
+    .numbersBlock {
+        padding: 60px 0 110px;
+    }
+
+    .cardImage {
+        max-width: 300px;
+        max-height: 267px;
+    }
+}
+
+/* Для разрешений от 768px до 999px */
+@media (max-width: 999px) and (min-width: 768px) {
+    .numbersHeaderInfo {
+        font-size: 24px;
+        /* Уменьшенный размер шрифта */
+        line-height: 34px;
+        max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
+        /* Линейное увеличение с 500px до 669px */
+    }
+
+    .numbersHeaderBlock {
+        gap: calc(20px + (120 - 20) * (100vw - 768px) / (999 - 768));
+        /* Линейное увеличение с 20px до 120px */
+    }
+
+    .cardNumberText {
+        font-size: 56px;
+    }
+
+    .cardsContainerBlock {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 200px 200px 240px;
+        grid-template-areas:
+            "card1 card2"
+            "card1 card2"
+            "card4 card3";
+    }
+
+    .cardImage {
+        max-width: 265px;
+        max-height: 236px;
+    }
+
+    .cardUnitText {
+        font-size: 16px;
+        line-height: 22px;
+        padding: 0 10px 4px;
+    }
+}
+
+/* Для разрешений меньше 768px */
+@media (max-width: 767px) {
+    .numbersHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        /* Минимальный отступ */
+    }
+
+    .numbersHeaderInfo {
+        font-size: 24px;
+        line-height: 34px;
+        max-width: 100%;
+        /* Заголовок растягивается на всю ширину */
+    }
+
+    .numbersHeaderLink {
+        display: none;
+    }
+
+    .numbersBlock {
+        padding: 30px 0 100px;
+        /* Уменьшенный отступ до карточек */
+    }
+
+    .numbersHeaderBlock {
+        margin-bottom: 30px;
+    }
+
+    .numbersHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .numbersHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .cardsContainerBlock {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        grid-template-rows: 300px 180px 180px 200px;
+        grid-template-areas:
+            "card1"
+            "card2"
+            "card4"
+            "card3";
+    }
+
+    .cardImage {
+        max-width: 200px;
+        max-height: 189px;
+    }
+
+    .cardNumberText {
+        font-size: 50px;
+        line-height: 50px;
+    }
+
+    .cardBlock {
+        padding: 20px;
+    }
+
+    .numbersHeaderLink2 {
+        display: block;
+    }
+
+    .cardBlock {
+        margin-bottom: 30px;
+    }
+
+    .numbersBlock {
+        padding: 40px 0 50px;
+    }
+
+    .cardUnitText {
+        font-size: 16px;
+        line-height: 22px;
+        padding: 0 10px 4px;
+    }
+}
+
+/* CLIENTS */
+
+.clients {
+    margin-bottom: 130px;
+}
+
+.clientsHeaderBlock {
+    border-top: 1px solid #BBC5D6;
+    padding-top: 110px;
+    margin-bottom: 70px;
+    color: #2C2C2C;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.clientsHeaderBottomBlock {
+    display: flex;
+    flex-direction: column;
+}
+
+.clientsHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 20px;
+    max-width: fit-content;
+}
+
+.clientsHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    max-width: 1210px;
+}
+
+.clientsCardsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 240px 240px;
+    gap: 20px;
+    padding-bottom: 130px;
+    border-bottom: 1px solid #BBC5D6;
+}
+
+.clientCard {
+    background: #F1F3F5;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.clientLogo {
+    max-width: 90px;
+    height: auto;
+}
+
+.clientName {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    text-align: center;
+}
+
+.clientInfoCard {
+    background-color: #159F4A;
+    justify-content: end;
+}
+
+.clientInfoCard .clientInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #FFFFFF;
+}
+
+/* CLIENTS (дополнение) */
+.partnerCard {
+    background: #fff;
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+}
+
+.partnerLink {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    z-index: 2;
+}
+
+.partnerText {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+}
+
+.partnerArrow {
+    /* Stroke и rotate будут анимироваться framer-motion */
+}
+
+.arrowContainer {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+}
+
+/* Адаптивность для #clients */
+@media (min-width: 1920px) {
+    .clientsHeaderInfo {
+        max-width: 1210px;
+    }
+}
+
+@media (max-width: 1919px) and (min-width: 1440px) {
+    .clientsHeaderInfo {
+        font-size: 36px;
+        line-height: 46px;
+        max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
+    }
+}
+
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .clientsHeaderInfo {
+        font-size: 30px;
+        line-height: 40px;
+        max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
+    }
+
+    .clientsHeaderBlock {
+        margin-bottom: 50px;
+        padding-top: 90px;
+    }
+
+    .clientsCardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 240px);
+        padding-bottom: 110px;
+    }
+
+    .clientInfoCard {
+        order: 1;
+    }
+
+    .partnerCard {
+        order: 2;
+    }
+}
+
+@media (max-width: 999px) and (min-width: 768px) {
+
+    .clients {
+        margin-bottom: 110px;
+    }
+
+    .clientsHeaderBlock {
+        padding-top: 90px;
+    }
+
+    .clientsHeaderInfo {
+        font-size: 24px;
+        line-height: 34px;
+        max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
+    }
+
+    .clientsCardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 220px);
+        padding-bottom: 110px;
+    }
+
+    .clientName {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .clientInfoCard {
+        order: 1;
+    }
+
+    .partnerCard {
+        order: 2;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .clients {
+        margin-bottom: 70px;
+    }
+
+    .clientsHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
+        padding-top: 50px;
+    }
+
+    .clientsHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .clientsHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .clientsCardsContainer {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 30px;
+        grid-template-rows: repeat(5, 180px);
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .clientLogo {
+        max-width: 60px;
+    }
+
+    .partnerCard {
+        display: none;
+    }
+
+    .clientCard {
+        padding: 20px;
+    }
+
+    .clientName {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .clientInfoCard .clientInfo {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .arrowContainer {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .clientsLink {
+        padding-bottom: 50px;
+        border-bottom: 1px solid #BBC5D6;
+    }
+}
+
+/* QUALITY */
+.quality {
+    margin-bottom: 130px;
+    background: #084927;
+    color: #FFFFFF;
+    padding-top: 110px;
+    padding-bottom: 130px;
+}
+
+.qualityHeaderBlock {
+    margin-bottom: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.qualityHeaderBottomBlock {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 414px;
+}
+
+.qualityHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #FFFFFF;
+    max-width: fit-content;
+    white-space: nowrap;
+}
+
+.qualityHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    max-width: 955px;
+    color: #FFFFFF;
+}
+
+.qualityCardsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 340px);
+    gap: 20px;
+}
+
+.qualitySwiper {
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.qualityCard {
+    background-color: #159F4A;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    padding: 30px;
+    gap: 30px;
+    height: 100%;
+}
+
+.qualityCard:nth-child(3),
+.qualityCard:nth-child(4) {
+    background-color: transparent;
+    border: 1px solid #159F4A;
+}
+
+.qualityCardUp {
+    display: flex;
+    align-items: start;
+    width: 100%;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.qualityIcon {
+    max-width: 50px;
+    height: auto;
+}
+
+.qualityText {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 0%;
+    color: white;
+    text-align: left;
+}
+
+.qualityDescription {
+    font-family: 'Literata', serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: white;
+    text-align: left;
+}
+
+@media (max-width: 1920px) {
+    .qualityHeaderBottomBlock {
+        gap: 254px;
+    }
+
+    .qualityCardsContainer {
+        grid-template-rows: repeat(2, 1fr);
+    }
+}
+
+/* Адаптивность для #quality */
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .quality {
+        padding-top: 90px;
+        padding-bottom: 110px;
+    }
+
+    .qualityCardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    .qualityHeaderInfo {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .qualityHeaderBottomBlock {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .qualityHeaderTitle {
+        margin-bottom: 20px;
+    }
+
+    .qualityHeaderBlock {
+        margin-bottom: 50px;
+    }
+}
+
+@media (max-width: 999px) and (min-width: 768px) {
+    .quality {
+        margin-bottom: 110px;
+    }
+
+    .quality {
+        padding-top: 90px;
+    }
+
+    .qualityHeaderInfo {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .qualityText {
+        font-size: 24px;
+        line-height: 34px;
+    }
+
+    .qualityCardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    .qualityCardUp {
+        gap: 20px;
+    }
+
+    .qualityIcon {
+        max-width: 36px;
+    }
+}
+
+@media (max-width: 767px) {
+    .quality {
+        margin-bottom: 70px;
+    }
+
+    .qualityHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
+        padding-top: 50px;
+    }
+
+    .qualityHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .qualityHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .qualityCardsContainer {
+        display: block;
+        /* Убираем grid для слайдера */
+        padding-bottom: 0;
+    }
+
+    .qualityCard {
+        padding: 20px;
+        height: 100%;
+        min-height: clamp(200px, 280px, 340px);
+    }
+
+    .qualityText {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .qualityDescription {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .qualityCardUp {
+        gap: 10px;
+    }
+
+    .qualityIcon {
+        max-width: 30px;
+    }
+}
+
+/* PRODUCTS */
+.productsHeaderBlock {
+    border-top: 1px solid #BBC5D6;
+    padding-top: 110px;
+    margin-bottom: 70px;
+    color: #2C2C2C;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.productsHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 20px;
+    max-width: fit-content;
+}
+
+.productsHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    max-width: 1210px;
+}
+
+.productsCardsContainer {
+    position: relative;
+    overflow: visible;
+    padding-bottom: 130px;
+}
+
+.productsSwiper {
+    overflow: visible !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0;
+}
+
+/* Карточка с фиксированной шириной */
+.productCard {
+    background: #F1F3F5;
+    border-radius: 20px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.productCardUp {
+    padding: 30px 30px 0;
+    margin-bottom: 22px;
+}
+
+.productImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.productTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 44px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 24px;
+}
+
+.productPrice {
+    background-color: #2C2C2C;
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding: 6px 16px 10px;
+    width: fit-content;
+    color: white;
+}
+
+.productsHeaderLink2 {
+    display: none;
+}
+
+/* Для разрешений 1920px и выше */
+@media (min-width: 1920px) {
+    .productsHeaderBlock {
+        gap: 390px;
+    }
+
+    .productsHeaderInfo {
+        max-width: 1210px;
+    }
+}
+
+/* Для разрешений от 1440px до 1919px */
+@media (max-width: 1919px) and (min-width: 1440px) {
+    .productsHeaderInfo {
+        font-size: 36px;
+        line-height: 46px;
+        max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
+    }
+
+    .productsHeaderBlock {
+        gap: calc(120px + (390 - 120) * (100vw - 1440px) / (1919 - 1440));
+    }
+}
+
+/* Для разрешений от 1000px до 1439px */
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .productsHeaderInfo {
+        font-size: 30px;
+        line-height: 40px;
+        max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
+    }
+
+    .productsHeaderBlock {
+        gap: calc(58px + (120 - 58) * (100vw - 1000px) / (1439 - 1000));
+        margin-bottom: 50px;
+    }
+
+
+}
+
+/* Для разрешений от 768px до 999px */
+@media (max-width: 999px) and (min-width: 768px) {
+    .productsHeaderInfo {
+        font-size: 24px;
+        line-height: 34px;
+        max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
+    }
+
+    .productsHeaderBlock {
+        gap: calc(20px + (120 - 20) * (100vw - 768px) / (999 - 768));
+        padding-top: 90px;
+        margin-bottom: 50px;
+    }
+
+    .productsCardsContainer {
+        padding-bottom: 110px;
+    }
+
+    .productCard {
+        height: fit-content;
+    }
+}
+
+/* Для разрешений меньше 768px */
+@media (max-width: 767px) {
+    .productsHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
+        padding-top: 50px;
+    }
+
+    .productsHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+        max-width: 100%;
+    }
+
+    .productsHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .productsCardsContainer {
+        padding-bottom: 0px;
+        margin-bottom: 30px;
+    }
+
+    .productsHeaderLink {
+        display: none;
+    }
+
+    .productsHeaderLink2 {
+        display: block;
+        padding-bottom: 50px;
+    }
+}
+
+/* PRODUCTION */
+
+
+.productionHeaderBlock {
+    margin-bottom: 70px;
+    color: #2C2C2C;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    border-top: 1px solid #BBC5D6;
+}
+
+.productionHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 20px;
+    max-width: fit-content;
+}
+
+.productionHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    max-width: 1210px;
+}
+
+.productionVideoContainer {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 130px;
+}
+
+.productionVideo {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.customPlayButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.customPlayButton svg {
+    width: 100%;
+    height: 100%;
+}
+
+.productionHeaderLink2 {
+    display: none;
+}
+
+.productionHeaderBlock {
+    padding-top: 110px;
+    margin-bottom: 70px;
+    color: #2C2C2C;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.productionHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 20px;
+    max-width: fit-content;
+}
+
+.productionHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+}
+
+.posterContainer {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.videoPoster {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 1490px;
+}
+
+.posterLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #2C2C2C4D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.customPlayButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.playButtonCircle {
+    transition: fill-opacity 0.2s ease;
+}
+
+.playButtonTriangle {
+    transition: fill 0.2s ease;
+}
+
+/* Медиа-запросы для PRODUCTION */
+@media (min-width: 1920px) {
+    .productionHeaderBlock {
+        gap: 390px;
+    }
+
+    .productionHeaderInfo {
+        max-width: 1210px;
+    }
+}
+
+@media (max-width: 1919px) and (min-width: 1440px) {
+    .productionHeaderInfo {
+        font-size: 36px;
+        line-height: 46px;
+        max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
+    }
+
+    .productionHeaderBlock {
+        gap: calc(120px + (390 - 120) * (100vw - 1440px) / (1919 - 1440));
+    }
+}
+
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .productionHeaderInfo {
+        font-size: 30px;
+        line-height: 40px;
+        max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
+    }
+
+    .productionHeaderBlock {
+        gap: calc(58px + (120 - 58) * (100vw - 1000px) / (1439 - 1000));
+        margin-bottom: 50px;
+        padding-top: 90px;
+    }
+
+    .productionVideoContainer {
+        padding-bottom: 110px;
+    }
+}
+
+@media (max-width: 999px) and (min-width: 768px) {
+    .productionHeaderInfo {
+        font-size: 24px;
+        line-height: 34px;
+        max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
+    }
+
+    .productionHeaderBlock {
+        gap: calc(20px + (120 - 20) * (100vw - 768px) / (999 - 768));
+        margin-bottom: 50px;
+    }
+
+    .productionVideoContainer {
+        padding-bottom: 70px;
+    }
+}
+
+@media (max-width: 767px) {
+    .productionHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
+        padding-top: 50px;
+    }
+
+    .productionHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+        max-width: 100%;
+    }
+
+    .productionHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .productionVideoContainer {
+        padding-bottom: 0;
+        margin-bottom: 30px;
+    }
+
+    .customPlayButton {
+        width: 100px;
+        height: 100px;
+    }
+
+    .productionHeaderLink {
+        display: none;
+    }
+
+    .productionHeaderLink2 {
+        display: block;
+        padding-bottom: 50px;
+    }
+}
+
+/* Стили для контейнера карточек достижений */
+.newsCardsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding-bottom: 110px;
+}
+
+/* Стили для каждой карточки */
+.newsCard {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    color: #2C2C2C;
+    align-content: start;
+}
+
+/* Image styles */
+.newsImage {
+    width: 100%;
+    height: 374px;
+    object-fit: cover;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Заголовок карточки */
+.newsCardTitle {
+    margin-top: 20px;
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    color: #2C2C2C;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+}
+
+/* Описание карточки */
+.newsCardDescription {
+    font-family: 'Literata', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #747B87;
+}
+
+/* Стили для Swiper */
+.newsSwiper {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 1920px) {
+    .newsImage {
+        height: 272px;
+    }
+}
+
+/* Медиа-запросы */
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .newsCardsContainer {
+        display: block;
+        margin-bottom: 0;
+        padding-bottom: 90px;
+    }
+
+    .newsImage {
+        height: 287px;
+    }
+
+    .newsSwiper {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 999px) and (min-width: 768px) {
+    .newsCardsContainer {
+        padding-top: 0px;
+        display: block;
+        padding-bottom: 90px;
+    }
+
+    .newsSwiper {
+        margin-bottom: 0;
+    }
+
+    .newsHeaderBlock {
+        border-top: none;
+        padding-top: 0;
+    }
+
+    .newsCardTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+}
+
+@media (max-width: 767px) {
+    .newsCardsContainer {
+        margin-bottom: 30px;
+        display: block;
+        padding-bottom: 0;
+    }
+
+    .newsSwiper {
+        margin-bottom: 0;
+    }
+}
