@@ -14,10 +14,11 @@ export default function Home() {
     const videoRef = useRef(null);
     const [playing, setPlaying] = useState(false);
     const [isClient, setIsClient] = useState(false);
-    const [isHovered, setIsHovered] = useState(false); // Moved to top to fix Hook order
+    const [isClientHovered, setIsClientHovered] = useState(false); // Hover state for clients section
+    const [isPreFooterHovered, setIsPreFooterHovered] = useState(false); // Hover state for preFooter section
     const [isMobile, setIsMobile] = useState(false);
-    const [isNewsMobile, setIsNewsMobile] = useState(false); // Новое состояние для секции news
-    console.log(posterImg);
+    const [isNewsMobile, setIsNewsMobile] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
@@ -26,7 +27,7 @@ export default function Home() {
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 767);
-            setIsNewsMobile(window.innerWidth <= 1439); // Для секции news
+            setIsNewsMobile(window.innerWidth <= 1439);
         };
 
         handleResize();
@@ -47,7 +48,8 @@ export default function Home() {
         y: '100%',
     };
 
-    const cardBackgroundVariants = {
+    // Variants for clients section partnerCard (unchanged)
+    const clientCardBackgroundVariants = {
         initial: {
             backgroundColor: '#fff',
             backgroundImage: `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, transparent 0%, transparent 0%)`,
@@ -68,7 +70,7 @@ export default function Home() {
         },
     };
 
-    const partnerTextVariants = {
+    const clientPartnerTextVariants = {
         initial: {
             color: '#2C2C2C',
         },
@@ -78,7 +80,7 @@ export default function Home() {
         },
     };
 
-    const arrowVariants = {
+    const clientArrowVariants = {
         initial: {
             stroke: '#2C2C2C',
             rotate: 0
@@ -90,8 +92,52 @@ export default function Home() {
         },
     };
 
+    // Variants for preFooter section partnerCard
+    const preFooterCardBackgroundVariants = {
+        initial: {
+            backgroundColor: '#159F4A',
+            backgroundImage: `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, transparent 0%, transparent 0%)`,
+        },
+        hover: {
+            backgroundColor: '#159F4A',
+            backgroundImage: [
+                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 0%, transparent 0%)`,
+                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 50%, transparent 50%)`,
+                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 100%, transparent 100%)`,
+                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 150%, transparent 150%)`,
+                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 200%, transparent 200%)`,
+            ],
+            transition: {
+                backgroundImage: { duration: 0.4, ease: 'easeOut' },
+                backgroundColor: { duration: 0.4, ease: 'easeOut' }
+            }
+        },
+    };
+
+    const preFooterPartnerTextVariants = {
+        initial: {
+            color: '#fff',
+        },
+        hover: {
+            color: '#fff',
+            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
+        },
+    };
+
+    const preFooterArrowVariants = {
+        initial: {
+            stroke: '#fff',
+            rotate: 0
+        },
+        hover: {
+            stroke: '#fff',
+            rotate: 45,
+            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
+        },
+    };
+
     const SCALE_REDUCTION = 1.5;
-    const whiteRippleVariants = {
+    const rippleVariants = {
         initial: {
             scale: 0,
             transition: { duration: 0 }
@@ -108,8 +154,25 @@ export default function Home() {
             };
         }
     };
+    const rippleVariants2 = {
+        initial: {
+            scale: 0,
+            transition: { duration: 0 }
+        },
+        hover: (i) => {
+            const baseScale = 5;
+            const maxScale = (baseScale - (i * SCALE_REDUCTION)) * 2;
+            return {
+                scale: [2, 8, maxScale],
+                transition: {
+                    duration: 0.3,
+                    ease: "easeInOut",
+                }
+            };
+        }
+    };
 
-    const rippleColors = [
+    const clientRippleColors = [
         'rgb(44, 169, 92)',
         'rgb(65, 178, 108)',
         'rgb(84, 186, 123)'
@@ -267,7 +330,7 @@ export default function Home() {
                     <div className={styles.clientsCardsContainer}>
                         <div className={styles.clientCard}>
                             <Image
-                                src="/Вкусвилл.png"
+                                src="/vkus.png"
                                 alt="ВкусВилл"
                                 width={100}
                                 height={100}
@@ -292,11 +355,11 @@ export default function Home() {
                         </div>
                         <motion.div
                             className={styles.partnerCard}
-                            onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)}
+                            onMouseEnter={() => setIsClientHovered(true)}
+                            onMouseLeave={() => setIsClientHovered(false)}
                             initial="initial"
-                            animate={isHovered ? "hover" : "initial"}
-                            variants={cardBackgroundVariants}
+                            animate={isClientHovered ? "hover" : "initial"}
+                            variants={clientCardBackgroundVariants}
                             style={{
                                 '--ripple-origin-x': rippleOrigin.x,
                                 '--ripple-origin-y': rippleOrigin.y,
@@ -305,7 +368,7 @@ export default function Home() {
                             <Link href="/" className={styles.partnerLink}>
                                 <motion.span
                                     className={styles.partnerText}
-                                    variants={partnerTextVariants}
+                                    variants={clientPartnerTextVariants}
                                 >
                                     Стать нашим партнёром
                                 </motion.span>
@@ -319,28 +382,28 @@ export default function Home() {
                                         strokeWidth={2}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
-                                        variants={arrowVariants}
+                                        variants={clientArrowVariants}
                                     >
                                         <motion.path d="M12 28.6667L28.6667 12" />
                                         <motion.path d="M12 12H28.6667V28.6667" />
                                     </motion.svg>
                                 </motion.div>
                             </Link>
-                            {isHovered && (
+                            {isClientHovered && (
                                 <>
                                     {Array.from({ length: 3 }).map((_, i) => (
                                         <motion.div
-                                            key={`white-ripple-${i}`}
+                                            key={`client-ripple-${i}`}
                                             className={styles.ripple}
                                             custom={i}
                                             initial="initial"
-                                            animate={isHovered ? "hover" : "initial"}
-                                            variants={whiteRippleVariants}
+                                            animate={isClientHovered ? "hover" : "initial"}
+                                            variants={rippleVariants}
                                             style={{
                                                 right: '20px',
                                                 bottom: '20px',
                                                 transform: 'translate(50%, 50%)',
-                                                backgroundColor: rippleColors[i]
+                                                backgroundColor: clientRippleColors[i]
                                             }}
                                         />
                                     ))}
@@ -791,9 +854,6 @@ export default function Home() {
                             <Button text={"О продукции"} href="/production" />
                         </div>
                     </div>
-                    <div className={styles.productionHeaderLink2}>
-                        <Button href="/production" />
-                    </div>
                 </div>
                 <div className={styles.productionVideoContainer}>
                     <div className={styles.posterContainer}>
@@ -909,7 +969,7 @@ export default function Home() {
                                 }}
                             >
                                 <SwiperSlide>
-                                    <div className={styles.newsCard}>
+                                    <Link href={"/news"} className={styles.newsCard}>
                                         <Image
                                             src="/news1.png"
                                             alt="Пирожные"
@@ -921,10 +981,10 @@ export default function Home() {
                                         <p className={styles.newsCardDescription}>
                                             22 апреля 2025 • Партнёрство
                                         </p>
-                                    </div>
+                                    </Link>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className={styles.newsCard}>
+                                    <Link href={"/news"} className={styles.newsCard}>
                                         <Image
                                             src="/news2.png"
                                             alt="Пирожные"
@@ -936,10 +996,10 @@ export default function Home() {
                                         <p className={styles.newsCardDescription}>
                                             21 апреля 2025 • Продукция
                                         </p>
-                                    </div>
+                                    </Link>
                                 </SwiperSlide>
                                 <SwiperSlide>
-                                    <div className={styles.newsCard}>
+                                    <Link href={"/news"} className={styles.newsCard}>
                                         <Image
                                             src="/news3.png"
                                             alt="Пирожные"
@@ -951,12 +1011,12 @@ export default function Home() {
                                         <p className={styles.newsCardDescription}>
                                             18 апреля 2025 • Партнёрство
                                         </p>
-                                    </div>
+                                    </Link>
                                 </SwiperSlide>
                             </Swiper>
                         ) : (
                             <>
-                                <div className={styles.newsCard}>
+                                <Link href={"/news"} className={styles.newsCard}>
                                     <Image
                                         src="/news1.png"
                                         alt="Пирожные"
@@ -968,8 +1028,8 @@ export default function Home() {
                                     <p className={styles.newsCardDescription}>
                                         22 апреля 2025 • Партнёрство
                                     </p>
-                                </div>
-                                <div className={styles.newsCard}>
+                                </Link>
+                                <Link href={"/news"} className={styles.newsCard}>
                                     <Image
                                         src="/news2.png"
                                         alt="Пирожные"
@@ -981,8 +1041,8 @@ export default function Home() {
                                     <p className={styles.newsCardDescription}>
                                         21 апреля 2025 • Продукция
                                     </p>
-                                </div>
-                                <div className={styles.newsCard}>
+                                </Link>
+                                <Link href={"/news"} className={styles.newsCard}>
                                     <Image
                                         src="/news3.png"
                                         alt="Пирожные"
@@ -994,12 +1054,95 @@ export default function Home() {
                                     <p className={styles.newsCardDescription}>
                                         18 апреля 2025 • Партнёрство
                                     </p>
-                                </div>
+                                </Link>
                             </>
                         )}
                     </div>
                     <div className={styles.productionHeaderLink2}>
                         <Button text={"Узнать больше"} href="/achievements" />
+                    </div>
+                </div>
+            </motion.section>
+
+            <motion.section
+                id="preFooter"
+                className={styles.preFooter}
+                initial={{ y: 90, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, ease: [0.6, 0.01, 0.05, 0.95], delay: 0.3 }}
+            >
+                <div className={`${styles.container} container`}>
+                    <div className={styles.preFooterWrapper}>
+                        <Image
+                            src="/prefooter.png"
+                            alt="Еда"
+                            width={586}
+                            height={400}
+                            className={styles.preFooterPhoto}
+                        />
+                        <motion.div
+                            className={`${styles.preFooterCard} ${styles.preFooterPartnerCard}`}
+                            onMouseEnter={() => setIsPreFooterHovered(true)}
+                            onMouseLeave={() => setIsPreFooterHovered(false)}
+                            initial="initial"
+                            animate={isPreFooterHovered ? "hover" : "initial"}
+                            variants={preFooterCardBackgroundVariants}
+                            style={{
+                                '--ripple-origin-x': rippleOrigin.x,
+                                '--ripple-origin-y': rippleOrigin.y,
+                            }}
+                        >
+                            <motion.span
+                                className={styles.preFooterTopText}
+                                variants={preFooterPartnerTextVariants}
+                            >
+                                смотреть далее
+                            </motion.span>
+                            <Link href="/" className={`${styles.partnerLink} ${styles.preFooterLink}`}>
+                                <motion.span
+                                    className={`${styles.partnerText} ${styles.preFooterTitle}`}
+                                    variants={preFooterPartnerTextVariants}
+                                >
+                                    О компании
+                                </motion.span>
+                                <motion.div className={styles.arrowContainer}>
+                                    <motion.svg
+                                        className={styles.partnerArrow}
+                                        width="40"
+                                        height="40"
+                                        viewBox="0 0 40 40"
+                                        fill="none"
+                                        strokeWidth={2}
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        variants={preFooterArrowVariants}
+                                    >
+                                        <motion.path d="M12 28.6667L28.6667 12" />
+                                        <motion.path d="M12 12H28.6667V28.6667" />
+                                    </motion.svg>
+                                </motion.div>
+                            </Link>
+                            {isPreFooterHovered && (
+                                <>
+                                    {Array.from({ length: 3 }).map((_, i) => (
+                                        <motion.div
+                                            key={`prefooter-ripple-${i}`}
+                                            className={styles.ripple}
+                                            custom={i}
+                                            initial="initial"
+                                            animate={isPreFooterHovered ? "hover" : "initial"}
+                                            variants={rippleVariants2}
+                                            style={{
+                                                right: `${isMobile ? '20px' : '30px'}`,
+                                                bottom: `${isMobile ? '20px' : '30px'}`,
+                                                transform: 'translate(50%, 50%)',
+                                                backgroundColor: clientRippleColors[i]
+                                            }}
+                                        />
+                                    ))}
+                                </>
+                            )}
+                        </motion.div>
                     </div>
                 </div>
             </motion.section>
