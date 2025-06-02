@@ -10,7 +10,7 @@ export default function Footer() {
                 <div className={styles.footerUp}>
                     <div className={styles.contacts}>
                         <p className={styles.phone}>+7 (000) 00-00-00</p>
-                        <Link href={"mailto:customers@ideologis.ru"} className={styles.email}>customers@ideologis.ru</Link>
+                        <Link href={"mailto:customers@ideologia.ru"} className={styles.email}>customers@ideologia.ru</Link>
                     </div>
 
                     <div className={styles.footerRight}>
