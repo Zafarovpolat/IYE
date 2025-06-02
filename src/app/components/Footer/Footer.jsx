@@ -10,7 +10,7 @@ export default function Footer() {
                 <div className={styles.footerUp}>
                     <div className={styles.contacts}>
                         <p className={styles.phone}>+7 (000) 00-00-00</p>
-                        <p className={styles.email}>customers@ideologis.ru</p>
+                        <Link href={"mailto:customers@ideologis.ru"} className={styles.email}>customers@ideologis.ru</Link>
                     </div>
 
                     <div className={styles.footerRight}>
@@ -75,7 +75,7 @@ export default function Footer() {
                 </div>
 
                 <div className={styles.legal}>
-                    <p className={styles.copyright}>© 2023 Идеология Еды</p>
+                    <p className={styles.copyright}>© 2025 Идеология Еды</p>
                     <ul className={styles.legalList}>
                         <li className={styles.legalItem}>
                             <Link href="/privacy">Политика конфиденциальности</Link>

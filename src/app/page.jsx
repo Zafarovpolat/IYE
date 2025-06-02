@@ -185,7 +185,7 @@ export default function Home() {
                 className={styles.hero}
                 initial={{ y: 90, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, ease: [0.6, 0.01, 0.05, 0.95] }}
+                transition={{ duration: 1, ease: "easeOut" }}
             >
                 <div className={`${styles.container} container`}>
                     <Image
@@ -197,27 +197,54 @@ export default function Home() {
                         sizes="100vw"
                         priority
                     />
-                    <Image
-                        src="/hero-text.svg"
-                        alt="Идеология Еды"
-                        width={1200}
-                        height={200}
-                        className={`${styles.heroText} ${styles.heroTextLarge}`}
-                        sizes="100vw"
-                        priority
+                    {!isMobile && (
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                        >
+                            <Image
+                                src="/hero-text.svg"
+                                alt="Идеология Еды"
+                                width={1200}
+                                height={200}
+                                className={`${styles.heroText} ${styles.heroTextLarge}`}
+                                sizes="100vw"
+                                priority
+                            />
+                        </motion.div>
+                    )}
+                    {isMobile && (
+                        <motion.div
+                            initial={{ y: 50, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                        >
+                            <Image
+                                src="/hero-text-sm.svg"
+                                alt="Идеология Еды (маленький)"
+                                width={600}
+                                height={100}
+                                className={`${styles.heroText} ${styles.heroTextSmall}`}
+                                sizes="100vw"
+                                priority
+                            />
+                        </motion.div>
+                    )}
+                    <motion.div
+                        className={styles.divider}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 1, opacity: 1 }}
+                        transition={{ duration: 0.545, delay: 0.2, ease: "easeOut" }}
                     />
-                    <Image
-                        src="/hero-text-sm.svg"
-                        alt="Идеология Еды (маленький)"
-                        width={600}
-                        height={100}
-                        className={`${styles.heroText} ${styles.heroTextSmall}`}
-                        sizes="100vw"
-                        priority
-                    />
-                    <p className={styles.subtitle}>
+                    <motion.p
+                        className={styles.subtitle}
+                        initial={{ y: 12, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 0.545, delay: 0.295, ease: "easeOut" }}
+                    >
                         Производство кулинарных, кондитерских и хлебобулочных изделий
-                    </p>
+                    </motion.p>
                 </div>
             </motion.section>
 
@@ -330,7 +357,7 @@ export default function Home() {
                     <div className={styles.clientsCardsContainer}>
                         <div className={styles.clientCard}>
                             <Image
-                                src="/vkus.png"
+                                src="/vkus.svg"
                                 alt="ВкусВилл"
                                 width={100}
                                 height={100}
@@ -340,7 +367,7 @@ export default function Home() {
                         </div>
                         <div className={styles.clientCard}>
                             <Image
-                                src="/Самокат.png"
+                                src="/Самокат.svg"
                                 alt="Самокат"
                                 width={100}
                                 height={100}
@@ -412,7 +439,7 @@ export default function Home() {
                         </motion.div>
                         <div className={styles.clientCard}>
                             <Image
-                                src="/Перекресток.png"
+                                src="/Перекресток.svg"
                                 alt="Перекрёсток"
                                 width={100}
                                 height={100}
@@ -422,7 +449,7 @@ export default function Home() {
                         </div>
                         <div className={styles.clientCard}>
                             <Image
-                                src="/Пятерочка.png"
+                                src="/Пятерочка.svg"
                                 alt="Пятёрочка"
                                 width={100}
                                 height={100}
@@ -701,11 +728,11 @@ export default function Home() {
                                 Продукция
                             </h5>
                             <h3 className={styles.productsHeaderInfo}>
-                                Продукция продукции под СТМ и развиваем наш бренд
+                                Производим продукцию под СТМ и развиваем наш бренд
                             </h3>
                         </div>
                         <div className={styles.productsHeaderLink}>
-                            <Button href="/products" />
+                            <Button text={"О продукции"} href="/products" />
                         </div>
                     </div>
                     <div className={styles.productsCardsContainer}>
@@ -723,7 +750,7 @@ export default function Home() {
                             <SwiperSlide>
                                 <div className={styles.productCard}>
                                     <div className={styles.productCardUp}>
-                                        <p className={styles.productTitle}>Сэндвич</p>
+                                        <p className={styles.productTitle}>Сэндвичи</p>
                                         <p className={styles.productPrice}>{"> 50 видов"}</p>
                                     </div>
                                     <Image
@@ -828,7 +855,7 @@ export default function Home() {
                         </Swiper>
                     </div>
                     <div className={styles.productsHeaderLink2}>
-                        <Button href="/products" />
+                        <Button text={"О продукции"} href="/products" />
                     </div>
                 </div>
             </motion.section>
@@ -851,7 +878,7 @@ export default function Home() {
                             </h3>
                         </div>
                         <div className={styles.productionHeaderLink}>
-                            <Button text={"О продукции"} href="/production" />
+                            <Button text={"О производстве"} href="/production" />
                         </div>
                     </div>
                 </div>
@@ -930,7 +957,7 @@ export default function Home() {
                 </div>
                 <div className={`${styles.container} container`}>
                     <div className={styles.productionHeaderLink2}>
-                        <Button text={"О продукции"} href="/production" />
+                        <Button text={"О производстве"} href="/production" />
                     </div>
                 </div>
             </motion.section>

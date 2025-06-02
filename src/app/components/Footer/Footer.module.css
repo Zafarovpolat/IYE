@@ -26,6 +26,11 @@
     font-size: 18px;
     line-height: 24px;
     letter-spacing: 0%;
+    color: white;
+}
+
+.email:hover {
+    color: #159F4A;
 }
 
 .footerRight {
@@ -113,6 +118,7 @@
     align-items: center;
     padding: 9px 0;
     border-top: 1px solid #FFFFFF33;
+    max-height: 60px;
 }
 
 .copyright {
@@ -141,6 +147,10 @@
     text-decoration: none;
 }
 
+.legalItem a:hover {
+    color: #159F4A;
+}
+
 @media (max-width: 1439px) {
     .footerUp {
         flex-direction: column;
@@ -159,6 +169,8 @@
     .navList {
         margin-bottom: 40px;
     }
+
+
 }
 
 @media (max-width: 999px) {
@@ -188,15 +200,25 @@
         padding: 20px 0;
         flex-direction: column;
         align-items: start;
+        max-height: none;
     }
 
     .copyright {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
 
     .legalList {
         flex-direction: column;
-        gap: 0px;
+        gap: 10px;
+    }
+
+    .legalItem:nth-child(2) {
+        padding-top: 0;
+        max-height: 20px;
+    }
+
+    .legalItem {
+        display: flex;
     }
 
 }

@@ -2,13 +2,19 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion'; // Импортируем Framer Motion
 import styles from './Header.module.css';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <header className={styles.header}>
+        <motion.header
+            className={styles.header}
+            initial={{ y: -64, opacity: 0 }} // Начальное состояние: выше на 64px и невидим
+            animate={{ y: 0, opacity: 1 }} // Конечное состояние: на месте и видим
+            transition={{ duration: 0.4, ease: "easeOut" }} // Длительность 0.4s с замедлением
+        >
             <div className={`${styles.container} container`}>
                 <Link className={styles.logo} href="/">
                     <img
@@ -97,6 +103,6 @@ export default function Header() {
                     </nav>
                 )}
             </div>
-        </header>
+        </motion.header>
     );
 }
