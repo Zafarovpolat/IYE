@@ -3,6 +3,10 @@
     padding-top: 60px;
     font-family: 'Literata', sans-serif;
     color: white;
+    position: relative;
+    /* Убираем absolute, чтобы футер был в потоке */
+    z-index: 10;
+    /* Выше других элементов */
 }
 
 .footerUp {
@@ -136,7 +140,7 @@
     list-style-type: none;
 }
 
-.legalItem a {
+.legalList a {
     font-family: Literata;
     font-weight: 400;
     font-size: 14px;
@@ -147,7 +151,7 @@
     text-decoration: none;
 }
 
-.legalItem a:hover {
+.legalList a:hover {
     color: #159F4A;
 }
 

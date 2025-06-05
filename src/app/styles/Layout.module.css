@@ -7,3 +7,28 @@
     justify-content: space-between;
     /* Чтобы футер был внизу */
 }
+
+.hero {
+    position: relative;
+    /* Ensure hero stays in place */
+    z-index: 1;
+    /* Lower z-index so numbers can overlap */
+}
+
+.numbersBlock {
+    position: relative;
+    /* Allow movement with transform */
+    z-index: 2;
+    /* Higher z-index to overlap hero */
+}
+
+/* Ensure other sections follow numbersBlock */
+.clientsBlock,
+.quality,
+.productsBlock,
+.productionBlock,
+.preFooter {
+    position: relative;
+    z-index: 2;
+
+}

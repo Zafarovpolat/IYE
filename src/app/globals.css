@@ -8,7 +8,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
+    background-color: white;
 }
 
 a {

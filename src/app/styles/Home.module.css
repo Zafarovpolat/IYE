@@ -107,6 +107,13 @@
     padding: 60px 0 130px;
 }
 
+.numbersBlock {
+    position: relative;
+    /* важно для transform */
+    z-index: 1;
+    /* чтобы секция была выше других элементов */
+}
+
 .numbersHeaderBlock {
     margin-bottom: 70px;
     color: #2C2C2C;
@@ -445,8 +452,8 @@
 
 /* CLIENTS */
 
-.clients {
-    margin-bottom: 130px;
+.clientsBlock {
+    padding-bottom: 110px;
 }
 
 .clientsHeaderBlock {
@@ -491,6 +498,7 @@
     grid-template-rows: 240px 240px;
     gap: 20px;
     padding-bottom: 130px;
+    padding-bottom: 110px;
     border-bottom: 1px solid #BBC5D6;
 }
 
@@ -734,10 +742,9 @@
 
 /* QUALITY */
 .quality {
-    margin-bottom: 130px;
+    padding-top: 110px;
     background: #084927;
     color: #FFFFFF;
-    padding-top: 110px;
     padding-bottom: 130px;
 }
 
@@ -782,6 +789,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 340px);
     gap: 20px;
+    padding-bottom: 130px;
 }
 
 .qualitySwiper {
@@ -923,7 +931,6 @@
 
 @media (max-width: 767px) {
     .quality {
-        margin-bottom: 70px;
         padding-bottom: 110px;
     }
 
@@ -1141,6 +1148,11 @@
 
 /* Для разрешений меньше 768px */
 @media (max-width: 767px) {
+
+    .productsBlock {
+        padding-top: 70px;
+    }
+
     .productsHeaderBlock {
         flex-direction: column;
         align-items: flex-start;
@@ -1541,7 +1553,7 @@
 }
 
 .preFooter {
-    margin-bottom: 130px;
+    padding-bottom: 130px;
 }
 
 .preFooterWrapper {
@@ -1645,3 +1657,13 @@
         height: 40px;
     }
 }
+
+/* .numbersBlock,
+.clientsBlock,
+.quality,
+.productsBlock,
+.productionBlock,
+.preFooter {
+
+    background-color: white;
+} */

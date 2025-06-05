@@ -1,13 +1,26 @@
 import Link from 'next/link';
 import styles from './Footer.module.css';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 export default function Footer() {
     return (
-        <footer className={styles.footer}>
+        <motion.footer
+            id='footer'
+            className={styles.footer}
+            initial={{ y: 197 }}
+            whileInView={{ y: 0 }}
+            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+            viewport={{ once: true }}
+        >
             <div className={`${styles.container} container`}>
-
-                <div className={styles.footerUp}>
+                <motion.div
+                    className={styles.footerUp}
+                    initial={{ y: 197 }}
+                    whileInView={{ y: 0 }}
+                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                    viewport={{ once: true }}
+                >
                     <div className={styles.contacts}>
                         <p className={styles.phone}>+7 (000) 00-00-00</p>
                         <Link href={"mailto:customers@ideologia.ru"} className={styles.email}>customers@ideologia.ru</Link>
@@ -60,9 +73,15 @@ export default function Footer() {
                             </a>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
-                <div className={styles.brand}>
+                <motion.div
+                    className={styles.brand}
+                    initial={{ y: 197 }}
+                    whileInView={{ y: 0 }}
+                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                    viewport={{ once: true }}
+                >
                     <Image
                         src="/hero-text.svg"
                         alt="Идеология Еды"
@@ -72,20 +91,26 @@ export default function Footer() {
                         sizes="100vw"
                         priority
                     />
-                </div>
+                </motion.div>
 
-                <div className={styles.legal}>
-                    <p className={styles.copyright}>© 2025 Идеология Еды</p>
+                <motion.div
+                    className={styles.legal}
+                    initial={{ y: 197, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                    style={{ display: 'flex' }} // Явное указание стиля для отображения
+                >
+                    <p className={styles.copyright}>© 2025 Идеология Европы</p>
                     <ul className={styles.legalList}>
-                        <li className={styles.legalItem}>
+                        <li className={styles.linkItem}>
                             <Link href="/privacy">Политика конфиденциальности</Link>
                         </li>
-                        <li className={styles.legalItem}>
+                        <li className={styles.linkItem}>
                             <Link href="/terms">Пользовательское соглашение</Link>
                         </li>
                     </ul>
-                </div>
+                </motion.div>
             </div>
-        </footer >
+        </motion.footer>
     );
 }
