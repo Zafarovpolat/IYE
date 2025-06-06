@@ -10,6 +10,12 @@ body {
     font-family: Arial, sans-serif;
     overflow: hidden;
     background-color: white;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 a {

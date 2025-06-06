@@ -25,8 +25,9 @@ export default function Home() {
     const heroRef = useRef(null);
     const currentSectionIndexRef = useRef(0);
     const swiperRef = useRef(null);
-    const [swiperIndex, setSwiperIndex] = useState(0);
-    const [isSwiperAtEnd, setIsSwiperAtEnd] = useState(false);
+    const [isOverflowAuto, setIsOverflowAuto] = useState(false); // Новое состояние для overflow
+    const targetOffsetRef = useRef(0);
+    const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
 
     useEffect(() => {
         setIsClient(true);
@@ -46,19 +47,36 @@ export default function Home() {
     useEffect(() => {
         if (!isClient) return;
 
-        const sections = ['hero', 'numbers', 'clients', 'quality', 'products', 'production', 'news', 'preFooter', 'footer'];
+        const header = document.querySelector('header') || document.querySelector('.header');
+        const heroElement = document.getElementById('hero');
+        const headerHeight = header ? header.offsetHeight - 2 : 0;
+        const heroHeight = heroElement ? heroElement.offsetHeight : 0;
+        const calculatedTargetOffset = heroHeight - headerHeight;
+
+        // On initial page load or refresh if already scrolled past hero
+        if (window.scrollY > 0) {
+            document.body.style.overflowY = 'auto';
+            document.body.style.height = `calc(100% - ${calculatedTargetOffset}px)`; // Limit body height
+            document.documentElement.style.height = `calc(100% - ${calculatedTargetOffset}px)`; // Limit html height
+            controls.set({ y: -calculatedTargetOffset });
+            setNegativeMarginBottom(calculatedTargetOffset);
+            currentSectionIndexRef.current = 1;
+            targetOffsetRef.current = calculatedTargetOffset; // Store for consistency
+        } else {
+            // Initial state for page load at the very top
+            document.body.style.overflowY = 'hidden'; // Hide scroll until animation completes
+            document.body.style.height = '100%'; // Full height initially
+            document.documentElement.style.height = '100%'; // Full height initially
+            setNegativeMarginBottom(0); // No negative margin initially
+            controls.set({ y: 0 }); // Ensure y is 0 at start
+            currentSectionIndexRef.current = 0; // At the hero section
+            targetOffsetRef.current = 0; // Reset target offset
+        }
+
         let isAnimating = false;
 
         const sectionDurations = {
-            numbers: 1.2,
-            clients: 3,
-            quality: 1,
-            products: 3,
-            production: 3,
-            news: 1,
-            preFooter: 1,
-            footer: 1,
-            hero: 1, // Значение по умолчанию для hero, если нужно
+            numbers: 1.2, // Duration of the animation to scroll to numbers
         };
 
         const debounce = (func, wait) => {
@@ -69,107 +87,74 @@ export default function Home() {
             };
         };
 
-        const getSectionElements = () => {
-            return sections.map(id => document.getElementById(id));
-        };
-
         const handleWheel = (event) => {
-            if (isAnimating) return;
-            event.preventDefault();
+            // Prevent animation if already animating, or if already past the hero section,
+            // or if scrolling up from a position beyond the hero section.
+            if (isAnimating || currentSectionIndexRef.current > 0 || (event.deltaY < 0 && window.scrollY > 0)) {
+                return;
+            }
+
+            event.preventDefault(); // Prevent default scroll behavior
 
             const delta = event.deltaY;
             const direction = delta > 0 ? 1 : -1;
-            let newSectionIndex = currentSectionIndexRef.current;
 
-            // Обработка секции products
-            if (sections[currentSectionIndexRef.current] === 'products' && direction === 1) {
-                if (swiperRef.current) {
-                    const swiper = swiperRef.current.swiper;
-                    const totalSlides = swiper.slides.length;
+            // Logic to start scroll animation from Hero to Numbers
+            if (currentSectionIndexRef.current === 0 && direction === 1) {
+                isAnimating = true;
+                const sectionElements = ['hero', 'numbers', 'clients', 'quality', 'products', 'production', 'news', 'preFooter', 'footer'].map(id => document.getElementById(id));
+                // Recalculate targetOffset inside handleWheel to ensure latest values
+                const header = document.querySelector('header') || document.querySelector('.header');
+                const headerHeight = header ? header.offsetHeight - 2 : 0;
+                const heroHeight = sectionElements[0] ? sectionElements[0].offsetHeight : 0;
+                const targetOffset = heroHeight - headerHeight; // How high the content will lift
 
-                    if (swiperIndex < totalSlides - 1) { // Если Swiper не в конце
-                        isAnimating = true;
-                        const nextSlide = swiperIndex + 1;
-                        swiper.slideTo(nextSlide, 3000); // Длительность 3 секунды
-                        setSwiperIndex(nextSlide);
+                targetOffsetRef.current = targetOffset; // Store the calculated offset
 
-                        if (nextSlide === totalSlides - 1) {
-                            setIsSwiperAtEnd(true);
-                        }
+                controls.start({
+                    y: -targetOffset, // Lift all content up
+                    transition: {
+                        duration: sectionDurations['numbers'],
+                        ease: [0.4, 0, 0.2, 1],
+                    },
+                }).then(() => {
+                    currentSectionIndexRef.current = 1; // Mark as past Hero
+                    isAnimating = false;
 
-                        setTimeout(() => {
-                            isAnimating = false;
-                        }, 3000);
-                        return; // Останавливаем обработку, так как свайпер обрабатывает скролл
-                    } else if (isSwiperAtEnd) {
-                        // Если свайпер достиг конца и продолжаем скроллить вниз,
-                        // переходим к следующей секции.
-                        // isSwiperAtEnd будет сброшен далее.
-                        newSectionIndex = Math.min(currentSectionIndexRef.current + direction, sections.length - 1);
-                    }
-                }
+                    // Apply negative margin to compensate for the lifted content
+                    setNegativeMarginBottom(targetOffset);
+
+                    // After animation, limit the scrollable height of the body and html
+                    // This is key to preventing extra scroll space.
+                    document.body.style.height = `calc(100% - ${targetOffset}px)`;
+                    document.documentElement.style.height = `calc(100% - ${targetOffset}px)`;
+
+                    // Enable normal body scroll after the animation is complete
+                    document.body.style.overflowY = 'auto';
+
+                    // Remove the custom wheel listener as native scroll takes over
+                    window.removeEventListener('wheel', debouncedHandleWheel);
+                });
+                // No window.scrollTo here to avoid "jerkiness" after framer-motion animation.
+                // The visual shift is handled by `y` transform.
             }
-
-            // Сброс Swiper при скролле вверх или если не в секции products
-            if (sections[currentSectionIndexRef.current] !== 'products' && isSwiperAtEnd) {
-                setIsSwiperAtEnd(false);
-                if (swiperRef.current) {
-                    swiperRef.current.swiper.slideTo(0, 0); // Сбрасываем позицию Swiper
-                }
-            }
-
-            newSectionIndex = Math.min(Math.max(currentSectionIndexRef.current + direction, 0), sections.length - 1);
-
-            if (newSectionIndex === sections.length - 1 && direction === 1 && currentSectionIndexRef.current === sections.length - 1) {
-                return;
-            } else if (newSectionIndex === 0 && direction === -1 && currentSectionIndexRef.current === 0) {
-                return;
-            } else if (newSectionIndex === currentSectionIndexRef.current) {
-                return;
-            }
-
-            isAnimating = true;
-            const sectionElements = getSectionElements();
-            const header = document.querySelector('header') || document.querySelector('.header');
-            const headerHeight = header ? header.offsetHeight - 2 : 0;
-            const windowHeight = window.innerHeight;
-
-            let targetOffset = 0;
-
-            if (newSectionIndex === sections.length - 1) {
-                const totalContentHeight = sectionElements.reduce((sum, el) => sum + (el ? el.offsetHeight : 0), 0);
-                targetOffset = Math.max(0, totalContentHeight - windowHeight - 1);
-            } else {
-                for (let i = 0; i < newSectionIndex; i++) {
-                    targetOffset += sectionElements[i] ? sectionElements[i].offsetHeight : 0;
-                }
-                if (newSectionIndex > 0) {
-                    targetOffset -= headerHeight;
-                }
-                targetOffset = Math.max(0, targetOffset);
-            }
-
-            const duration = sectionDurations[sections[newSectionIndex]] || 1;
-
-            controls.start({
-                y: -targetOffset,
-                transition: {
-                    duration: duration,
-                    ease: [0.4, 0, 0.2, 1],
-                },
-            }).then(() => {
-                currentSectionIndexRef.current = newSectionIndex;
-                isAnimating = false;
-            });
         };
 
         const debouncedHandleWheel = debounce(handleWheel, 300);
 
         window.addEventListener('wheel', debouncedHandleWheel, { passive: false });
+
         return () => {
             window.removeEventListener('wheel', debouncedHandleWheel);
+            document.body.style.overflow = 'auto'; // Reset overflow on unmount
+            document.body.style.height = 'auto'; // Reset body height
+            document.documentElement.style.height = 'auto'; // Reset html height
+
+            // On unmount, ensure motion.div returns to original position
+            controls.set({ y: 0 });
+            setNegativeMarginBottom(0); // Reset negative margin as well
         };
-    }, [isClient, controls, swiperIndex, isSwiperAtEnd]);
+    }, [isClient, controls]); // Dependencies for useEffect
 
     const handlePlayPause = () => {
         setPlaying(!playing);
@@ -387,7 +372,8 @@ export default function Home() {
             <motion.div
                 animate={controls}
                 initial={{ y: 0 }}
-                style={{ backgroundColor: '#fff' }} // Белый фон для контейнера
+                style={{ backgroundColor: '#fff', marginBottom: `-${negativeMarginBottom}px` }}
+
             >
                 <section id="numbers" className={styles.numbersBlock}>
                     <div className={`${styles.container} container`}>
