@@ -162,6 +162,10 @@
     flex-direction: column;
 }
 
+.cardBlock>div {
+    height: 100%;
+}
+
 .cardBlock:nth-child(1) {
     grid-area: card1;
     background: #159F4A;
