@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { motion, useAnimation } from 'framer-motion';
 import Footer from './components/Footer/Footer';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import styles from './styles/Home.module.css';
 import Button from './components/Button/Button';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -44,7 +44,7 @@ export default function Home() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!isClient) return;
 
         const header = document.querySelector('header') || document.querySelector('.header');
@@ -53,30 +53,34 @@ export default function Home() {
         const heroHeight = heroElement ? heroElement.offsetHeight : 0;
         const calculatedTargetOffset = heroHeight - headerHeight;
 
-        // On initial page load or refresh if already scrolled past hero
+        // Важно: Вызываем controls.set() только после того, как все размеры DOM вычислены
+        // и компонент гарантированно доступен для манипуляций framer-motion.
         if (window.scrollY > 0) {
             document.body.style.overflowY = 'auto';
-            document.body.style.height = `calc(100% - ${calculatedTargetOffset}px)`; // Limit body height
-            document.documentElement.style.height = `calc(100% - ${calculatedTargetOffset}px)`; // Limit html height
-            controls.set({ y: -calculatedTargetOffset });
+            document.body.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
+            document.documentElement.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
             setNegativeMarginBottom(calculatedTargetOffset);
             currentSectionIndexRef.current = 1;
-            targetOffsetRef.current = calculatedTargetOffset; // Store for consistency
+            targetOffsetRef.current = calculatedTargetOffset;
+            controls.set({ y: -calculatedTargetOffset });
         } else {
-            // Initial state for page load at the very top
-            document.body.style.overflowY = 'hidden'; // Hide scroll until animation completes
-            document.body.style.height = '100%'; // Full height initially
-            document.documentElement.style.height = '100%'; // Full height initially
-            setNegativeMarginBottom(0); // No negative margin initially
-            controls.set({ y: 0 }); // Ensure y is 0 at start
-            currentSectionIndexRef.current = 0; // At the hero section
-            targetOffsetRef.current = 0; // Reset target offset
+            document.body.style.overflowY = 'hidden';
+            document.body.style.height = '100%';
+            document.documentElement.style.height = '100%';
+            setNegativeMarginBottom(0);
+            currentSectionIndexRef.current = 0;
+            targetOffsetRef.current = 0;
+            controls.set({ y: 0 });
         }
+    }, [isClient, controls]);
+
+    useEffect(() => {
+        if (!isClient) return;
 
         let isAnimating = false;
 
         const sectionDurations = {
-            numbers: 1.2, // Duration of the animation to scroll to numbers
+            numbers: 1.2,
         };
 
         const debounce = (func, wait) => {
@@ -88,73 +92,56 @@ export default function Home() {
         };
 
         const handleWheel = (event) => {
-            // Prevent animation if already animating, or if already past the hero section,
-            // or if scrolling up from a position beyond the hero section.
             if (isAnimating || currentSectionIndexRef.current > 0 || (event.deltaY < 0 && window.scrollY > 0)) {
                 return;
             }
 
-            event.preventDefault(); // Prevent default scroll behavior
+            event.preventDefault();
 
             const delta = event.deltaY;
             const direction = delta > 0 ? 1 : -1;
 
-            // Logic to start scroll animation from Hero to Numbers
             if (currentSectionIndexRef.current === 0 && direction === 1) {
                 isAnimating = true;
                 const sectionElements = ['hero', 'numbers', 'clients', 'quality', 'products', 'production', 'news', 'preFooter', 'footer'].map(id => document.getElementById(id));
-                // Recalculate targetOffset inside handleWheel to ensure latest values
                 const header = document.querySelector('header') || document.querySelector('.header');
                 const headerHeight = header ? header.offsetHeight - 2 : 0;
                 const heroHeight = sectionElements[0] ? sectionElements[0].offsetHeight : 0;
-                const targetOffset = heroHeight - headerHeight; // How high the content will lift
+                const targetOffset = heroHeight - headerHeight;
 
-                targetOffsetRef.current = targetOffset; // Store the calculated offset
+                targetOffsetRef.current = targetOffset;
 
                 controls.start({
-                    y: -targetOffset, // Lift all content up
+                    y: -targetOffset,
                     transition: {
                         duration: sectionDurations['numbers'],
                         ease: [0.4, 0, 0.2, 1],
                     },
                 }).then(() => {
-                    currentSectionIndexRef.current = 1; // Mark as past Hero
+                    currentSectionIndexRef.current = 1;
                     isAnimating = false;
-
-                    // Apply negative margin to compensate for the lifted content
                     setNegativeMarginBottom(targetOffset);
-
-                    // After animation, limit the scrollable height of the body and html
-                    // This is key to preventing extra scroll space.
                     document.body.style.height = `calc(100% - ${targetOffset}px)`;
                     document.documentElement.style.height = `calc(100% - ${targetOffset}px)`;
-
-                    // Enable normal body scroll after the animation is complete
                     document.body.style.overflowY = 'auto';
-
-                    // Remove the custom wheel listener as native scroll takes over
                     window.removeEventListener('wheel', debouncedHandleWheel);
                 });
-                // No window.scrollTo here to avoid "jerkiness" after framer-motion animation.
-                // The visual shift is handled by `y` transform.
             }
         };
 
         const debouncedHandleWheel = debounce(handleWheel, 300);
-
         window.addEventListener('wheel', debouncedHandleWheel, { passive: false });
 
         return () => {
             window.removeEventListener('wheel', debouncedHandleWheel);
-            document.body.style.overflow = 'auto'; // Reset overflow on unmount
-            document.body.style.height = 'auto'; // Reset body height
-            document.documentElement.style.height = 'auto'; // Reset html height
-
-            // On unmount, ensure motion.div returns to original position
-            controls.set({ y: 0 });
-            setNegativeMarginBottom(0); // Reset negative margin as well
+            document.body.style.overflow = 'auto';
+            document.body.style.height = 'auto';
+            document.documentElement.style.height = 'auto';
+            // Удалите следующую строку:
+            // controls.set({ y: 0 });
+            setNegativeMarginBottom(0);
         };
-    }, [isClient, controls]); // Dependencies for useEffect
+    }, [isClient, controls]);
 
     const handlePlayPause = () => {
         setPlaying(!playing);

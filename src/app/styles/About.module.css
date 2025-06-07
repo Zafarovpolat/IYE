@@ -1,0 +1,1877 @@
+.aboutHeader {
+    padding: 64px 0 50px;
+}
+
+.aboutHeaderTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 120px;
+    line-height: 120px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 60px;
+}
+
+.aboutHeaderCards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 110px;
+}
+
+.aboutHeaderCardItem {
+    position: relative;
+    height: 495px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.aboutHeaderBottomText {
+    display: flex;
+    align-items: start;
+    padding-bottom: 110px;
+    border-bottom: 1px solid #BBC5D6;
+    justify-content: space-between;
+    gap: 512px;
+}
+
+.aboutHeaderTextTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    border-bottom: 1px solid #2C2C2C;
+    padding-bottom: 8px;
+    max-width: fit-content;
+}
+
+.aboutHeaderBottomBlock {
+    max-width: 1194px;
+}
+
+.aboutHeaderTextInfo {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 40px;
+}
+
+.aboutHeaderTextDescription {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* Swiper-specific styles */
+.swiper-container {
+    width: 100%;
+    margin-bottom: 110px;
+}
+
+.swiper-slide {
+    height: 495px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+@media (max-width: 1919px) {
+    .aboutHeaderCardItem {
+        min-height: 358px;
+        height: 100%;
+    }
+
+    .aboutHeaderBottomText {
+        gap: 254px;
+    }
+
+    .swiper-slide {
+        height: 358px;
+    }
+}
+
+@media (max-width: 1439px) {
+    .aboutHeaderCards {
+        display: none;
+        /* Hide grid layout */
+    }
+
+    .swiper-container {
+        display: block;
+    }
+
+    .aboutHeaderBottomText {
+        margin-top: 90px;
+        padding-bottom: 90px;
+    }
+
+    .aboutHeaderTitle {
+        font-size: 100px;
+        line-height: 100px;
+    }
+
+    .aboutHeaderTextInfo {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .aboutHeader {
+        padding: 64px 0 30px;
+    }
+
+    .aboutHeaderCardItem,
+    .swiper-slide {
+        min-height: 333px;
+        height: 100%;
+    }
+}
+
+@media (max-width: 999px) {
+    .aboutHeader {
+        padding: 56px 0 30px;
+    }
+
+    .aboutHeaderTitle {
+        font-size: 80px;
+        line-height: 80px;
+    }
+
+    .aboutHeaderCardItem,
+    .swiper-slide {
+        min-height: 400px;
+    }
+
+    .aboutHeaderBottomText {
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .aboutHeaderTextInfo {
+        margin-bottom: 30px;
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .aboutHeaderTextDescription {
+        gap: 20px;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .aboutHeaderTextTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+}
+
+@media (max-width: 767px) {
+    .aboutHeaderTitle {
+        font-size: 40px;
+        line-height: 40px;
+        padding-bottom: 20px;
+        margin-bottom: 40px;
+    }
+
+    .swiper-container {
+        margin-bottom: 50px;
+    }
+
+    .aboutHeaderTextInfo {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+
+    .aboutHeaderBottomText {
+        padding-bottom: 50px;
+    }
+
+    .aboutHeader {
+        padding: 56px 0 10px;
+    }
+}
+
+/* NUMBERS */
+
+.numbersBlock {
+    padding: 60px 0 130px;
+}
+
+.numbersBlock {
+    position: relative;
+    /* важно для transform */
+    z-index: 1;
+    /* чтобы секция была выше других элементов */
+}
+
+.numbersHeaderBlock {
+    margin-bottom: 70px;
+    color: #2C2C2C;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.numbersHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 20px;
+    max-width: fit-content;
+}
+
+.numbersHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    max-width: 1210px;
+}
+
+.cardsContainerBlock {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 200px 200px 220px;
+    gap: 20px;
+    grid-template-areas:
+        "card1 card2 card3"
+        "card1 card2 card3"
+        "card4 card5 card3";
+}
+
+.cardBlock {
+    padding: 30px;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardBlock>div {
+    height: 100%;
+}
+
+.cardBlock:nth-child(1) {
+    grid-area: card1;
+    background: #159F4A;
+    color: #fff;
+    justify-content: space-between;
+}
+
+.cardBlock:nth-child(2) {
+    grid-area: card2;
+    background: #F1F3F5;
+    color: #2C2C2C;
+    justify-content: space-between;
+}
+
+.cardBlock:nth-child(3) {
+    grid-area: card3;
+    padding: 0;
+}
+
+.cardBackgroundImage {
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.cardBlock:nth-child(4) {
+    grid-area: card4;
+    background: #F1F3F5;
+    color: #2C2C2C;
+    justify-content: space-between;
+}
+
+.cardBlock:nth-child(5) {
+    grid-area: card5;
+    background: #F1F3F5;
+    color: #2C2C2C;
+    justify-content: space-between;
+}
+
+.cardNumberWrapperBlock {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.cardNumberText {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 82px;
+    line-height: 82px;
+    letter-spacing: 0%;
+
+}
+
+.cardUnitText {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding: 0 10px 6px;
+}
+
+.cardBlock:nth-child(1) .cardUnitText {
+    background-color: white;
+    color: #159F4A;
+}
+
+.cardBlock:nth-child(2) .cardUnitText,
+.cardBlock:nth-child(4) .cardUnitText {
+    background-color: #2C2C2C;
+    color: white;
+}
+
+.cardDescriptionText {
+    font-family: 'Literata', serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    vertical-align: bottom;
+}
+
+.cardImage,
+.cardBackgroundImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.cardImage {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    justify-content: space-between;
+}
+
+.cardBackgroundImage {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.numbersHeaderLink2 {
+    display: none;
+}
+
+/* Для разрешений 1920px и выше */
+@media (min-width: 1920px) {
+    .numbersHeaderBlock {
+        gap: 390px;
+        /* Максимальное расстояние между заголовком и кнопкой */
+    }
+
+    .numbersHeaderInfo {
+        max-width: 1210px;
+    }
+}
+
+/* Для разрешений от 1440px до 1919px */
+@media (max-width: 1919px) and (min-width: 1440px) {
+    .numbersHeaderInfo {
+        font-size: 36px;
+        /* Уменьшенный размер шрифта */
+        line-height: 46px;
+        max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
+        /* Линейное уменьшение с 1210px до 1000px */
+    }
+
+    .numbersHeaderBlock {
+        gap: calc(120px + (390 - 120) * (100vw - 1440px) / (1919 - 1440));
+        /* Линейное уменьшение расстояния с 390px до 120px */
+    }
+
+    .cardsContainerBlock {
+        grid-template-rows: 213px 213px 240px;
+    }
+}
+
+/* Для разрешений от 1000px до 1439px */
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .numbersHeaderInfo {
+        font-size: 30px;
+        /* Уменьшенный размер шрифта */
+        line-height: 40px;
+        max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
+        /* Линейное увеличение с 700px до 939px */
+    }
+
+    .numbersHeaderBlock {
+        gap: calc(58px + (120 - 58) * (100vw - 1000px) / (1439 - 1000));
+        /* Линейное увеличение с 58px до 120px */
+    }
+
+    .numbersHeaderBlock {
+        margin-bottom: 50px;
+    }
+
+    .cardNumberText {
+        font-size: 72px;
+    }
+
+    .cardsContainerBlock {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 210px 210px 220px 220px;
+        grid-template-areas:
+            "card1 card2"
+            "card1 card2"
+            "card4 card3"
+            "card5 card3";
+    }
+
+    .numbersBlock {
+        padding: 60px 0 110px;
+    }
+
+    .cardImage {
+        max-width: 300px;
+        max-height: 267px;
+    }
+}
+
+/* Для разрешений от 768px до 999px */
+@media (max-width: 999px) and (min-width: 768px) {
+    .numbersHeaderInfo {
+        font-size: 24px;
+        /* Уменьшенный размер шрифта */
+        line-height: 34px;
+        max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
+        /* Линейное увеличение с 500px до 669px */
+    }
+
+    .numbersHeaderBlock {
+        gap: calc(20px + (120 - 20) * (100vw - 768px) / (999 - 768));
+        /* Линейное увеличение с 20px до 120px */
+    }
+
+    .cardNumberText {
+        font-size: 56px;
+    }
+
+    .cardsContainerBlock {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 190px 190px 180px;
+        grid-template-areas:
+            "card1 card2"
+            "card1 card2"
+            "card4 card5";
+    }
+
+    .cardBlock:nth-child(3) {
+        display: none;
+    }
+
+    .cardImage {
+        max-width: 265px;
+        max-height: 236px;
+    }
+
+    .cardUnitText {
+        font-size: 16px;
+        line-height: 22px;
+        padding: 0 10px 4px;
+    }
+}
+
+/* Для разрешений меньше 768px */
+@media (max-width: 767px) {
+    .numbersHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        /* Минимальный отступ */
+    }
+
+    .numbersHeaderInfo {
+        font-size: 24px;
+        line-height: 34px;
+        max-width: 100%;
+        /* Заголовок растягивается на всю ширину */
+    }
+
+    .numbersHeaderLink {
+        display: none;
+    }
+
+    .numbersBlock {
+        padding: 30px 0 100px;
+        /* Уменьшенный отступ до карточек */
+    }
+
+    .numbersHeaderBlock {
+        margin-bottom: 30px;
+    }
+
+    .numbersHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .numbersHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .cardsContainerBlock {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        grid-template-rows: 300px 180px 180px 200px;
+        grid-template-areas:
+            "card1"
+            "card2"
+            "card4"
+            "card5";
+        margin-bottom: 30px;
+    }
+
+    .cardBlock:nth-child(3) {
+        display: none;
+    }
+
+    .cardImage {
+        max-width: 200px;
+        max-height: 189px;
+    }
+
+    .cardNumberText {
+        font-size: 50px;
+        line-height: 50px;
+    }
+
+    .cardBlock {
+        padding: 20px;
+    }
+
+    .numbersBlock {
+        padding: 40px 0 50px;
+    }
+
+    .cardUnitText {
+        font-size: 16px;
+        line-height: 22px;
+        padding: 0 10px 4px;
+    }
+}
+
+/* CLIENTS */
+
+.clientsBlock {
+    padding-bottom: 110px;
+}
+
+.clientsHeaderBlock {
+    border-top: 1px solid #BBC5D6;
+    width: 100%;
+    padding-top: 110px;
+    color: #2C2C2C;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    border-bottom: 1px solid #BBC5D6;
+}
+
+.clientsHeaderBottomBlock {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: start;
+}
+
+.clientsHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 20px;
+    max-width: fit-content;
+}
+
+.clientsHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    margin-bottom: 70px;
+}
+
+.clientsLeft {
+    max-width: 1194px;
+    width: 100%;
+}
+
+.clientsCardsContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 240px 240px;
+    gap: 20px;
+    padding-bottom: 130px;
+}
+
+.clientCard {
+    background: #F1F3F5;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.clientLogo {
+    max-width: 90px;
+    height: auto;
+}
+
+.clientName {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    text-align: center;
+}
+
+.clientInfoCard {
+    background-color: #159F4A;
+    justify-content: end;
+}
+
+.clientInfoCard .clientInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #FFFFFF;
+}
+
+/* CLIENTS (дополнение) */
+.partnerCard {
+    background: #fff;
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+}
+
+.partnerLink {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    z-index: 2;
+}
+
+.partnerText {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+}
+
+.partnerArrow {
+    /* Stroke и rotate будут анимироваться framer-motion */
+}
+
+.arrowContainer {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+}
+
+/* Адаптивность для #clients */
+@media (min-width: 1920px) {
+    .clientsHeaderInfo {
+        max-width: 1210px;
+    }
+}
+
+@media (max-width: 1919px) and (min-width: 1440px) {
+    .clientsHeaderInfo {
+        font-size: 36px;
+        line-height: 46px;
+        max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
+    }
+
+    .clientsHeaderBottomBlock {
+        gap: 254px;
+    }
+}
+
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .clientsHeaderInfo {
+        font-size: 30px;
+        line-height: 40px;
+        margin-bottom: 50px;
+        max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
+    }
+
+    .clientsLeft {
+        max-width: 100%;
+    }
+
+    .clientsHeaderBlock {
+        margin-bottom: 50px;
+        padding-top: 90px;
+    }
+
+    .clientsHeaderBottomBlock {
+        flex-direction: column;
+    }
+
+    .clientsCardsContainer {
+        padding-bottom: 110px;
+    }
+
+    .clientInfoCard {
+        order: 1;
+    }
+
+    .partnerCard {
+        order: 2;
+    }
+}
+
+@media (max-width: 999px) and (min-width: 768px) {
+
+    .clients {
+        margin-bottom: 110px;
+    }
+
+    .clientsHeaderBlock {
+        padding-top: 90px;
+    }
+
+    .clientsHeaderBottomBlock {
+        flex-direction: column;
+    }
+
+    .clientsHeaderInfo {
+        font-size: 24px;
+        line-height: 34px;
+        margin-bottom: 50px;
+        max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
+    }
+
+    .clientsCardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 220px);
+        padding-bottom: 110px;
+    }
+
+    .clientName {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .clientInfoCard {
+        order: 1;
+    }
+
+    .partnerCard {
+        order: 2;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .clients {
+        margin-bottom: 70px;
+    }
+
+    .clientsBlock {
+        padding-bottom: 0px;
+    }
+
+    .clientsHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding-top: 50px;
+    }
+
+    .clientsHeaderBottomBlock {
+        flex-direction: column;
+    }
+
+    .clientsHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 30px;
+    }
+
+    .clientsHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .clientsCardsContainer {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 70px;
+        grid-template-rows: repeat(4, 180px);
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .clientLogo {
+        max-width: 60px;
+    }
+
+    .partnerCard {
+        display: none;
+    }
+
+    .clientCard {
+        padding: 20px;
+    }
+
+    .clientName {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .clientInfoCard .clientInfo {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .arrowContainer {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .clientsLink {
+        padding-bottom: 50px;
+        border-bottom: 1px solid #BBC5D6;
+    }
+}
+
+.historyContent {
+    padding-top: 110px;
+    padding-bottom: 130px;
+    border-top: 1px solid #BBC5D6;
+}
+
+.historyContent {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 254px;
+}
+
+.historyTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+}
+
+.historyLeft {
+    max-width: 1194px;
+    width: 100%;
+}
+
+.historyHeader {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 40px;
+}
+
+.historyDescription {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+}
+
+.historySwiper {
+    overflow: visible !important;
+    /* Для гарантии видимости переполнения */
+}
+
+.historyText {
+    max-width: 874px;
+}
+
+.historyCards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.historyText {
+    margin-bottom: 70px;
+}
+
+.historyCard {
+    display: flex;
+    height: 495px;
+}
+
+.historyCardImage {
+    border-radius: 20px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 1439px) {
+    .historyHeader {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .historyText {
+        margin-bottom: 50px;
+    }
+
+    .historyCard {
+        height: 358px;
+    }
+}
+
+@media (max-width: 999px) {
+    .historyContent {
+        flex-direction: column;
+        gap: 0;
+        padding-top: 90px;
+    }
+
+    .historyTitle {
+        margin-bottom: 20px;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .historyHeader {
+        font-size: 30px;
+        line-height: 40px;
+        margin-bottom: 30px;
+    }
+
+    .historyDescription {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .historyContent {
+        padding-top: 50px;
+        padding-bottom: 70px;
+    }
+
+    .historyHeader {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+
+    .historyCard {
+        height: 340px;
+    }
+}
+
+.achievements {
+    padding-bottom: 130px;
+}
+
+.achievementsTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 70px;
+}
+
+.achievementsCards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    list-style-type: none;
+}
+
+.achievementsCard {
+    background: #F1F3F5;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.achievementsCardText {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 30px;
+}
+
+.achievementsCardDescription {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+}
+
+.achievementsTags {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 10px;
+}
+
+.achievementsTag {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: white;
+    background: #159F4A;
+    padding: 7px 12px 9px;
+    border-radius: 8px;
+}
+
+@media (max-width: 1439px) {
+    .achievementsTitle {
+        font-size: 36px;
+        line-height: 46px;
+        margin-bottom: 50px;
+    }
+
+    .achievementsCards {
+        grid-template-columns: 1fr;
+    }
+
+    .achievementsCard {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+        align-items: start;
+    }
+
+    .achievementsTags {
+        margin-top: 0;
+    }
+
+    .achievements {
+        padding-bottom: 110px;
+    }
+}
+
+@media (max-width: 999px) {
+    .achievementsTitle {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .achievementsCard {
+        padding: 20px;
+        display: flex;
+        gap: 40px;
+        flex-direction: column;
+    }
+
+    .achievementsCardText {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .achievementsTitle {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 30px;
+    }
+
+    .achievementsCard {
+        padding: 20px;
+        display: flex;
+        gap: 40px;
+        flex-direction: column;
+    }
+
+    .achievementsCardText {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .achievements {
+        padding-bottom: 70px;
+    }
+}
+
+.aboutQualityContent {
+    padding-top: 110px;
+    padding-bottom: 130px;
+    border-top: 1px solid #BBC5D6;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.aboutQualityTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    max-width: fit-content;
+}
+
+.aboutQualityLeft {
+    max-width: 1194px;
+    width: 100%;
+}
+
+.aboutQualitySubtitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 70px;
+}
+
+.aboutQualityList {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    list-style-type: none;
+}
+
+.aboutQualityListItem {
+    display: flex;
+    gap: 10px;
+    height: 100%;
+}
+
+.aboutQualityListItemContent {
+    background: #F1F3F5;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.aboutQualityListItemUp {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.aboutQualityListItemNumber {
+    text-align: center;
+    background-color: #2C2C2C;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    color: white;
+    padding: 4px 16px 6px;
+}
+
+.aboutQualityListItemTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+}
+
+.aboutQualityListItemDescription {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+}
+
+@media (max-width: 1920px) {
+    .aboutQualityContent {
+        gap: 254px;
+    }
+}
+
+@media (max-width: 1439px) {
+    .aboutQualitySubtitle {
+        max-width: 874px;
+    }
+
+    .aboutQualityContent {
+        gap: 20px;
+        flex-direction: column;
+        padding-top: 90px;
+        padding-bottom: 110px;
+    }
+
+    .aboutQualityLeft {
+        max-width: 100%;
+    }
+
+    .aboutQualitySubtitle {
+        margin-bottom: 50px;
+        max-width: 100%;
+        font-size: 36px;
+        line-height: 46px;
+    }
+}
+
+@media (max-width: 999px) {
+
+    .aboutQualityTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .aboutQualitySubtitle {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .aboutQualityListItemTitle {
+        font-size: 24px;
+        line-height: 34px;
+    }
+
+    .aboutQualityListItem img {
+        max-width: 320px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .aboutQualityListItemDescription {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .aboutQualityContent {
+        padding-top: 90px;
+        padding-bottom: 110px;
+    }
+}
+
+@media (max-width: 767px) {
+    .aboutQualityContent {
+        padding-top: 50px;
+        padding-bottom: 70px;
+    }
+
+    .aboutQualitySubtitle {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 30px;
+    }
+
+    .aboutQualityListItemTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .aboutQualityList {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .aboutQualityListItemUp {
+        flex-direction: column;
+        align-items: start;
+        justify-content: start;
+        gap: 8px;
+    }
+
+    .aboutQualityListItem {
+        max-width: 320px;
+        flex-direction: column;
+        display: flex;
+    }
+
+    .aboutQualityListItemContent {
+        padding: 20px;
+    }
+
+    .aboutQualityListItem img {
+        max-width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+}
+
+.logisticsContent {
+    padding-top: 110px;
+    padding-bottom: 130px;
+    border-top: 1px solid #BBC5D6;
+    border-bottom: 1px solid #BBC5D6;
+    margin-bottom: 130px;
+}
+
+.logisticsContent {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 254px;
+}
+
+.logisticsTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+}
+
+.logisticsLeft {
+    max-width: 1194px;
+    width: 100%;
+}
+
+.logisticsText {
+    margin-bottom: 70px;
+}
+
+.logisticsHeader {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 40px;
+}
+
+.logisticsDescription {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+}
+
+.logisticsImgBox {
+    background: #F1F3F5;
+    border-radius: 20px;
+    min-height: 430px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.logisticsImg {
+    object-fit: cover;
+    height: 100%;
+}
+
+@media (max-width: 1439px) {
+
+    .logisticsContent {
+        padding-top: 90px;
+        padding-bottom: 110px;
+        margin-bottom: 110px;
+    }
+
+    .logisticsHeader {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .logisticsText {
+        margin-bottom: 50px;
+    }
+
+    .logisticsImg {
+        width: 80%;
+    }
+}
+
+@media (max-width: 999px) {
+    .logisticsContent {
+        flex-direction: column;
+        gap: 0;
+        padding-top: 90px;
+    }
+
+    .logisticsTitle {
+        margin-bottom: 20px;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .logisticsHeader {
+        font-size: 30px;
+        line-height: 40px;
+        margin-bottom: 30px;
+    }
+
+    .logisticsDescription {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .logisticsContent {
+        padding-top: 50px;
+        padding-bottom: 70px;
+        margin-bottom: 70px;
+    }
+
+    .logisticsHeader {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+
+    .logisticsImgBox {
+        min-height: 300px;
+    }
+
+}
+
+/* QUALITY */
+.quality {
+    padding-top: 110px;
+    background: #084927;
+    color: #FFFFFF;
+    padding-bottom: 130px;
+    margin-bottom: 130px;
+}
+
+.qualityHeaderBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.qualityHeaderBottomBlock {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 414px;
+}
+
+.qualityHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #FFFFFF;
+    max-width: fit-content;
+    white-space: nowrap;
+}
+
+.qualityHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    max-width: 955px;
+    color: #FFFFFF;
+    margin-bottom: 70px;
+}
+
+.qualityCardsContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 340px);
+    gap: 20px;
+}
+
+.qualitySwiper {
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.qualityCard {
+    background-color: #159F4A;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    padding: 30px;
+    gap: 30px;
+    height: 100%;
+}
+
+.qualityCard:nth-child(1),
+.qualityCard:nth-child(4) {
+    background-color: transparent;
+    border: 1px solid #159F4A;
+}
+
+.qualityCardUp {
+    display: flex;
+    align-items: start;
+    width: 100%;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.qualityIcon {
+    max-width: 50px;
+    height: auto;
+}
+
+.qualityText {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 0%;
+    color: white;
+    text-align: left;
+}
+
+.qualityDescription {
+    font-family: 'Literata', serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: white;
+    text-align: left;
+}
+
+@media (max-width: 1920px) {
+    .qualityHeaderBottomBlock {
+        gap: 254px;
+    }
+
+    .qualityCardsContainer {
+        grid-template-rows: repeat(2, 1fr);
+    }
+}
+
+/* Адаптивность для #quality */
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .quality {
+        padding-top: 90px;
+        padding-bottom: 110px;
+        margin-bottom: 110px;
+    }
+
+    .qualityCardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 280px);
+    }
+
+    .qualityHeaderInfo {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .qualityHeaderBottomBlock {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .qualityHeaderTitle {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 999px) and (min-width: 768px) {
+    .quality {
+        margin-bottom: 110px;
+        padding-bottom: 110px;
+        padding-top: 90px;
+    }
+
+    .qualityHeaderInfo {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .qualityText {
+        font-size: 24px;
+        line-height: 34px;
+    }
+
+    .qualityCardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 280px);
+    }
+
+    .qualityCardUp {
+        gap: 20px;
+    }
+
+    .qualityIcon {
+        max-width: 36px;
+    }
+
+    .qualityHeaderBottomBlock {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .quality {
+        padding-top: 50px;
+        padding-bottom: 70px;
+        margin-bottom: 70px;
+    }
+
+    .qualityHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .qualityHeaderBottomBlock {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .qualityHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .qualityHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .qualityCardsContainer {
+        padding-bottom: 0;
+        grid-template-columns: 1fr;
+        grid-template-rows: 300px;
+    }
+
+    .qualityCard {
+        padding: 20px;
+        height: 100%;
+        min-height: clamp(300px, 280px, 340px);
+    }
+
+    .qualityText {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .qualityDescription {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .qualityCardUp {
+        gap: 10px;
+    }
+
+    .qualityIcon {
+        max-width: 30px;
+    }
+
+}
+
+.preFooter {
+    padding-bottom: 130px;
+}
+
+.preFooterWrapper {
+    padding-bottom: 130px;
+    border-bottom: 1px solid #BBC5D6;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.preFooterPartnerCard {
+    background: #159F4A;
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+    min-height: 330px;
+}
+
+.preFooterTopText {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #fff;
+    padding-bottom: 8px;
+    border-bottom: 1px solid;
+    width: fit-content;
+    z-index: 1;
+}
+
+.preFooterTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    vertical-align: bottom;
+}
+
+.preFooterLink {
+    align-items: end;
+}
+
+.preFooterPhoto {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* Медиа-запросы */
+@media (max-width: 1439px) {
+    .preFooterPhoto {
+        display: none;
+    }
+
+    .preFooterWrapper {
+        grid-template-columns: 1fr;
+        padding-top: 130px;
+        padding-bottom: 130px;
+    }
+
+    .preFooterTitle {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .clientsHeaderBlock {
+        margin-bottom: 0;
+    }
+
+    .clientsBlock {
+        padding-bottom: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .preFooterPhoto {
+        display: flex;
+        height: 100%;
+    }
+
+    .preFooterWrapper {
+        gap: 10px;
+        grid-template-rows: repeat(2, 1fr);
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+
+    .preFooterPartnerCard {
+        min-height: 200px;
+        padding: 20px;
+    }
+
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* .numbersBlock,
+.clientsBlock,
+.quality,
+.productsBlock,
+.productionBlock,
+.preFooter {
+
+    background-color: white;
+} */

@@ -185,6 +185,11 @@
     padding: 0;
 }
 
+.cardBackgroundImage {
+    overflow: hidden;
+    border-radius: 20px;
+}
+
 .cardBlock:nth-child(4) {
     grid-area: card4;
     background: #F1F3F5;
@@ -898,10 +903,8 @@
 @media (max-width: 999px) and (min-width: 768px) {
     .quality {
         margin-bottom: 110px;
-    }
-
-    .quality {
         padding-top: 90px;
+        padding-bottom: 110px;
     }
 
     .qualityHeaderInfo {
