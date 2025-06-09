@@ -3,10 +3,10 @@
 import Image from 'next/image';
 import { motion, useAnimation } from 'framer-motion';
 import Footer from '../components/Footer/Footer';
-import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
 import styles from '../styles/About.module.css';
 import Button from '../components/Button/Button';
+import Link from 'next/link';
+import { useState, useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
