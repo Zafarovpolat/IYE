@@ -1570,6 +1570,7 @@
 
 .partnersFormRight {
     max-width: 680px;
+    width: 100%;
     border-radius: 20px;
     background-color: white;
     padding: 40px;

@@ -872,7 +872,7 @@ export default function Production() {
                 <section id='preFooter' className={styles.preFooter}>
                     <div className={`${styles.container} container`}>
                         <div className={styles.preFooterWrapper}>
-                            <Image src='/prefooter.png' alt='Еда' width={586} height={400} className={styles.preFooterPhoto} />
+                            <Image src='/production-prefooter.png' alt='Еда' width={586} height={400} className={styles.preFooterPhoto} />
                             <motion.div
                                 className={`${styles.preFooterCard} ${styles.preFooterPartnerCard}`}
                                 onMouseEnter={() => setIsPreFooterHovered(true)}
@@ -887,7 +887,7 @@ export default function Production() {
                                 </motion.span>
                                 <Link href='/' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
                                     <motion.span className={`${styles.partnerText} ${styles.preFooterTitle}`} variants={preFooterPartnerTextVariants}>
-                                        О компании
+                                        Продукция
                                     </motion.span>
                                     <motion.div className={styles.arrowContainer}>
                                         <motion.svg
