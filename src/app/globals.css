@@ -28,6 +28,15 @@ a {
     margin: 0 auto;
 }
 
+button {
+    cursor: pointer;
+    transition: all 100ms ease-in-out;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
 @media (max-width: 1920px) {
     .container {
         padding-right: 60px;

@@ -502,6 +502,7 @@ export default function Home() {
                         </div>
                     </div>
                 </section>
+
                 <section id="clients" className={styles.clientsBlock}>
                     <div className={`${styles.container} container`}>
                         <div className={styles.clientsHeaderBlock}>
