@@ -1,0 +1,596 @@
+.clientsHeader {
+    padding: 104px 0 0px;
+}
+
+.clientsHeaderHeading {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 120px;
+    line-height: 120px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 60px;
+}
+
+@media (max-width: 1919px) {}
+
+@media (max-width: 1439px) {
+
+    .clientsHeaderHeading {
+        font-size: 100px;
+        line-height: 100px;
+        margin-bottom: 60px;
+    }
+
+    .clientsHeader {
+        padding: 64px 0 0px;
+    }
+
+
+}
+
+@media (max-width: 999px) {
+    .clientsHeader {
+        padding: 96px 0 0px;
+    }
+
+    .clientsHeaderHeading {
+        font-size: 80px;
+        line-height: 80px;
+    }
+}
+
+@media (max-width: 767px) {
+    .clientsHeaderHeading {
+        font-size: 40px;
+        line-height: 40px;
+        padding-bottom: 20px;
+        margin-bottom: 50px;
+    }
+
+    .clientsHeader {
+        padding: 96px 0 0px;
+    }
+}
+
+/* NEWS */
+
+.newsHeaderBlock {
+    margin-bottom: 40px;
+    color: #2C2C2C;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.news .container {
+    display: flex;
+    flex-direction: column;
+}
+
+.newsHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    max-width: 1210px;
+    margin-bottom: 70px;
+}
+
+.newsTags {
+    display: flex;
+    gap: 10px;
+    list-style-type: none;
+    flex-wrap: wrap;
+}
+
+.newsTagBtn {
+    border-radius: 8px;
+    padding: 7px 12px 9px;
+    background: #F1F3F5;
+    border: none;
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0%;
+}
+
+.newsTagBtnActive {
+    background-color: #2C2C2C;
+    color: white;
+}
+
+.newsCardsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 20px;
+    margin-bottom: 40px;
+}
+
+/* Стили для каждой карточки */
+.newsCard {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    color: #2C2C2C;
+    align-content: start;
+    text-decoration: none;
+    transition: color 100ms ease;
+}
+
+.newsCard:hover .newsCardTitle {
+    color: #159F4A;
+}
+
+/* Image styles */
+.newsImage {
+    width: 100%;
+    height: 374px;
+    object-fit: cover;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Заголовок карточки */
+.newsCardTitle {
+    margin-top: 20px;
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    color: #2C2C2C;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+}
+
+/* Описание карточки */
+.newsCardDescription {
+    font-family: 'Literata', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #747B87;
+}
+
+.newsBanner {
+    margin: 70px 0;
+    grid-column: 1 / 4;
+    background: #084927;
+    padding: 100px 60px;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+}
+
+.newsBannerTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+.newsBannerSocials {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 160px;
+    margin: auto;
+}
+
+.newsBannerSocialsLogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #159F4A;
+    color: white;
+    border-radius: 10px;
+    width: 70px;
+    height: 70px;
+    transition: background-color 100ms ease-in-out;
+}
+
+.newsBannerSocialsLogo:hover {
+    background-color: #0D7F39;
+}
+
+.newsBannerSocialsLogo svg {
+    width: 36px;
+    height: 36px;
+}
+
+.newsBtnMore {
+    max-width: fit-content;
+    margin: auto;
+    background: #159F4A;
+    color: white;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding: 12px 24px 16px;
+    border-radius: 8px;
+    margin-bottom: 110px;
+    border: none;
+}
+
+@media (max-width: 1919px) {
+    .newsImage {
+        height: 374px;
+    }
+
+    .newsHeaderInfo {
+        font-size: 36px;
+        line-height: 46px;
+        max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
+    }
+
+    .newsHeaderBlock {
+        gap: calc(120px + (390 - 120) * (100vw - 1440px) / (1919 - 1440));
+    }
+}
+
+/* Медиа-запросы */
+@media (max-width: 1439px) {
+
+    .newsImage {
+        height: fit-content;
+    }
+
+    .newsHeaderInfo {
+        font-size: 30px;
+        line-height: 40px;
+        max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
+    }
+
+    .newsHeaderBlock {
+        gap: calc(58px + (120 - 58) * (100vw - 1000px) / (1439 - 1000));
+        margin-bottom: 50px;
+    }
+
+    .newsCardTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .newsCardDescription {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .newsBanner {
+        margin: 50px 0;
+        padding: 60px;
+    }
+
+    .newsBannerTitle {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .newsBtnMore {
+        margin-bottom: 90px;
+    }
+}
+
+@media (max-width: 999px) {
+    .newsCardsContainer {
+        padding-top: 0px;
+    }
+
+    .newsHeaderBlock {
+        border-top: none;
+        padding-top: 0;
+    }
+
+    .newsCardTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .newsHeaderInfo {
+        max-width: 100%;
+        margin-bottom: 50px;
+    }
+
+    .newsHeaderBlock {
+        gap: calc(20px + (120 - 20) * (100vw - 768px) / (999 - 768));
+        margin-bottom: 50px;
+    }
+
+    .newsBannerTitle {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .newsBtnMore {
+        margin-bottom: 90px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .newsCard {
+        max-width: 440px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .newsCardsContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .newsSwiper {
+        margin-bottom: 0;
+    }
+
+    .newsHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
+        padding: 0 20px;
+    }
+
+    .newsHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+        max-width: 100%;
+    }
+
+    .newsHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .newsHeaderLink {
+        display: none;
+    }
+
+    .newsHeaderLink2 {
+        display: block;
+        padding-bottom: 50px;
+    }
+
+    .newsBanner {
+        grid-column: 1 / 2;
+        margin: 10px 0;
+        padding: 60px 20px;
+    }
+
+    .newsBannerTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .news .container {
+        padding: 0;
+    }
+
+    .newsBtnMore {
+        margin-bottom: 50px;
+        max-width: calc(100% - 20px);
+        margin: 0 10px 50px;
+        width: 100%;
+    }
+}
+
+/* PREFOOTER */
+
+.preFooter {
+    padding-bottom: 130px;
+}
+
+@media (max-width: 1439px) {
+
+    .questionsUp {
+        padding-top: 90px;
+    }
+
+    .questionsSubtitle {
+        font-size: 36px;
+        line-height: 46px;
+        margin-bottom: 50px;
+    }
+
+    .questionsList {
+        padding-bottom: 110px;
+    }
+}
+
+@media (max-width: 999px) {
+    .questionsSubtitle {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .questionsItemTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+}
+
+@media (max-width: 767px) {
+    .questionsUp {
+        padding-top: 50px;
+    }
+
+    .questionsList {
+        padding-bottom: 70px;
+    }
+
+    .questionsSubtitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .questionsItem {
+        padding: 20px;
+    }
+
+    .questionsItemTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .questionsItemInfo {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+
+.preFooterWrapper {
+    padding-top: 130px;
+    padding-bottom: 130px;
+    border-top: 1px solid #BBC5D6;
+    border-bottom: 1px solid #BBC5D6;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.preFooterPartnerCard {
+    background: #159F4A;
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+    min-height: 330px;
+}
+
+.preFooterTopText {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #fff;
+    padding-bottom: 8px;
+    border-bottom: 1px solid;
+    width: fit-content;
+    z-index: 1;
+}
+
+.preFooterTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    vertical-align: bottom;
+}
+
+.preFooterLink {
+    align-items: end;
+}
+
+.preFooterPhoto {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* Медиа-запросы */
+@media (max-width: 1439px) {
+    .preFooterPhoto {
+        display: none;
+    }
+
+    .preFooterWrapper {
+        grid-template-columns: 1fr;
+        padding-top: 110px;
+        padding-bottom: 110px;
+    }
+
+    .preFooterTitle {
+        font-size: 36px;
+        line-height: 46px;
+    }
+}
+
+@media (max-width: 767px) {
+    .preFooterPhoto {
+        display: flex;
+        height: 100%;
+    }
+
+    .preFooterWrapper {
+        gap: 10px;
+        grid-template-rows: repeat(2, 1fr);
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+
+    .preFooterPartnerCard {
+        min-height: 200px;
+        padding: 20px;
+    }
+
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* CLIENTS (дополнение) */
+.partnerCard {
+    background: #fff;
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+}
+
+.partnerLink {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    z-index: 2;
+}
+
+.arrowContainer {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+}

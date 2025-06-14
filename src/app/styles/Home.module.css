@@ -1442,7 +1442,8 @@
     }
 }
 
-/* Стили для контейнера карточек достижений */
+/* NEWS */
+
 .newsCardsContainer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
