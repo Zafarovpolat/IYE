@@ -261,7 +261,7 @@ export default function News() {
                                 transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
                                 viewport={{ once: true }}
                             >
-                                <Link href={"/news"} className={styles.newsCard}>
+                                <Link href={`/news/${item.id}`} className={styles.newsCard}>
                                     <Image
                                         src={item.image}
                                         alt="Пирожные"
@@ -319,7 +319,7 @@ export default function News() {
                                 transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
                                 viewport={{ once: true }}
                             >
-                                <Link href={"/news"} className={styles.newsCard}>
+                                <Link href={`/news/${item.id}`} className={styles.newsCard}>
                                     <Image
                                         src={item.image}
                                         alt="Пирожные"
