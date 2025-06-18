@@ -1,0 +1,1419 @@
+.clientsHeader {
+    padding: 104px 0 0px;
+}
+
+.clientsHeaderHeading {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 120px;
+    line-height: 120px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 110px;
+}
+
+.clientsHeaderBottomText {
+    display: flex;
+    align-items: start;
+    padding-bottom: 110px;
+    justify-content: space-between;
+    gap: 512px;
+}
+
+.clientsHeaderTextTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    border-bottom: 1px solid #2C2C2C;
+    padding-bottom: 8px;
+    max-width: fit-content;
+    white-space: nowrap;
+}
+
+.clientsHeaderBottomBlock {
+    max-width: 1194px;
+}
+
+.clientsHeaderTextInfo {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 40px;
+}
+
+.clientsHeaderTextDescription {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-bottom: 40px;
+}
+
+.clientsHeaderButton {
+    padding: 12px 24px 16px;
+    color: white;
+    background-color: #159F4A;
+    border-radius: 8px;
+    border: none;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    margin-bottom: 110px;
+}
+
+.cardsSwiper {
+    overflow: visible !important;
+}
+
+.cardsSwiperSlide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+@media (max-width: 1919px) {
+    .clientsHeaderBottomText {
+        gap: 254px;
+    }
+
+}
+
+@media (max-width: 1439px) {
+
+    .clientsHeaderHeading {
+        font-size: 100px;
+        line-height: 100px;
+        margin-bottom: 90px;
+    }
+
+    .clientsHeader {
+        padding: 64px 0 0px;
+    }
+
+    .clientsHeaderBottomBlock {
+        max-width: 874px;
+    }
+
+    .clientsHeaderBottomText {
+        margin-top: 90px;
+        padding-bottom: 90px;
+    }
+
+    .clientsHeaderTitle {
+        font-size: 100px;
+        line-height: 100px;
+    }
+
+    .clientsHeaderTextInfo {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .clientsHeader {
+        padding: 64px 0 30px;
+    }
+
+    .clientsHeaderCardItem,
+    .swiper-slide {
+        min-height: 333px;
+        height: 100%;
+    }
+
+    .cardNumberText {
+        font-size: 72px;
+    }
+
+    .cardsContainerBlock {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 300px 220px;
+        grid-template-areas:
+            "card1 card1"
+            "card2 card3"
+    }
+
+    .numbersBlock {
+        padding: 60px 0 110px;
+    }
+
+    .cardImage {
+        max-width: 300px;
+        max-height: 267px;
+    }
+
+    .clientsHeaderButton {
+        margin-bottom: 90px;
+    }
+
+}
+
+@media (max-width: 999px) {
+    .clientsHeader {
+        padding: 96px 0 0px;
+    }
+
+    .clientsHeaderHeading {
+        font-size: 80px;
+        line-height: 80px;
+    }
+
+    .clientsHeaderBottomBlock {
+        max-width: 100%;
+    }
+
+    .clientsHeaderBottomText {
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .clientsHeaderTextInfo {
+        margin-bottom: 30px;
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .clientsHeaderTextDescription {
+        gap: 20px;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .clientsHeaderTextTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .cardNumberText {
+        font-size: 56px;
+    }
+
+    .cardImage {
+        max-width: 265px;
+        max-height: 236px;
+    }
+
+    .cardUnitText {
+        font-size: 16px;
+        line-height: 22px;
+        padding: 0 10px 4px;
+    }
+
+    .clientsHeaderTextDescription {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .clientsHeaderHeading {
+        font-size: 40px;
+        line-height: 40px;
+        padding-bottom: 20px;
+        margin-bottom: 50px;
+    }
+
+    .clientsHeader {
+        padding: 96px 0 0px;
+    }
+
+    .clientsHeaderTextInfo {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+
+    .clientsHeaderBottomText {
+        padding-bottom: 50px;
+        margin-top: 0;
+    }
+
+    .clientsHeaderTextDescription {
+        margin-bottom: 20px;
+    }
+
+    .clientsHeaderButton {
+        width: 100%;
+        margin-bottom: 70px;
+    }
+
+    .cardsContainerBlock {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        grid-template-rows: 300px 180px 180px;
+        grid-template-areas:
+            "card1"
+            "card2"
+            "card3";
+    }
+
+    .cardImage {
+        max-width: 200px;
+        max-height: 189px;
+    }
+
+    .cardNumberText {
+        font-size: 50px;
+        line-height: 50px;
+    }
+
+    .cardBlock {
+        padding: 20px;
+    }
+
+
+    .cardsSwiperSlide img {
+        height: 192px;
+    }
+}
+
+/* QUALITY */
+.quality {
+    padding-top: 110px;
+    background: #084927;
+    color: #FFFFFF;
+    padding-bottom: 130px;
+}
+
+.qualityHeaderBlock {
+    margin-bottom: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.qualityHeaderBottomBlock {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 414px;
+}
+
+.qualityHeaderTitle {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #FFFFFF;
+    max-width: fit-content;
+    white-space: nowrap;
+}
+
+.qualityHeaderInfo {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    max-width: 955px;
+    color: #FFFFFF;
+}
+
+.qualityCardsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 340px);
+    gap: 20px;
+    padding-bottom: 130px;
+}
+
+.qualitySwiper {
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.qualityCard {
+    background-color: #159F4A;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    padding: 30px;
+    gap: 30px;
+    height: 100%;
+}
+
+.qualityCard:nth-child(3),
+.qualityCard:nth-child(4) {
+    background-color: transparent;
+    border: 1px solid #159F4A;
+}
+
+.qualityCardUp {
+    display: flex;
+    align-items: start;
+    width: 100%;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.qualityIcon {
+    max-width: 50px;
+    height: auto;
+}
+
+.qualityText {
+    font-family: 'Literata', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 0%;
+    color: white;
+    text-align: left;
+}
+
+.qualityDescription {
+    font-family: 'Literata', serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: white;
+    text-align: left;
+}
+
+@media (max-width: 1920px) {
+    .qualityHeaderBottomBlock {
+        gap: 254px;
+    }
+
+    .qualityCardsContainer {
+        grid-template-rows: repeat(2, 1fr);
+    }
+}
+
+/* Адаптивность для #quality */
+@media (max-width: 1439px) and (min-width: 1000px) {
+    .quality {
+        padding-top: 90px;
+        padding-bottom: 110px;
+    }
+
+    .qualityCardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    .qualityHeaderInfo {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .qualityHeaderBottomBlock {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .qualityHeaderTitle {
+        margin-bottom: 20px;
+    }
+
+    .qualityHeaderBlock {
+        margin-bottom: 50px;
+    }
+}
+
+@media (max-width: 999px) and (min-width: 768px) {
+    .quality {
+        padding-top: 90px;
+        padding-bottom: 110px;
+    }
+
+    .qualityHeaderInfo {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .qualityText {
+        font-size: 24px;
+        line-height: 34px;
+    }
+
+    .qualityCardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    .qualityCardUp {
+        gap: 20px;
+    }
+
+    .qualityIcon {
+        max-width: 36px;
+    }
+
+    .qualityHeaderBottomBlock {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .quality {
+        padding-bottom: 110px;
+    }
+
+    .qualityHeaderBlock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .qualityHeaderBottomBlock {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .qualityHeaderInfo {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .qualityHeaderTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .qualityCardsContainer {
+        display: block;
+        /* Убираем grid для слайдера */
+        padding-bottom: 0;
+    }
+
+    .qualityCard {
+        padding: 20px;
+        height: 100%;
+        min-height: clamp(200px, 280px, 340px);
+    }
+
+    .qualityText {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .qualityDescription {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .qualityCardUp {
+        gap: 10px;
+    }
+
+    .qualityIcon {
+        max-width: 30px;
+    }
+}
+
+/* NUMBERS */
+.numbersWrapper {
+    padding-top: 110px;
+    border-top: 1px solid #BBC5D6;
+    margin-top: 110px;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding-bottom: 130px;
+}
+
+.numbersTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    max-width: fit-content;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    color: #2C2C2C;
+    white-space: nowrap;
+}
+
+.numbersRight {
+    max-width: 1193px;
+}
+
+.numbersInfo {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 70px;
+}
+
+.numbersCards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 220px);
+    gap: 20px;
+    list-style-type: none;
+}
+
+.numbersCard {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 20px;
+    background: #F1F3F5;
+    color: #2C2C2C;
+}
+
+.numbersCard:nth-child(1) {
+    background-color: #159F4A;
+    color: white;
+}
+
+.numbersCardUp {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+}
+
+.numbersCardTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+}
+
+.numbersCardSubTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding: 0 10px 6px;
+    color: white;
+    background-color: #2C2C2C;
+}
+
+.numbersCard:nth-child(1) .numbersCardSubTitle {
+    color: #159F4A;
+    background-color: white;
+}
+
+.numbersCardInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+}
+
+.numbersCard:nth-child(1) .numbersCardInfo {
+    color: white;
+}
+
+@media (max-width: 1920px) {
+    .numbersWrapper {
+        gap: 491px;
+    }
+}
+
+@media (max-width: 1439px) {
+    .numbersRight {
+        max-width: 100%;
+    }
+
+    .numbersWrapper {
+        padding-top: 90px;
+        margin-top: 90px;
+        padding-bottom: 110px;
+        gap: 0;
+        flex-direction: column;
+    }
+
+    .numbersTitle {
+        margin-bottom: 20px;
+    }
+
+    .numbersInfo {
+        font-size: 36px;
+        line-height: 46px;
+    }
+}
+
+@media (max-width: 999px) {
+    .numbersInfo {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .numbersCardTitle {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .numbersCardSubTitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .numbersCardInfo {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .numbersWrapper {
+        padding-top: 50px;
+        margin-top: 50px;
+        padding-bottom: 70px;
+    }
+
+    .numbersTitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .numbersInfo {
+        font-size: 25px;
+        line-height: 32px;
+        margin-bottom: 30px;
+    }
+
+    .numbersCards {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 180px);
+    }
+}
+
+/* VACANCIES */
+
+.vacanciesWrapper {
+    padding-top: 110px;
+    border-top: 1px solid #BBC5D6;
+    color: #2C2C2C;
+}
+
+.vacanciesTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    max-width: fit-content;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2C2C2C;
+    margin-bottom: 20px;
+}
+
+.vacanciesSubTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    margin-bottom: 40px;
+}
+
+.vacanciesTags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    list-style-type: none;
+    margin-bottom: 40px;
+}
+
+.vacanciesTagBtn {
+    border-radius: 8px;
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    background: #F1F3F5;
+    border: none;
+    padding: 7px 12px 9px;
+}
+
+.vacanciesTagBtnActive {
+    background-color: #2C2C2C;
+    color: white;
+}
+
+.vacanciesList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    list-style-type: none;
+    margin-bottom: 40px;
+}
+
+.vacanciesItemLink {
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 28px 30px;
+    display: grid;
+    grid-template-columns: 3fr 3fr 240px 24px;
+    align-items: center;
+    gap: 40px;
+    transition: all 0.3s ease-in-out;
+}
+
+.vacanciesItemLink:hover {
+    border: 1px solid #159F4A;
+}
+
+.vacanciesItemLink .vacanciesItemBtn svg path {
+    transition: all 0.3s ease-in-out;
+}
+
+.vacanciesItemLink:hover .vacanciesItemBtn svg path {
+    stroke: #159F4A;
+}
+
+.vacanciesItemTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    border-right: 1px solid #BBC5D6;
+    padding: 4px 40px 4px 0;
+}
+
+.vacanciesItemInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    display: flex;
+}
+
+.vacanciesItemCity {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    text-align: right;
+    padding-right: 40px;
+    border-right: 1px solid #BBC5D6;
+    padding: 6px 40px 6px 0;
+}
+
+.vacanciesItemBtn {
+    border: none;
+    background-color: transparent;
+    display: flex;
+}
+
+.vacanciesMoreBtn {
+    background: #159F4A;
+    border-radius: 8px;
+    padding: 12px 24px 16px;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: white;
+    border: none;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vacanciesItemInfo span {
+    display: none;
+}
+
+@media (max-width: 1919px) {
+    .vacanciesItemLink {
+        grid-template-columns: 5fr 3fr 220px 24px;
+    }
+
+}
+
+@media (max-width: 1439px) {
+    .vacanciesSubTitle {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .vacanciesItemLink {
+        grid-template-columns: 1fr 24px;
+        gap: 20px 0;
+    }
+
+    .vacanciesItemTitle {
+        grid-column: 1 / 4;
+        padding-right: 0;
+        border-right: none;
+        padding: 0;
+    }
+
+    .vacanciesItemInfo {
+        gap: 5px;
+    }
+
+    .vacanciesItemInfo span {
+        display: flex;
+    }
+
+    .vacanciesItemCity {
+        padding: 0;
+        border-right: none;
+        display: none;
+    }
+}
+
+@media (max-width: 999px) {
+    .vacanciesTitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .vacanciesSubTitle {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .vacanciesTags {
+        margin-bottom: 30px;
+    }
+
+    .vacanciesItemLink {
+        padding: 20px;
+    }
+
+    .vacanciesItemTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .vacanciesItemInfo {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .vacanciesWrapper {
+        padding-top: 50px;
+    }
+
+    .vacanciesSubTitle {
+        margin-bottom: 30px;
+    }
+
+    .vacanciesTags {
+        margin-bottom: 20px;
+    }
+
+    .vacanciesItemInfo {
+        margin-right: 20px;
+        flex-wrap: wrap;
+    }
+
+    .vacanciesList {
+        margin-bottom: 20px;
+    }
+
+    .vacanciesMoreBtn {
+        width: 100%;
+    }
+}
+
+/* PARTNERS */
+.partnersWrapper {
+    margin-top: 110px;
+    padding-top: 110px;
+    border-top: 1px solid #BBC5D6;
+    padding-bottom: 130px;
+}
+
+.partnersForm {
+    padding-bottom: 130px;
+    background: #084927;
+    border-radius: 20px;
+    padding: 80px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.partnersFormLeft {
+    max-width: 550px;
+    color: white;
+}
+
+.partnersFormTitle {
+    margin-bottom: 40px;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+}
+
+.partnersFormInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+}
+
+.partnersFormRight {
+    max-width: 680px;
+    border-radius: 20px;
+    background-color: white;
+    padding: 40px;
+    width: 100%;
+}
+
+.partnersFormRightUp {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.partnersInput {
+    grid-column: 1 / 3;
+    border: 1px solid #BBC5D6;
+    border-radius: 8px;
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding: 12px 16px 16px;
+}
+
+.partnersInput:nth-child(2) {
+    grid-column: 1 / 2;
+}
+
+.partnersInput:nth-child(3) {
+    grid-column: 2 / 3;
+}
+
+.partnersTextArea {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding: 12px 16px;
+    border: 1px solid #BBC5D6;
+    border-radius: 8px;
+    grid-column: 1 / 3;
+    resize: none;
+    width: 100%;
+    max-width: 600px;
+    height: 190px;
+}
+
+.partnersFileBox {
+    margin-bottom: 16px;
+}
+
+.partnersFileInput {
+    display: none;
+}
+
+.partnersFileLabel {
+    display: flex;
+    padding: 14px 0;
+    gap: 10px;
+    align-items: start;
+}
+
+.partnersFileInputTitle {
+    margin-bottom: 10px;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+}
+
+.partnersFileInputInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    color: #747B87;
+
+}
+
+.partnersFormSubmit {
+    background: #159F4A;
+    border-radius: 8px;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: white;
+    padding: 12px 24px 16px;
+    border: none;
+    margin-bottom: 16px;
+}
+
+.partnersPolicy {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    text-decoration-style: solid;
+    text-decoration-offset: 0%;
+    text-decoration-thickness: 0%;
+    text-decoration-skip-ink: auto;
+
+}
+
+.partnersPolicy a {
+    color: #159F4A;
+    text-decoration: underline;
+}
+
+@media (max-width: 1919px) {
+    .partnersForm {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 1439px) {
+    .partnersWrapper {
+        padding-top: 90px;
+        padding-bottom: 110px;
+    }
+
+    .partnersSubtitle,
+    .partnersFormTitle {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
+    .partnersForm {
+        flex-direction: column;
+        gap: 60px;
+    }
+
+    .partnersFormLeft,
+    .partnersFormRight {
+        max-width: 100%;
+    }
+
+    .partnersRight {
+        margin-bottom: 50px;
+    }
+
+    .partnersList {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(4, 426px);
+        width: 100%;
+    }
+
+    .partnersListItemInfo {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .partnersTextArea {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 999px) {
+
+    .partnersSubtitle,
+    .partnersFormTitle {
+        margin-bottom: 30px;
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .partnersFormInfo {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .partnersForm {
+        padding: 40px;
+    }
+
+    .partnersListItem {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .partnersListItemInfo {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .partnersList {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 260px);
+    }
+}
+
+@media (max-width: 767px) {
+    .partnersWrapper {
+        padding-top: 70px;
+        padding-bottom: 70px;
+        margin-top: 70px;
+    }
+
+    .partners .container {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .partnersSubtitle,
+    .partnersFormTitle {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+
+    .partnersForm {
+        gap: 40px;
+        padding: 20px 10px;
+    }
+
+    .partnersFormRight {
+        padding: 20px;
+    }
+
+    .partnersFormRightUp {
+        grid-template-columns: 1fr;
+
+    }
+
+    .partnersInput,
+    .partnersInput:nth-child(3),
+    .partnersTextArea {
+        grid-column: 1 / 2;
+    }
+
+    .partnersFormSubmit {
+        width: 100%;
+    }
+
+    .partnersRight {
+        margin-bottom: 30px;
+    }
+
+    .partnersListSwiper {
+        display: block;
+    }
+
+    .partnersListSwiper {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        /* Prevent overflow */
+    }
+
+    .partnersListSwiper .swiper-slide {
+        width: 100% !important;
+        /* Ensure each slide takes full container width */
+        height: auto;
+        /* Allow height to adjust based on content */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .partnersListSwiper .partnersListItem {
+        height: 432px;
+        padding: 20px;
+        box-sizing: border-box;
+        justify-content: start;
+        gap: 40px;
+    }
+
+    .partnersListItemTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .swiperGreen .partnersListItem {
+        background-color: #159F4A;
+        color: white;
+    }
+}
+
+/* PREFOOTER */
+
+.preFooterWrapper {
+    padding-top: 130px;
+    padding-bottom: 130px;
+    border-top: 1px solid #BBC5D6;
+    border-bottom: 1px solid #BBC5D6;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.preFooterPartnerCard {
+    background: #159F4A;
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+    min-height: 330px;
+}
+
+.preFooterTopText {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #fff;
+    padding-bottom: 8px;
+    border-bottom: 1px solid;
+    width: fit-content;
+    z-index: 1;
+}
+
+.preFooterTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    vertical-align: bottom;
+}
+
+.preFooterLink {
+    align-items: end;
+}
+
+.preFooterPhoto {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* Медиа-запросы */
+@media (max-width: 1439px) {
+    .preFooterPhoto {
+        display: none;
+    }
+
+    .preFooterWrapper {
+        grid-template-columns: 1fr;
+        padding-top: 110px;
+        padding-bottom: 110px;
+    }
+
+    .preFooterTitle {
+        font-size: 36px;
+        line-height: 46px;
+    }
+}
+
+@media (max-width: 767px) {
+    .preFooterPhoto {
+        display: flex;
+        height: 100%;
+    }
+
+    .preFooterWrapper {
+        gap: 10px;
+        grid-template-rows: repeat(2, 1fr);
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+
+    .preFooterPartnerCard {
+        min-height: 200px;
+        padding: 20px;
+    }
+
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* CLIENTS (дополнение) */
+.partnerCard {
+    background: #fff;
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+}
+
+.partnerLink {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    z-index: 2;
+}
+
+.arrowContainer {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+}
