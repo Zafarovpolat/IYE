@@ -28,6 +28,19 @@ export default function Vacancies() {
     const targetOffsetRef = useRef(0);
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
 
+    const vacanciesData = [
+        { id: '1', title: 'Повар на производство', category: 'Производство', schedule: 'Полный день', location: 'Москва' },
+        { id: '2', title: 'Фасовщик / Упаковщик', category: 'Производство', schedule: 'Сменный график', location: 'Москва' },
+        { id: '3', title: 'Оператор производственной линии', category: 'Производство', schedule: 'Вахта', location: 'Москва' },
+        { id: '4', title: 'Технолог пищевого производства', category: 'Производство', schedule: 'Полный день', location: 'Москва' },
+        { id: '5', title: 'Водитель (кат. B, С)', category: 'Поставка', schedule: 'Полный день', location: 'Москва и МО' },
+        { id: '6', title: 'Логист / Специалист по маршрутизации', category: 'Поставка', schedule: 'Гибкий график', location: 'Москва' },
+        { id: '7', title: 'Кладовщик-комплектовщик', category: 'Склад / Поставка', schedule: 'Сменный график', location: 'Москва' },
+        { id: '8', title: 'Менеджер по работе с торговыми сетями', category: 'Офис', schedule: 'Полный день', location: 'Москва' },
+        { id: '9', title: 'Контент-менеджер', category: 'Офис', schedule: 'Частичная занятость', location: 'Москва / Удалённо' },
+        { id: '10', title: 'HR-специалист', category: 'Офис', schedule: 'Полный день', location: 'Москва' },
+    ];
+
     useEffect(() => {
         setIsClient(true);
     }, []);
@@ -536,10 +549,10 @@ export default function Vacancies() {
                 <div className={`${styles.container} container`}>
                     <div className={styles.vacanciesWrapper}>
                         <h4 className={styles.vacanciesTitle}>актуальные вакансии</h4>
-                        <h3 className={styles.vacanciesSubTitle}>Вакансии в Москве и Московской области</h3>
+                        <h3 className={styles.vacanciesSubTitle}>Вакансии в Москве и Московской области</h3>
                         <ul className={styles.vacanciesTags}>
                             <li className={styles.vacanciesTag}>
-                                <button className={`${styles.vacanciesTagBtn} ${styles.vacanciesTagBtnActive}`}>Все вакансии</button>
+                                <button className={`${styles.vacanciesTagBtn} ${styles.vacanciesTagBtnActive}`}>Все вакансии</button>
                             </li>
                             <li className={styles.vacanciesTag}>
                                 <button className={styles.vacanciesTagBtn}>Производство</button>
@@ -551,143 +564,26 @@ export default function Vacancies() {
                                 <button className={styles.vacanciesTagBtn}>Офис</button>
                             </li>
                         </ul>
-
                         <ul className={styles.vacanciesList}>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>Повар на производство</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Производство • Полный день <span> • Москва</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>Фасовщик / Упаковщик</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Производство • Сменный график <span> • Москва</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>Оператор производственной линии</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Производство • Вахта <span> • Москва</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>Технолог пищевого производства</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Производство • Полный день <span> • Москва</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>Водитель (кат. B, С)</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Поставка • Полный день <span> • Москва и МО</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва и МО</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>Логист / Специалист по маршрутизации</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Поставка • Гибкий график <span> • Москва</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>Кладовщик-комплектовщик</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Склад / Поставка • Сменный график <span> • Москва</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>Менеджер по работе с торговыми сетями</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Офис • Полный день <span> • Москва</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>Контент-менеджер</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Офис • Частичная занятость <span> • Москва / Удалённо</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва / Удалённо</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
-                            <li className={styles.vacanciesItem}>
-                                <Link href={'/'} className={styles.vacanciesItemLink}>
-                                    <h4 className={styles.vacanciesItemTitle}>HR-специалист</h4>
-                                    <h4 className={styles.vacanciesItemInfo}>Офис • Полный день <span> • Москва</span></h4>
-                                    <h4 className={styles.vacanciesItemCity}>Москва</h4>
-                                    <button className={styles.vacanciesItemBtn}>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </li>
+                            {vacanciesData.map((vacancy) => (
+                                <li key={vacancy.id} className={styles.vacanciesItem}>
+                                    <Link href={`/vacancies/${vacancy.id}`} className={styles.vacanciesItemLink}>
+                                        <h4 className={styles.vacanciesItemTitle}>{vacancy.title}</h4>
+                                        <h4 className={styles.vacanciesItemInfo}>
+                                            {vacancy.category} • {vacancy.schedule} <span> • {vacancy.location}</span>
+                                        </h4>
+                                        <h4 className={styles.vacanciesItemCity}>{vacancy.location}</h4>
+                                        <button className={styles.vacanciesItemBtn}>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 20L20 4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M4 4H20V20" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </button>
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
-
-                        <button className={styles.vacanciesMoreBtn}>
-                            Загрузить ещё
-                        </button>
+                        <button className={styles.vacanciesMoreBtn}>Загрузить ещё</button>
                     </div>
                 </div>
             </section>
