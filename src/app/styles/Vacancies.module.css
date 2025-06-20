@@ -967,6 +967,18 @@
     color: white;
 }
 
+.partnersFormSubTitle {
+    max-width: fit-content;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    margin-bottom: 20px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid;
+}
+
 .partnersFormTitle {
     margin-bottom: 40px;
     font-family: Literata;
@@ -982,6 +994,11 @@
     font-size: 18px;
     line-height: 28px;
     letter-spacing: 0%;
+}
+
+.partnersFormInfo span a {
+    color: white;
+    text-decoration: underline;
 }
 
 .partnersFormRight {
@@ -1160,7 +1177,8 @@
         line-height: 40px;
     }
 
-    .partnersFormInfo {
+    .partnersFormInfo,
+    .partnersFormSubTitle {
         font-size: 16px;
         line-height: 24px;
     }

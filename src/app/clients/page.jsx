@@ -834,7 +834,7 @@ export default function Clients() {
                             </motion.span>
                             <Link href='/' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
                                 <motion.span className={`${styles.partnerText} ${styles.preFooterTitle}`} variants={preFooterPartnerTextVariants}>
-                                    Поставщим
+                                    Поставщикам
                                 </motion.span>
                                 <motion.div className={styles.arrowContainer}>
                                     <motion.svg

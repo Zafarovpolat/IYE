@@ -110,7 +110,10 @@ export default function VacanciesDetail() {
                                 <h4 className={styles.vacancyDetailInfoTitle}>обязанности</h4>
                                 <ul className={styles.vacancyDetailInfoList}>
                                     {vacancy.responsibilities.map((res, index) => (
-                                        <li key={index} className={styles.vacancyDetailInfoItem}>{res}</li>
+                                        <li key={index} className={styles.vacancyDetailInfoItem}>
+                                            <div className={styles.dot}></div>
+                                            {res}
+                                        </li>
                                     ))}
                                 </ul>
                             </div>
@@ -118,7 +121,10 @@ export default function VacanciesDetail() {
                                 <h4 className={styles.vacancyDetailInfoTitle}>требования</h4>
                                 <ul className={styles.vacancyDetailInfoList}>
                                     {vacancy.requirements.map((res, index) => (
-                                        <li key={index} className={styles.vacancyDetailInfoItem}>{res}</li>
+                                        <li key={index} className={styles.vacancyDetailInfoItem}>
+                                            <div className={styles.dot}></div>
+                                            {res}
+                                        </li>
                                     ))}
                                 </ul>
                             </div>
@@ -126,7 +132,10 @@ export default function VacanciesDetail() {
                                 <h4 className={styles.vacancyDetailInfoTitle}>условия</h4>
                                 <ul className={styles.vacancyDetailInfoList}>
                                     {vacancy.conditions.map((res, index) => (
-                                        <li key={index} className={styles.vacancyDetailInfoItem}>{res}</li>
+                                        <li key={index} className={styles.vacancyDetailInfoItem}>
+                                            <div className={styles.dot}></div>
+                                            {res}
+                                        </li>
                                     ))}
                                 </ul>
                             </div>

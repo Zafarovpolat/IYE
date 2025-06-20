@@ -492,10 +492,10 @@ export default function Production() {
                     <div className={`${styles.container} container`}>
                         <div className={styles.qualityHeaderBlock}>
                             <div className={styles.qualityHeaderBottomBlock}>
-                                <h5 className={styles.qualityHeaderTitle}>партнёрство с нами</h5>
+                                <h5 className={styles.qualityHeaderTitle}>контроль качества</h5>
                                 <div className={styles.qualityRight}>
 
-                                    <h3 className={styles.qualityHeaderInfo}>Мы понимаем потребности наших клиентов и предлагаем</h3>
+                                    <h3 className={styles.qualityHeaderInfo}>Мы работаем по международным стандартам качества и безопасности</h3>
 
                                     <div className={styles.qualityCardsContainer}>
                                         {!isMobile ? (
@@ -508,17 +508,17 @@ export default function Production() {
                                                     viewport={{ once: true }}
                                                 >
                                                     <div className={styles.qualityCardUp}>
-                                                        <p className={styles.qualityText}>Широкий ассортимент</p>
+                                                        <p className={styles.qualityText}>НАССР</p>
                                                         <Image
-                                                            src="/organic-food.svg"
-                                                            alt="Широкий ассортимент"
+                                                            src="/gear.svg"
+                                                            alt="НАССР"
                                                             width={50}
                                                             height={50}
                                                             className={styles.qualityIcon}
                                                         />
                                                     </div>
                                                     <p className={styles.qualityDescription}>
-                                                        От свежей выпечки до кулинарных изделий и десертов
+                                                        Строгий контроль безопасности на всех этапах производства
                                                     </p>
                                                 </motion.div>
                                                 <motion.div
@@ -529,38 +529,17 @@ export default function Production() {
                                                     viewport={{ once: true }}
                                                 >
                                                     <div className={styles.qualityCardUp}>
-                                                        <p className={styles.qualityText}>Гибкие условия сотрудничества</p>
-                                                        <Image
-                                                            src="/approved.svg"
-                                                            alt="Гибкие условия сотрудничества"
-                                                            width={50}
-                                                            height={50}
-                                                            className={styles.qualityIcon}
-                                                        />
-                                                    </div>
-                                                    <p className={styles.qualityDescription}>
-                                                        Индивидуальные решения для бизнеса
-                                                    </p>
-                                                </motion.div>
-                                                <motion.div
-                                                    className={styles.qualityCard}
-                                                    initial={{ y: 170 }}
-                                                    whileInView={{ y: 0 }}
-                                                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                                    viewport={{ once: true }}
-                                                >
-                                                    <div className={styles.qualityCardUp}>
-                                                        <p className={styles.qualityText}>Гарантию качества</p>
+                                                        <p className={styles.qualityText}>Внешний аудит и лабораторные исследования</p>
                                                         <Image
                                                             src="/laboratory.svg"
-                                                            alt="Гарантию качества"
+                                                            alt="Внешний аудит и лабораторные исследования"
                                                             width={50}
                                                             height={50}
                                                             className={styles.qualityIcon}
                                                         />
                                                     </div>
                                                     <p className={styles.qualityDescription}>
-                                                        Контроль на каждом этапе производства
+                                                        Проверяем каждую продукцию
                                                     </p>
                                                 </motion.div>
                                                 <motion.div
@@ -571,17 +550,38 @@ export default function Production() {
                                                     viewport={{ once: true }}
                                                 >
                                                     <div className={styles.qualityCardUp}>
-                                                        <p className={styles.qualityText}>Надёжность поставок</p>
+                                                        <p className={styles.qualityText}>Системы видеонаблюдения и мониторинга</p>
                                                         <Image
-                                                            src="/van.svg"
-                                                            alt="Надёжность поставок"
+                                                            src="/camera.svg"
+                                                            alt="Системы видеонаблюдения и мониторинга"
                                                             width={50}
                                                             height={50}
                                                             className={styles.qualityIcon}
                                                         />
                                                     </div>
                                                     <p className={styles.qualityDescription}>
-                                                        Собственный автопарк и строгий контроль логистики
+                                                        Обеспечивает прозрачность процессов
+                                                    </p>
+                                                </motion.div>
+                                                <motion.div
+                                                    className={styles.qualityCard}
+                                                    initial={{ y: 170 }}
+                                                    whileInView={{ y: 0 }}
+                                                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                                                    viewport={{ once: true }}
+                                                >
+                                                    <div className={styles.qualityCardUp}>
+                                                        <p className={styles.qualityText}>Обратная связь с клиентами</p>
+                                                        <Image
+                                                            src="/customers.svg"
+                                                            alt="Обратная связь с клиентами"
+                                                            width={50}
+                                                            height={50}
+                                                            className={styles.qualityIcon}
+                                                        />
+                                                    </div>
+                                                    <p className={styles.qualityDescription}>
+                                                        Учитываем отзывы наших клиентов и вносим улучшения в продукцию
                                                     </p>
                                                 </motion.div>
                                             </>

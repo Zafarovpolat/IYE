@@ -1433,6 +1433,7 @@
     background: #F1F3F5;
     border-radius: 20px;
     min-height: 430px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: end;

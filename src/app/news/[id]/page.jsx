@@ -476,26 +476,6 @@ export default function NewsDetail({ params }) {
                                 >
                                     <Link href={"/news"} className={styles.newsCard}>
                                         <Image
-                                            src="/news1.png"
-                                            alt="Пирожные"
-                                            width={200}
-                                            height={200}
-                                            className={styles.newsImage}
-                                        />
-                                        <h4 className={styles.newsCardTitle}>Наши сэндвичи теперь в «Самокате» — свежий продукт с доставкой за 15 минут!</h4>
-                                        <p className={styles.newsCardDescription}>
-                                            22 апреля 2025 • Партнёрство
-                                        </p>
-                                    </Link>
-                                </motion.div>
-                                <motion.div
-                                    initial={{ y: 197 }}
-                                    whileInView={{ y: 0 }}
-                                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                    viewport={{ once: true }}
-                                >
-                                    <Link href={"/news"} className={styles.newsCard}>
-                                        <Image
                                             src="/news2.png"
                                             alt="Пирожные"
                                             width={200}
@@ -525,6 +505,26 @@ export default function NewsDetail({ params }) {
                                         <h4 className={styles.newsCardTitle}>СТМ растёт: мы начали выпуск блинов для сети «Пятёрочка»</h4>
                                         <p className={styles.newsCardDescription}>
                                             18 апреля 2025 • Партнёрство
+                                        </p>
+                                    </Link>
+                                </motion.div>
+                                <motion.div
+                                    initial={{ y: 197 }}
+                                    whileInView={{ y: 0 }}
+                                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                                    viewport={{ once: true }}
+                                >
+                                    <Link href={"/news"} className={styles.newsCard}>
+                                        <Image
+                                            src="/news9.png"
+                                            alt="Пирожные"
+                                            width={200}
+                                            height={200}
+                                            className={styles.newsImage}
+                                        />
+                                        <h4 className={styles.newsCardTitle}>Провели аудит качества — без единого замечания</h4>
+                                        <p className={styles.newsCardDescription}>
+                                            9 апреля 2025  •  Производство
                                         </p>
                                     </Link>
                                 </motion.div>

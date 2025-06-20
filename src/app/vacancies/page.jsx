@@ -593,8 +593,9 @@ export default function Vacancies() {
                     <div className={styles.partnersWrapper}>
                         <div className={styles.partnersForm}>
                             <div className={styles.partnersFormLeft}>
-                                <h3 className={styles.partnersFormTitle}>Хотите стать нашим поставщиком?</h3>
-                                <p className={styles.partnersFormInfo}>Мы всегда рады новым надёжным партнёрам и готовы предложить выгодные условия сотрудничества. Заполните форму, и мы свяжемся с вами в ближайшее время</p>
+                                <h4 className={styles.partnersFormSubTitle}>отдел кадров</h4>
+                                <h3 className={styles.partnersFormTitle}>Не нашли подходящую вакансию?</h3>
+                                <p className={styles.partnersFormInfo}>Оставьте свои контакты и расскажите о себе — мы свяжемся с вами, когда появится подходящая возможность. Вы также можете отправить резюме на нашу почту <span><a href="/">hr@ideologia.ru</a></span></p>
                             </div>
 
                             <div className={styles.partnersFormRight}>

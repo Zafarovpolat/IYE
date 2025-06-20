@@ -357,7 +357,7 @@ export default function News() {
                             </motion.span>
                             <Link href='/' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
                                 <motion.span className={`${styles.partnerText} ${styles.preFooterTitle}`} variants={preFooterPartnerTextVariants}>
-                                    Новости
+                                    Вакансии
                                 </motion.span>
                                 <motion.div className={styles.arrowContainer}>
                                     <motion.svg

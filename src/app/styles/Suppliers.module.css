@@ -1489,6 +1489,8 @@
 }
 
 .questionsTitle {
+    font-family: Literata;
+    font-size: 18px;
     color: #2C2C2C;
     padding-bottom: 8px;
     border-bottom: 1px solid #2C2C2C;
@@ -1586,6 +1588,11 @@
     .questionsItemTitle {
         font-size: 20px;
         line-height: 28px;
+    }
+
+    .questionsTitle {
+        font-size: 16px;
+        line-height: 24px;
     }
 }
 

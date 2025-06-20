@@ -68,7 +68,7 @@
 }
 
 .vacancyDetailInfoList {
-    list-style-position: inside;
+    list-style-type: none;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -81,6 +81,20 @@
     line-height: 28px;
     letter-spacing: 0%;
     color: #2C2C2C;
+}
+
+.vacancyDetailInfoItem {
+    display: flex;
+    align-items: start;
+}
+
+.vacancyDetailInfoItem .dot {
+    padding: 4px;
+    transform: translateY(10px);
+    display: block;
+    background-color: #2c2c2c;
+    border-radius: 100%;
+    margin-right: 8px;
 }
 
 .vacancyDetailBtn {
@@ -564,6 +578,11 @@
         font-size: 28px;
         line-height: 34px;
     }
+
+    .vacancyDetailInfoItem .dot {
+        transform: translateY(8px);
+        margin-top: 0;
+    }
 }
 
 @media (max-width: 767px) {
@@ -675,6 +694,11 @@
     .vacancyDetailContactSubTitle {
         font-size: 36px;
         line-height: 44px;
+    }
+
+    .vacancyDetailInfoItem .dot {
+        transform: translateY(8px);
+        margin-top: 0;
     }
 }
 

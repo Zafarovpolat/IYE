@@ -100,7 +100,7 @@ export default function Footer() {
                     transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
                     style={{ display: 'flex' }} // Явное указание стиля для отображения
                 >
-                    <p className={styles.copyright}>© 2025 Идеология Европы</p>
+                    <p className={styles.copyright}>© 2025 Идеология Еды</p>
                     <ul className={styles.legalList}>
                         <li className={styles.linkItem}>
                             <Link href="/privacy">Политика конфиденциальности</Link>

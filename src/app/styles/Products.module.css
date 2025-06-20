@@ -372,8 +372,8 @@
 .productsBannerTitle {
     font-family: Literata;
     font-weight: 500;
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 36px;
+    line-height: 44px;
     letter-spacing: 0%;
     text-align: center;
     color: white;
@@ -383,14 +383,14 @@
 
 .productsBannerInfo {
     font-family: Literata;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 18px;
     line-height: 28px;
     letter-spacing: 0%;
     text-align: center;
     color: white;
     margin-bottom: 40px;
-    max-width: 900px;
+    max-width: 860px;
 }
 
 .productsBannerBtn {
