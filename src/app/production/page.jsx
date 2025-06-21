@@ -724,8 +724,8 @@ export default function Production() {
                                     <div className={styles.packInfoNumber}>3</div>
                                     <Image src={'/Line3.png'} className={styles.packInfoLine} width={138} height={1}></Image>
                                     <div className={styles.packInfoCard}>
-                                        <h4 className={styles.packInfoCardTitle}>Модифицированная атмосфера (MAP)</h4>
-                                        <p className={styles.packInfoCardInfo}>Сохраняет натуральный вкус и текстуру</p>
+                                        <h4 className={styles.packInfoCardTitle}>Эко-упаковка</h4>
+                                        <p className={styles.packInfoCardInfo}>Заботимся об окружающей среде</p>
                                     </div>
                                 </div>
                             </div>

@@ -1019,14 +1019,14 @@
 
 .productsBannerInfo {
     font-family: Literata;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 18px;
     line-height: 28px;
     letter-spacing: 0%;
     text-align: center;
     color: white;
     margin-bottom: 40px;
-    max-width: 900px;
+    max-width: 870px;
 }
 
 .productsBannerBtn {
@@ -1338,7 +1338,7 @@
 }
 
 .partnersFormLeft {
-    max-width: 550px;
+    max-width: 520px;
     color: white;
 }
 
@@ -1353,7 +1353,7 @@
 
 .partnersFormInfo {
     font-family: Literata;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 18px;
     line-height: 28px;
     letter-spacing: 0%;

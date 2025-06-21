@@ -226,7 +226,7 @@ export default function Production() {
                     <div className={styles.productsHeaderBlock}>
                         <div className={styles.productsHeaderBottomBlock}>
                             <h5 className={styles.productsHeaderTitle}>Продукция</h5>
-                            <h3 className={styles.productsHeaderInfo}>Производим продукцию под СТМ и развиваем наш бренд</h3>
+                            <h3 className={styles.productsHeaderInfo}>Мы предлагаем широкий выбор готовой еды</h3>
                         </div>
                     </div>
                     <div className={styles.productsCardsContainer}>
