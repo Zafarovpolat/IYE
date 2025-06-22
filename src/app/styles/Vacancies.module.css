@@ -1345,6 +1345,7 @@
     width: 100%;
     object-fit: cover;
     border-radius: 20px;
+    overflow: hidden;
 }
 
 /* Медиа-запросы */

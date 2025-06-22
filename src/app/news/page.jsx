@@ -265,8 +265,8 @@ export default function News() {
                                     <Image
                                         src={item.image}
                                         alt="Пирожные"
-                                        width={200}
-                                        height={200}
+                                        width={587}
+                                        height={374}
                                         className={styles.newsImage}
                                     />
                                     <h4 className={styles.newsCardTitle}>{item.title}</h4>
@@ -323,8 +323,8 @@ export default function News() {
                                     <Image
                                         src={item.image}
                                         alt="Пирожные"
-                                        width={200}
-                                        height={200}
+                                        width={587}
+                                        height={374}
                                         className={styles.newsImage}
                                     />
                                     <h4 className={styles.newsCardTitle}>{item.title}</h4>

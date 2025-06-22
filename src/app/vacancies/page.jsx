@@ -27,6 +27,7 @@ export default function Vacancies() {
     const [isOverflowAuto, setIsOverflowAuto] = useState(false);
     const targetOffsetRef = useRef(0);
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
+    const mapRef = useRef(null);
 
     const vacanciesData = [
         { id: '1', title: 'Повар на производство', category: 'Производство', schedule: 'Полный день', location: 'Москва' },
@@ -44,6 +45,29 @@ export default function Vacancies() {
     useEffect(() => {
         setIsClient(true);
     }, []);
+
+    useEffect(() => {
+        if (isClient && mapRef.current) {
+            const script = document.createElement('script');
+            script.src = `https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY}&lang=ru_RU`;
+            script.async = true;
+            script.onload = () => {
+                window.ymaps.ready(() => {
+                    const map = new window.ymaps.Map(mapRef.current, {
+                        center: [55.798191, 37.938147],
+                        zoom: 15,
+                    });
+                    const placemark = new window.ymaps.Placemark([55.798191, 37.938147]);
+                    map.geoObjects.add(placemark);
+                });
+            };
+            document.head.appendChild(script);
+
+            return () => {
+                document.head.removeChild(script);
+            };
+        }
+    }, [isClient]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -629,7 +653,9 @@ export default function Vacancies() {
             <section id='preFooter' className={styles.preFooter}>
                 <div className={`${styles.container} container`}>
                     <div className={styles.preFooterWrapper}>
-                        <Image src='/vacancies-prefooter.png' alt='Еда' width={586} height={400} className={styles.preFooterPhoto} />
+                        {isClient && (
+                            <div ref={mapRef} className={styles.preFooterPhoto} style={{ width: '100%', height: '100%' }} />
+                        )}
                         <motion.div
                             className={`${styles.preFooterCard} ${styles.preFooterPartnerCard}`}
                             onMouseEnter={() => setIsPreFooterHovered(true)}

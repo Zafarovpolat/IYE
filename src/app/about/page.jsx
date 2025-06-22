@@ -442,7 +442,7 @@ export default function About() {
                                 </p>
                             </div>
                             <div className={styles.logisticsImgBox}>
-                                <Image className={styles.logisticsImg} src="/logistics.png" alt="Логистика" width={852} height={320} />
+                                <Image className={styles.logisticsImg} src="/logistics.png" alt="Логистика" width={615} height={320} />
                             </div>
                         </div>
                     </div>

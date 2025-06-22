@@ -518,8 +518,8 @@ export default function NewsDetail({ params }) {
                                         <Image
                                             src="/news9.png"
                                             alt="Пирожные"
-                                            width={200}
-                                            height={200}
+                                            width={587}
+                                            height={374}
                                             className={styles.newsImage}
                                         />
                                         <h4 className={styles.newsCardTitle}>Провели аудит качества — без единого замечания</h4>

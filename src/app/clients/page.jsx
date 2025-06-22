@@ -531,49 +531,49 @@ export default function Clients() {
                                 <p className={styles.productsTitle}>Сэндвичи</p>
                                 <p className={styles.productsPrice}>{'> 50 видов'}</p>
                             </div>
-                            <Image src='/sandwich.png' alt='Сэндвич' width={200} height={200} className={styles.productsImage} />
+                            <Image src='/sandwich.png' alt='Сэндвич' width={484} height={440} className={styles.productsImage} />
                         </div>
                         <div className={styles.productsCard}>
                             <div className={styles.productsCardUp}>
                                 <p className={styles.productsTitle}>Блины</p>
                                 <p className={styles.productsPrice}>{'> 50 видов'}</p>
                             </div>
-                            <Image src='/blini.png' alt='Блины' width={200} height={200} className={styles.productsImage} />
+                            <Image src='/blini.png' alt='Блины' width={484} height={440} className={styles.productsImage} />
                         </div>
                         <div className={styles.productsCard}>
                             <div className={styles.productsCardUp}>
                                 <p className={styles.productsTitle}>Пироги</p>
                                 <p className={styles.productsPrice}>{'> 50 видов'}</p>
                             </div>
-                            <Image src='/pirogi.png' alt='Пироги' width={200} height={200} className={styles.productsImage} />
+                            <Image src='/pirogi.png' alt='Пироги' width={484} height={440} className={styles.productsImage} />
                         </div>
                         <div className={styles.productsCard}>
                             <div className={styles.productsCardUp}>
                                 <p className={styles.productsTitle}>Слоёные изделия</p>
                                 <p className={styles.productsPrice}>{'> 50 видов'}</p>
                             </div>
-                            <Image src='/soleniye.png' alt='Слоёные изделия' width={200} height={200} className={styles.productsImage} />
+                            <Image src='/soleniye.png' alt='Слоёные изделия' width={484} height={440} className={styles.productsImage} />
                         </div>
                         <div className={styles.productsCard}>
                             <div className={styles.productsCardUp}>
                                 <p className={styles.productsTitle}>Изделия из песочного теста</p>
                                 <p className={styles.productsPrice}>{'> 50 видов'}</p>
                             </div>
-                            <Image src='/pesochnoye.png' alt='Песочные изделия' width={200} height={200} className={styles.productsImage} />
+                            <Image src='/pesochnoye.png' alt='Песочные изделия' width={484} height={440} className={styles.productsImage} />
                         </div>
                         <div className={styles.productsCard}>
                             <div className={styles.productsCardUp}>
                                 <p className={styles.productsTitle}>Торты</p>
                                 <p className={styles.productsPrice}>{'> 50 видов'}</p>
                             </div>
-                            <Image src='/torti.png' alt='Торты' width={200} height={200} className={styles.productsImage} />
+                            <Image src='/torti.png' alt='Торты' width={484} height={440} className={styles.productsImage} />
                         </div>
                         <div className={styles.productsCard}>
                             <div className={styles.productsCardUp}>
                                 <p className={styles.productsTitle}>Пирожные</p>
                                 <p className={styles.productsPrice}>{'> 50 видов'}</p>
                             </div>
-                            <Image src='/pirozhnoye.png' alt='Пирожные' width={200} height={200} className={styles.productsImage} />
+                            <Image src='/pirozhnoye.png' alt='Пирожные' width={484} height={440} className={styles.productsImage} />
                         </div>
                         <div className={styles.productsCard}>
                             <div className={styles.productsBanner}>
@@ -619,7 +619,7 @@ export default function Clients() {
                                             <p className={styles.productsTitle}>Сэндвичи</p>
                                             <p className={styles.productsPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/sandwich.png' alt='Сэндвич' width={200} height={200} className={styles.productsImage} />
+                                        <Image src='/sandwich.png' alt='Сэндвич' width={484} height={440} className={styles.productsImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -628,7 +628,7 @@ export default function Clients() {
                                             <p className={styles.productsTitle}>Блины</p>
                                             <p className={styles.productsPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/blini.png' alt='Блины' width={200} height={200} className={styles.productsImage} />
+                                        <Image src='/blini.png' alt='Блины' width={484} height={440} className={styles.productsImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -637,7 +637,7 @@ export default function Clients() {
                                             <p className={styles.productsTitle}>Пироги</p>
                                             <p className={styles.productsPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/pirogi.png' alt='Пироги' width={200} height={200} className={styles.productsImage} />
+                                        <Image src='/pirogi.png' alt='Пироги' width={484} height={440} className={styles.productsImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -646,7 +646,7 @@ export default function Clients() {
                                             <p className={styles.productsTitle}>Слоёные изделия</p>
                                             <p className={styles.productsPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/soleniye.png' alt='Слоёные изделия' width={200} height={200} className={styles.productsImage} />
+                                        <Image src='/soleniye.png' alt='Слоёные изделия' width={484} height={440} className={styles.productsImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -655,7 +655,7 @@ export default function Clients() {
                                             <p className={styles.productsTitle}>Изделия из песочного теста</p>
                                             <p className={styles.productsPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/pesochnoye.png' alt='Песочные изделия' width={200} height={200} className={styles.productsImage} />
+                                        <Image src='/pesochnoye.png' alt='Песочные изделия' width={484} height={440} className={styles.productsImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -664,7 +664,7 @@ export default function Clients() {
                                             <p className={styles.productsTitle}>Торты</p>
                                             <p className={styles.productsPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/torti.png' alt='Торты' width={200} height={200} className={styles.productsImage} />
+                                        <Image src='/torti.png' alt='Торты' width={484} height={440} className={styles.productsImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -673,7 +673,7 @@ export default function Clients() {
                                             <p className={styles.productsTitle}>Пирожные</p>
                                             <p className={styles.productsPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/pirozhnoye.png' alt='Пирожные' width={200} height={200} className={styles.productsImage} />
+                                        <Image src='/pirozhnoye.png' alt='Пирожные' width={484} height={440} className={styles.productsImage} />
                                     </div>
                                 </SwiperSlide>
                             </Swiper>
