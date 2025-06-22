@@ -956,7 +956,7 @@ export default function Home() {
                                             <p className={styles.productTitle}>Сэндвичи</p>
                                             <p className={styles.productPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/sandwich.png' alt='Сэндвич' width={200} height={200} className={styles.productImage} />
+                                        <Image src='/sandwich.png' quality={100} alt='Сэндвич' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -965,7 +965,7 @@ export default function Home() {
                                             <p className={styles.productTitle}>Блины</p>
                                             <p className={styles.productPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/blini.png' alt='Блины' width={200} height={200} className={styles.productImage} />
+                                        <Image src='/blini.png' alt='Блины' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -974,7 +974,7 @@ export default function Home() {
                                             <p className={styles.productTitle}>Пироги</p>
                                             <p className={styles.productPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/pirogi.png' alt='Пироги' width={200} height={200} className={styles.productImage} />
+                                        <Image src='/pirogi.png' alt='Пироги' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -983,7 +983,7 @@ export default function Home() {
                                             <p className={styles.productTitle}>Слоёные изделия</p>
                                             <p className={styles.productPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/soleniye.png' alt='Слоёные изделия' width={200} height={200} className={styles.productImage} />
+                                        <Image src='/soleniye.png' alt='Слоёные изделия' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -992,7 +992,7 @@ export default function Home() {
                                             <p className={styles.productTitle}>Изделия из песочного теста</p>
                                             <p className={styles.productPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/pesochnoye.png' alt='Песочные изделия' width={200} height={200} className={styles.productImage} />
+                                        <Image src='/pesochnoye.png' alt='Песочные изделия' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -1001,7 +1001,7 @@ export default function Home() {
                                             <p className={styles.productTitle}>Торты</p>
                                             <p className={styles.productPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/torti.png' alt='Торты' width={200} height={200} className={styles.productImage} />
+                                        <Image src='/torti.png' alt='Торты' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -1010,7 +1010,7 @@ export default function Home() {
                                             <p className={styles.productTitle}>Пирожные</p>
                                             <p className={styles.productPrice}>{'> 50 видов'}</p>
                                         </div>
-                                        <Image src='/pirozhnoye.png' alt='Пирожные' width={200} height={200} className={styles.productImage} />
+                                        <Image src='/pirozhnoye.png' alt='Пирожные' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
                             </Swiper>
@@ -1128,8 +1128,8 @@ export default function Home() {
                                                 <Image
                                                     src="/news1.png"
                                                     alt="Пирожные"
-                                                    width={200}
-                                                    height={200}
+                                                    width={587}
+                                                    height={374}
                                                     className={styles.newsImage}
                                                 />
                                                 <h4 className={styles.newsCardTitle}>Наши сэндвичи теперь в «Самокате» — свежий продукт с доставкой за 15 минут!</h4>
@@ -1150,8 +1150,8 @@ export default function Home() {
                                                 <Image
                                                     src="/news2.png"
                                                     alt="Пирожные"
-                                                    width={200}
-                                                    height={200}
+                                                    width={587}
+                                                    height={374}
                                                     className={styles.newsImage}
                                                 />
                                                 <h4 className={styles.newsCardTitle}>Инновационная упаковка — теперь наша продукция остаётся свежей ещё дольше</h4>
@@ -1172,8 +1172,8 @@ export default function Home() {
                                                 <Image
                                                     src="/news3.png"
                                                     alt="Пирожные"
-                                                    width={200}
-                                                    height={200}
+                                                    width={587}
+                                                    height={374}
                                                     className={styles.newsImage}
                                                 />
                                                 <h4 className={styles.newsCardTitle}>СТМ растёт: мы начали выпуск блинов для сети «Пятёрочка»</h4>
@@ -1196,8 +1196,8 @@ export default function Home() {
                                             <Image
                                                 src="/news1.png"
                                                 alt="Пирожные"
-                                                width={200}
-                                                height={200}
+                                                width={587}
+                                                height={374}
                                                 className={styles.newsImage}
                                             />
                                             <h4 className={styles.newsCardTitle}>Наши сэндвичи теперь в «Самокате» — свежий продукт с доставкой за 15 минут!</h4>
@@ -1216,8 +1216,8 @@ export default function Home() {
                                             <Image
                                                 src="/news2.png"
                                                 alt="Пирожные"
-                                                width={200}
-                                                height={200}
+                                                width={587}
+                                                height={374}
                                                 className={styles.newsImage}
                                             />
                                             <h4 className={styles.newsCardTitle}>Инновационная упаковка — теперь наша продукция остаётся свежей ещё дольше</h4>
@@ -1236,8 +1236,8 @@ export default function Home() {
                                             <Image
                                                 src="/news3.png"
                                                 alt="Пирожные"
-                                                width={200}
-                                                height={200}
+                                                width={587}
+                                                height={374}
                                                 className={styles.newsImage}
                                             />
                                             <h4 className={styles.newsCardTitle}>СТМ растёт: мы начали выпуск блинов для сети «Пятёрочка»</h4>

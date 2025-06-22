@@ -27,10 +27,34 @@ export default function Contacts() {
     const [isOverflowAuto, setIsOverflowAuto] = useState(false);
     const targetOffsetRef = useRef(0);
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
+    const mapRef = useRef(null);
 
     useEffect(() => {
         setIsClient(true);
     }, []);
+
+    useEffect(() => {
+        if (isClient && mapRef.current) {
+            const script = document.createElement('script');
+            script.src = `https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY}&lang=ru_RU`;
+            script.async = true;
+            script.onload = () => {
+                window.ymaps.ready(() => {
+                    const map = new window.ymaps.Map(mapRef.current, {
+                        center: [55.798191, 37.938147],
+                        zoom: 15,
+                    });
+                    const placemark = new window.ymaps.Placemark([55.798191, 37.938147]);
+                    map.geoObjects.add(placemark);
+                });
+            };
+            document.head.appendChild(script);
+
+            return () => {
+                document.head.removeChild(script);
+            };
+        }
+    }, [isClient]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -234,7 +258,9 @@ export default function Contacts() {
                     </div>
                 </div>
                 <div className={styles.mapImg}>
-                    <Image src={'/map.png'} width={2560} height={600}></Image>
+                    {isClient && (
+                        <div ref={mapRef} style={{ width: '100%', height: '600px' }} />
+                    )}
                 </div>
             </section>
 
