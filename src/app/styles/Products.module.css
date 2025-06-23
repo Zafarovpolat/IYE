@@ -117,7 +117,6 @@
     .productsHeaderContent {
         gap: 20px;
         flex-direction: column;
-        padding-top: 90px;
         padding-bottom: 110px;
     }
 
@@ -136,7 +135,7 @@
 
 @media (max-width: 999px) {
     .productsHeader {
-        padding: 56px 0 0px;
+        padding: 96px 0 0px;
     }
 
     .productsHeaderHeading {
@@ -171,7 +170,6 @@
     }
 
     .productsHeaderContent {
-        padding-top: 90px;
         padding-bottom: 110px;
     }
 
@@ -186,12 +184,11 @@
     }
 
     .productsHeader {
-        padding: 56px 0 0px;
+        padding: 96px 0 0px;
     }
 
     .productsHeaderContent {
-        padding-top: 50px;
-        padding-bottom: 70px;
+        padding-bottom: 0;
     }
 
     .productsHeaderSubtitle {
@@ -237,7 +234,8 @@
 
 /* PRODUCTS */
 
-/* PRODUCTS */
+
+
 .productsHeaderBlock {
     border-top: 1px solid #BBC5D6;
     padding-top: 110px;
@@ -422,7 +420,7 @@
 }
 
 /* Для разрешений от 1440px до 1919px */
-@media (max-width: 1919px) and (min-width: 1440px) {
+@media (max-width: 1919px) {
     .productsHeaderInfo {
         font-size: 36px;
         line-height: 46px;
@@ -444,7 +442,7 @@
 }
 
 /* Для разрешений от 1000px до 1439px */
-@media (max-width: 1439px) and (min-width: 1000px) {
+@media (max-width: 1439px) {
     .productsHeaderInfo {
         font-size: 30px;
         line-height: 40px;
@@ -462,17 +460,22 @@
 
     .productsImage {
         width: 80%;
-        margin: -30px auto auto;
+        margin: -40px auto auto;
     }
 
     .productsBanner {
         padding: 72px 20px;
         max-height: 440px;
     }
+
+    .productsTitle {
+        font-size: 28px;
+        line-height: 34px;
+    }
 }
 
 /* Для разрешений от 768px до 999px */
-@media (max-width: 999px) and (min-width: 768px) {
+@media (max-width: 999px) {
     .productsHeaderInfo {
         font-size: 24px;
         line-height: 34px;
@@ -503,6 +506,7 @@
     .productsBanner {
         max-height: 440px;
         height: 100%;
+        padding: 32px 20px;
     }
 
     .productsBannerLogos,
@@ -510,6 +514,20 @@
         margin-bottom: 30px;
     }
 
+    .productsBannerTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .productsBannerInfo {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .productsTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
 }
 
 /* Для разрешений меньше 768px */
@@ -583,6 +601,25 @@
         display: block;
     }
 
+    .productsCard {
+        height: 400px;
+    }
+
+    .productsCardUp {
+        padding: 20px 20px 0 20px;
+    }
+
+    .productsTitle {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+
+    .productsPrice {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
     .productsCardMobile {
         display: block;
         background-color: transparent;
@@ -602,7 +639,7 @@
 
     .productsImage {
         max-width: 350px;
-        margin: auto;
+        margin: -80px auto auto;
     }
 }
 
@@ -784,6 +821,10 @@
         font-size: 16px;
         line-height: 24px;
     }
+
+    .stepsCard img {
+        height: 320px;
+    }
 }
 
 @media (max-width: 767px) {
@@ -830,6 +871,11 @@
 
     .stepsListItemUp {
         margin-bottom: 10px;
+    }
+
+    .stepsListItemNumber,
+    .stepsListItemTitle {
+        font-size: 16px;
     }
 }
 
@@ -1083,6 +1129,8 @@
     .partnersInput,
     .partnersInput:nth-child(4) {
         grid-column: 1 / 2;
+        font-size: 16px;
+        line-height: 22px;
     }
 
     .partnersFormSubmit {
@@ -1196,6 +1244,11 @@
         z-index: 1;
         width: 40px;
         height: 40px;
+    }
+
+    .preFooterTitle {
+        font-size: 24px;
+        line-height: 32px;
     }
 }
 

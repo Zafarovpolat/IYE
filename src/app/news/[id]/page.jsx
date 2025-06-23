@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../../styles/NewsDetail.module.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules'; // Импортируем модули навигации и пагинации
@@ -47,6 +47,7 @@ export default function NewsDetail({ params }) {
     const [isNewsMobile, setIsNewsMobile] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(1); // Состояние для текущего слайда
     const [isHovered, setIsHovered] = useState(false);
+    const swiperRef = useRef(null); // Для хранения экземпляра Swiper
 
     const slides = [
         { src: '/news-slide1.png', caption: 'Подпись к фотографии 1' },
@@ -108,6 +109,11 @@ export default function NewsDetail({ params }) {
                                 <Swiper
                                     spaceBetween={20}
                                     slidesPerView={1}
+                                    modules={[Navigation, Pagination]} // Подключаем модули
+                                    navigation={{
+                                        prevEl: `.${styles.newsDetailsSliderPrevBtn}`,
+                                        nextEl: `.${styles.newsDetailsSliderNextBtn}`,
+                                    }}
                                     className={styles.newsDetailsSwiper}
                                 >
                                     <SwiperSlide>

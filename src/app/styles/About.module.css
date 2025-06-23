@@ -198,7 +198,12 @@
     }
 
     .aboutHeader {
-        padding: 56px 0 10px;
+        padding: 96px 0 10px;
+    }
+
+    .aboutHeaderCardItem {
+        height: 362px;
+        min-height: auto;
     }
 }
 
@@ -893,6 +898,7 @@
 }
 
 .historyContent {
+    overflow-x: hidden;
     padding-top: 110px;
     padding-bottom: 130px;
     border-top: 1px solid #BBC5D6;
@@ -1508,6 +1514,10 @@
         min-height: 300px;
     }
 
+    .logisticsImg {
+        width: 90%;
+    }
+
 }
 
 /* QUALITY */
@@ -1864,6 +1874,11 @@
         z-index: 1;
         width: 40px;
         height: 40px;
+    }
+
+    .preFooterTitle {
+        font-size: 24px;
+        line-height: 32px;
     }
 }
 

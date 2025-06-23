@@ -149,7 +149,16 @@ export default function About() {
                             className={styles.swiperContainer}
                             spaceBetween={20}
                             slidesPerView={isTripleCards ? 3 : 2}
-                            loop={true}
+                            breakpoints={{
+                                320: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 10,
+                                },
+                                768: {
+                                    slidesPerView: isDoubleCards ? 2 : 3,
+                                    spaceBetween: 20,
+                                },
+                            }}
                         >
                             {cards.map((card, index) => (
                                 <SwiperSlide key={index}>
@@ -290,8 +299,8 @@ export default function About() {
                                 className={styles.historySwiper}
                                 breakpoints={{
                                     1440: { slidesPerView: 3 },
-                                    767: { slidesPerView: 3 },
-                                    300: { slidesPerView: 2 }
+                                    767: { slidesPerView: 2 },
+                                    300: { slidesPerView: 1 }
                                 }}
                                 style={{ overflow: 'visible' }} // Сохраняем видимый overflow
                             >

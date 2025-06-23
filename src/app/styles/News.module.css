@@ -525,6 +525,11 @@
 }
 
 @media (max-width: 767px) {
+
+    .preFooter {
+        padding-bottom: 70px;
+    }
+
     .preFooterPhoto {
         display: flex;
         height: 100%;
@@ -549,6 +554,11 @@
         z-index: 1;
         width: 40px;
         height: 40px;
+    }
+
+    .preFooterTitle {
+        font-size: 24px;
+        line-height: 32px;
     }
 }
 

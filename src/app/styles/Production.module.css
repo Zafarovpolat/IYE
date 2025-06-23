@@ -509,6 +509,14 @@
     .stepsListItemUp {
         margin-bottom: 10px;
     }
+
+    .stepsListItemNumber {
+        font-size: 16px;
+    }
+
+    .stepsListItemUp {
+        flex-wrap: wrap;
+    }
 }
 
 /* QUALITY */
@@ -1854,6 +1862,11 @@
         z-index: 1;
         width: 40px;
         height: 40px;
+    }
+
+    .preFooterTitle {
+        font-size: 24px;
+        line-height: 32px;
     }
 }
 

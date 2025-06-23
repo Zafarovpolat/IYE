@@ -746,8 +746,8 @@ export default function Production() {
                             </li>
                             <li className={styles.packCard}>
                                 <div className={styles.packInfoCard}>
-                                    <h4 className={styles.packInfoCardTitle}>Модифицированная атмосфера (MAP)</h4>
-                                    <p className={styles.packInfoCardInfo}>Сохраняет натуральный вкус и текстуру</p>
+                                    <h4 className={styles.packInfoCardTitle}>Эко-упаковка</h4>
+                                    <p className={styles.packInfoCardInfo}>Заботимся об окружающей среде</p>
                                 </div>
                             </li>
                         </ul>

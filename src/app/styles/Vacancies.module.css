@@ -1,5 +1,6 @@
 .clientsHeader {
     padding: 104px 0 0px;
+    overflow-x: hidden;
 }
 
 .clientsHeaderHeading {
@@ -1367,6 +1368,11 @@
 }
 
 @media (max-width: 767px) {
+
+    .preFooter {
+        margin-bottom: 70px;
+    }
+
     .preFooterPhoto {
         display: flex;
         height: 100%;
@@ -1391,6 +1397,12 @@
         z-index: 1;
         width: 40px;
         height: 40px;
+    }
+
+
+    .preFooterTitle {
+        font-size: 24px;
+        line-height: 32px;
     }
 }
 
