@@ -62,6 +62,11 @@
     height: 100%;
 }
 
+.productsHeaderListItem img {
+    object-fit: cover;
+    border-radius: 20px;
+}
+
 .productsHeaderListItemContent {
     background: #F1F3F5;
     border-radius: 20px;
