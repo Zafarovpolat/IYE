@@ -225,4 +225,7 @@
         display: flex;
     }
 
+    .navListItem {
+        display: flex;
+    }
 }

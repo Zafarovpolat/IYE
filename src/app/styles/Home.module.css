@@ -738,6 +738,10 @@
         line-height: 24px;
     }
 
+    .clientInfoCard {
+        order: 1;
+    }
+
     .arrowContainer {
         bottom: 20px;
         right: 20px;
@@ -991,6 +995,10 @@
 
     .qualityIcon {
         max-width: 30px;
+    }
+
+    .qualityCardDark {
+        background-color: #084927;
     }
 }
 

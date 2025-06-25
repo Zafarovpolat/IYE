@@ -28,6 +28,7 @@ export default function Production() {
     const [isOverflowAuto, setIsOverflowAuto] = useState(false); // Новое состояние для overflow
     const targetOffsetRef = useRef(0);
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // New state for success modal
 
     useEffect(() => {
         setIsClient(true);
@@ -145,6 +146,16 @@ export default function Production() {
 
     const handlePlayPause = () => {
         setPlaying(!playing);
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        // Simulate form submission logic (e.g., API call)
+        setIsSuccessModalOpen(true); // Open the success modal
+    };
+
+    const closeSuccessModal = () => {
+        setIsSuccessModalOpen(false);
     };
 
     if (!isClient) {
@@ -837,10 +848,10 @@ export default function Production() {
                 <section id='partners' className={styles.partners}>
                     <div className={`${styles.container} container`}>
                         <div className={styles.partnersHeading}>
-                            <h4 className={styles.partnersTitle}>партнёрство с нами</h4>
+                            <h4 className={styles.partnersTitle}>партнёрство с нами</h4>
                             <div className={styles.partnersRight}>
-                                <h3 className={styles.partnersSubtitle}>Ориентация на клиентов и партнёров</h3>
-                                <p className={styles.partnersInfo}>Мы выстраиваем долгосрочные отношения с клиентами и стремимся глубоко понимать потребности каждого бизнеса. Предлагаем гибкие условия, оперативную поддержку и надёжное качество продукции. В партнёрстве ценим прозрачность, честность и ответственность — именно это помогает нам расти вместе с нашими клиентами</p>
+                                <h3 className={styles.partnersSubtitle}>Ориентация на клиентов и партнёров</h3>
+                                <p className={styles.partnersInfo}>Мы выстраиваем долгосрочные отношения с клиентами и стремимся глубоко понимать потребности каждого бизнеса. Предлагаем гибкие условия, оперативную поддержку и надёжное качество продукции. В партнёрстве ценим прозрачность, честность и ответственность — именно это помогает нам расти вместе с нашими клиентами</p>
                             </div>
                         </div>
                     </div>
@@ -849,22 +860,42 @@ export default function Production() {
                         <div className={styles.partnersForm}>
                             <div className={styles.partnersFormLeft}>
                                 <h3 className={styles.partnersFormTitle}>Хотите стать нашим партнёром?</h3>
-                                <p className={styles.partnersFormInfo}>Мы всегда открыты к новым партнёрствам и готовы предложить лучшие условия для вашего бизнеса. Заполните форму и мы свяжемся с вами в ближайшее время</p>
+                                <p className={styles.partnersFormInfo}>Мы всегда открыты к новым партнёрствам и готовы предложить лучшие условия для вашего бизнеса. Заполните форму и мы свяжемся с вами в ближайшее время</p>
                             </div>
 
-                            <div className={styles.partnersFormRight}>
-                                <div className={styles.partnersFormRightUp}>
-                                    <input type="text" placeholder='Имя и Фамилия' className={styles.partnersInput} />
-                                    <input type="text" placeholder='Компания' className={styles.partnersInput} />
-                                    <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
-                                    <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
+                            {!isSuccessModalOpen ? (
+                                <div className={styles.partnersFormRight}>
+                                    <form onSubmit={handleFormSubmit}>
+                                        <div className={styles.partnersFormRightUp}>
+                                            <input type="text" placeholder='Имя и Фамилия' className={styles.partnersInput} />
+                                            <input type="text" placeholder='Компания' className={styles.partnersInput} />
+                                            <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
+                                            <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
+                                        </div>
+                                        <div className={styles.partnersFormRightBottom}>
+                                            <button className={styles.partnersFormSubmit} type='submit'>Отправить заявку</button>
+                                            <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>политикой конфиденциальности</Link></p>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div className={styles.partnersFormRightBottom}>
-                                    <button className={styles.partnersFormSubmit}>Отправить заявку</button>
-                                    <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>
-                                        политикой конфиденциальности</Link></p>
+                            ) : (
+                                <div className={styles.modalOverlay} onClick={closeSuccessModal}>
+                                    <div className={styles.successModalContent} onClick={(e) => e.stopPropagation()}>
+                                        <div className={styles.successModal}>
+                                            <div className={styles.successModalInner}>
+                                                <Image src={'/email.svg'} width={52} height={52} alt="Email icon" />
+                                                <h3 className={styles.successModalTitle}>Заявка отправлена</h3>
+                                                <p className={styles.successModalInfo}>
+                                                    Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
+                                                </p>
+                                                <p className={styles.successModalInfo}>
+                                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:stm@ideologia.ru">stm@ideologia.ru</a></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </section>

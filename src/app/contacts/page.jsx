@@ -28,6 +28,7 @@ export default function Contacts() {
     const targetOffsetRef = useRef(0);
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
     const mapRef = useRef(null);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // New state for success modal
 
     useEffect(() => {
         setIsClient(true);
@@ -67,6 +68,15 @@ export default function Contacts() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        // Simulate form submission logic (e.g., API call)
+        setIsSuccessModalOpen(true); // Open the success modal
+    };
+
+    const closeSuccessModal = () => {
+        setIsSuccessModalOpen(false);
+    };
 
     const rippleOrigin = {
         x: '100%',
@@ -274,29 +284,48 @@ export default function Contacts() {
                                 <p className={styles.partnersFormInfo}>Если у вас есть жалоба или предложение по нашей продукции и сервису, заполните форму — мы разберёмся в ситуации и найдём решение</p>
                             </div>
 
-                            <div className={styles.partnersFormRight}>
-                                <div className={styles.partnersFormRightUp}>
-                                    <input type="text" placeholder='Имя и Фамилия' className={styles.partnersInput} />
-                                    <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
-                                    <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
-                                    <textarea className={styles.partnersTextArea} name="textArea" id="" placeholder='Расскажите о себе'></textarea>
-                                </div>
-                                <div className={styles.partnersFileBox}>
-                                    <input className={styles.partnersFileInput} type="file" id='partnersFile' />
-                                    <label className={styles.partnersFileLabel} htmlFor="partnersFile">
-                                        <Image src={'/paperclip.svg'} width={24} height={24}></Image>
-                                        <div className={styles.partnersFiletext}>
-                                            <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
-                                            <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
+                            {!isSuccessModalOpen ? (
+                                <form onClick={handleFormSubmit} className={styles.partnersFormRight}>
+                                    <div className={styles.partnersFormRightUp}>
+                                        <input type="text" placeholder='Имя' className={styles.partnersInput} />
+                                        <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
+                                        <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
+                                        <textarea className={styles.partnersTextArea} name="textArea" id="" placeholder='Опишите вашу ситуацию'></textarea>
+                                    </div>
+                                    <div className={styles.partnersFileBox}>
+                                        <input className={styles.partnersFileInput} type="file" id='partnersFile' />
+                                        <label className={styles.partnersFileLabel} htmlFor="partnersFile">
+                                            <Image src={'/paperclip.svg'} width={24} height={24}></Image>
+                                            <div className={styles.partnersFiletext}>
+                                                <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
+                                                <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div className={styles.partnersFormRightBottom}>
+                                        <button className={styles.partnersFormSubmit}>Отправить заявку</button>
+                                        <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>
+                                            политикой конфиденциальности</Link></p>
+                                    </div>
+                                </form>
+                            ) : (
+                                <div className={styles.modalOverlay} onClick={closeSuccessModal}>
+                                    <div className={styles.successModalContent} onClick={(e) => e.stopPropagation()}>
+                                        <div className={styles.successModal}>
+                                            <div className={styles.successModalInner}>
+                                                <Image src={'/email.svg'} width={52} height={52} alt="Email icon" />
+                                                <h3 className={styles.successModalTitle}>Заявка отправлена</h3>
+                                                <p className={styles.successModalInfo}>
+                                                    Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
+                                                </p>
+                                                <p className={styles.successModalInfo}>
+                                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:stm@ideologia.ru">stm@ideologia.ru</a></span>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </label>
+                                    </div>
                                 </div>
-                                <div className={styles.partnersFormRightBottom}>
-                                    <button className={styles.partnersFormSubmit}>Отправить заявку</button>
-                                    <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>
-                                        политикой конфиденциальности</Link></p>
-                                </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </div>

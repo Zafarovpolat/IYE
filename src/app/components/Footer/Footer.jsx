@@ -29,14 +29,14 @@ export default function Footer() {
                     <div className={styles.footerRight}>
                         <nav className={styles.nav}>
                             <ul className={styles.navList}>
-                                <li><Link href="/about">О компании</Link></li>
-                                <li><Link href="/production">Производство</Link></li>
-                                <li><Link href="/products">Продукция</Link></li>
-                                <li><Link href="/clients">Клиентам</Link></li>
-                                <li><Link href="/suppliers">Поставщикам</Link></li>
-                                <li><Link href="/news">Новости</Link></li>
-                                <li><Link href="/vacancies">Вакансии</Link></li>
-                                <li><Link href="/contacts">Контакты</Link></li>
+                                <li className={styles.navListItem}><Link href="/about">О компании</Link></li>
+                                <li className={styles.navListItem}><Link href="/production">Производство</Link></li>
+                                <li className={styles.navListItem}><Link href="/products">Продукция</Link></li>
+                                <li className={styles.navListItem}><Link href="/clients">Клиентам</Link></li>
+                                <li className={styles.navListItem}><Link href="/suppliers">Поставщикам</Link></li>
+                                <li className={styles.navListItem}><Link href="/news">Новости</Link></li>
+                                <li className={styles.navListItem}><Link href="/vacancies">Вакансии</Link></li>
+                                <li className={styles.navListItem}><Link href="/contacts">Контакты</Link></li>
                             </ul>
                         </nav>
 

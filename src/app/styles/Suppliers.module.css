@@ -1296,6 +1296,54 @@
     text-decoration: underline;
 }
 
+.successModalContent2 {
+    position: relative;
+    max-width: 680px;
+    width: 100%;
+    max-height: 90vh;
+    text-align: center;
+}
+
+.successModalInner2 {
+    border-radius: 20px;
+    background: white;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.successModalTitle2 {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 44px;
+    color: #2C2C2C;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.successModalInfo2 {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 20px;
+    text-align: left;
+    align-self: start;
+}
+
+.successModalInfo2 span a {
+    color: #159F4A;
+}
+
+.successModalInfo2:last-child {
+    margin-bottom: 0;
+}
+
+
 @media (max-width: 1919px) {
     .partnersHeading {
         gap: 0;
@@ -1328,7 +1376,8 @@
     }
 
     .partnersFormLeft,
-    .partnersFormRight {
+    .partnersFormRight,
+    .successModalContent2 {
         max-width: 100%;
     }
 
@@ -1342,13 +1391,22 @@
 
     .partnersList {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(4, 426px);
+        grid-template-rows: repeat(2, 426px);
         width: 100%;
     }
 
     .partnersListItemInfo {
         width: 100%;
         min-height: auto;
+    }
+
+    .successModalTitle2 {
+        font-size: 28px;
+        line-height: 34px;
+    }
+
+    .successModalTitle2 {
+        margin-bottom: 32px;
     }
 }
 
@@ -1480,6 +1538,20 @@
         background-color: #159F4A;
         color: white;
     }
+
+    .successModalTitle2 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .successModalInfo2 {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .successModalInner2 {
+        padding: 20px;
+    }
 }
 
 /* QUESTIONS */
@@ -1496,6 +1568,7 @@
     border-bottom: 1px solid #2C2C2C;
     margin-bottom: 20px;
     max-width: fit-content;
+    font-weight: 500;
 }
 
 .questionsSubtitle {
@@ -1539,6 +1612,10 @@
     line-height: 32px;
     letter-spacing: 0%;
     color: #2C2C2C;
+}
+
+.questionsItemSym path {
+    stroke: #159F4A;
 }
 
 .questionsItemInfo {

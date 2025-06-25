@@ -1121,6 +1121,53 @@
     text-decoration: underline;
 }
 
+.successModalContent {
+    position: relative;
+    max-width: 680px;
+    width: 100%;
+    max-height: 90vh;
+    text-align: center;
+}
+
+.successModalInner {
+    border-radius: 20px;
+    background: white;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.successModalTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 44px;
+    color: #2C2C2C;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.successModalInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 20px;
+    text-align: left;
+    align-self: start;
+}
+
+.successModalInfo span a {
+    color: #159F4A;
+}
+
+.successModalInfo:last-child {
+    margin-bottom: 0;
+}
+
 @media (max-width: 1919px) {
     .partnersForm {
         gap: 40px;
@@ -1145,7 +1192,8 @@
     }
 
     .partnersFormLeft,
-    .partnersFormRight {
+    .partnersFormRight,
+    .successModalContent {
         max-width: 100%;
     }
 
@@ -1166,6 +1214,15 @@
 
     .partnersTextArea {
         max-width: 100%;
+    }
+
+    .successModalTitle {
+        font-size: 28px;
+        line-height: 34px;
+    }
+
+    .successModalTitle {
+        margin-bottom: 32px;
     }
 }
 
@@ -1287,6 +1344,20 @@
     .swiperGreen .partnersListItem {
         background-color: #159F4A;
         color: white;
+    }
+
+    .successModalTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .successModalInfo {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .successModalInner {
+        padding: 20px;
     }
 }
 

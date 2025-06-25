@@ -629,7 +629,7 @@ export default function Home() {
                             </motion.div>
                         </div>
                         <div className={`${styles.numbersHeaderLink2} ${styles.clientsLink}`}>
-                            <Button href="/about" />
+                            <Button href="/about" text={"Стать нашим партнером"} />
                         </div>
                     </div>
                 </section>
@@ -833,7 +833,7 @@ export default function Home() {
                                     </SwiperSlide>
                                     <SwiperSlide>
                                         <motion.div
-                                            className={styles.qualityCard}
+                                            className={`${styles.qualityCard} ${styles.qualityCardDark}`}
                                             initial={{ y: 170 }}
                                             whileInView={{ y: 0 }}
                                             transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
@@ -858,7 +858,8 @@ export default function Home() {
                                     </SwiperSlide>
                                     <SwiperSlide>
                                         <motion.div
-                                            className={styles.qualityCard}
+                                            className={`${styles.qualityCard} ${styles.qualityCardDark}`}
+
                                             initial={{ y: 170 }}
                                             whileInView={{ y: 0 }}
                                             transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
@@ -1250,7 +1251,7 @@ export default function Home() {
                             )}
                         </div>
                         <div className={styles.productionHeaderLink2}>
-                            <Button text={"Узнать больше"} href="/achievements" />
+                            <Button text={"Все новости"} linkTo="/news" />
                         </div>
                     </div>
                 </section>

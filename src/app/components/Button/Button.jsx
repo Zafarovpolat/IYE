@@ -4,10 +4,14 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import styles from './Button.module.css';
 
-export default function Button({ className, text }) { // Добавляем className как пропс
+export default function Button({ className, text, linkTo }) { // Добавляем className как пропс
 
     if (!text) {
         text = "О компании"; // Значение по умолчанию для текста кнопки
+    }
+
+    if (!linkTo) {
+        linkTo = "/"; // Значение по умолчанию для ссылки
     }
 
     const svgVariants = {
@@ -17,7 +21,7 @@ export default function Button({ className, text }) { // Добавляем clas
 
     return (
         <div className={`${className} ${styles.buttonBox}`}>
-            <Link href="/about" className={`${styles.buttonLink}`}>
+            <Link href={linkTo} className={`${styles.buttonLink}`}>
                 <motion.button
                     className={styles.button}
                     initial="initial"

@@ -778,16 +778,7 @@
         max-width: 874px;
     }
 
-    .stepsContent {
-        gap: 20px;
-        flex-direction: column;
-        padding-top: 90px;
-        padding-bottom: 90px;
-    }
 
-    .stepsLeft {
-        max-width: 100%;
-    }
 
     .stepsSubtitle {
         margin-bottom: 40px;
@@ -803,9 +794,24 @@
     .stepsCards {
         margin-bottom: 90px;
     }
+
+    .stepsSubInfo {
+        margin-bottom: 50px;
+    }
 }
 
 @media (max-width: 999px) {
+
+    .stepsContent {
+        gap: 20px;
+        flex-direction: column;
+        padding-top: 90px;
+        padding-bottom: 90px;
+    }
+
+    .stepsLeft {
+        max-width: 100%;
+    }
 
     .stepsTitle {
         font-size: 16px;
@@ -1026,6 +1032,54 @@
     text-decoration: underline;
 }
 
+.successModalContent {
+    position: relative;
+    max-width: 680px;
+    width: 100%;
+    max-height: 90vh;
+    text-align: center;
+}
+
+.successModalInner {
+    border-radius: 20px;
+    background: white;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.successModalTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 44px;
+    color: #2C2C2C;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.successModalInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 20px;
+    text-align: left;
+    align-self: start;
+
+}
+
+.successModalInfo span a {
+    color: #159F4A;
+}
+
+.successModalInfo:last-child {
+    margin-bottom: 0;
+}
+
 @media (max-width: 1919px) {
     .partnersHeading {
         gap: 262px;
@@ -1058,12 +1112,22 @@
     }
 
     .partnersFormLeft,
-    .partnersFormRight {
+    .partnersFormRight,
+    .successModalContent {
         max-width: 100%;
     }
 
     .partners .container:nth-child(2) {
         padding-bottom: 110px;
+    }
+
+    .successModalTitle {
+        font-size: 28px;
+        line-height: 34px;
+    }
+
+    .successModalTitle {
+        margin-bottom: 32px;
     }
 }
 
@@ -1140,6 +1204,20 @@
 
     .partnersFormSubmit {
         width: 100%;
+    }
+
+    .successModalTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .successModalInfo {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .successModalInner {
+        padding: 20px;
     }
 }
 

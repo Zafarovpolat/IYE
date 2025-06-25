@@ -27,6 +27,7 @@ export default function Suppliers() {
     const [isOverflowAuto, setIsOverflowAuto] = useState(false);
     const targetOffsetRef = useRef(0);
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
+    const [isSuccessModalOpen2, setIsSuccessModalOpen2] = useState(false); // New state for success modal
 
     useEffect(() => {
         setIsClient(true);
@@ -73,6 +74,16 @@ export default function Suppliers() {
 
     const closeSuccessModal = () => {
         setIsSuccessModalOpen(false);
+    };
+
+    const handleFormSubmit2 = (e) => {
+        e.preventDefault();
+        // Simulate form submission logic (e.g., API call)
+        setIsSuccessModalOpen2(true); // Open the success modal
+    };
+
+    const closeSuccessModal2 = () => {
+        setIsSuccessModalOpen2(false);
     };
 
     const faqItems = [
@@ -688,29 +699,48 @@ export default function Suppliers() {
                             <p className={styles.partnersFormInfo}>Мы всегда рады новым надёжным партнёрам и готовы предложить выгодные условия сотрудничества. Заполните форму, и мы свяжемся с вами в ближайшее время</p>
                         </div>
 
-                        <div className={styles.partnersFormRight}>
-                            <div className={styles.partnersFormRightUp}>
-                                <input type="text" placeholder='Имя и Фамилия' className={styles.partnersInput} />
-                                <input type="text" placeholder='Компания' className={styles.partnersInput} />
-                                <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
-                                <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
-                            </div>
-                            <div className={styles.partnersFileBox}>
-                                <input className={styles.partnersFileInput} type="file" id='partnersFile' />
-                                <label className={styles.partnersFileLabel} htmlFor="partnersFile">
-                                    <Image src={'/paperclip.svg'} width={24} height={24}></Image>
-                                    <div className={styles.partnersFiletext}>
-                                        <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
-                                        <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
+                        {!isSuccessModalOpen2 ? (
+                            <form onSubmit={handleFormSubmit2} className={styles.partnersFormRight}>
+                                <div className={styles.partnersFormRightUp}>
+                                    <input type="text" placeholder='Имя и Фамилия' className={styles.partnersInput} />
+                                    <input type="text" placeholder='Компания' className={styles.partnersInput} />
+                                    <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
+                                    <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
+                                </div>
+                                <div className={styles.partnersFileBox}>
+                                    <input className={styles.partnersFileInput} type="file" id='partnersFile' />
+                                    <label className={styles.partnersFileLabel} htmlFor="partnersFile">
+                                        <Image src={'/paperclip.svg'} width={24} height={24}></Image>
+                                        <div className={styles.partnersFiletext}>
+                                            <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
+                                            <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div className={styles.partnersFormRightBottom}>
+                                    <button className={styles.partnersFormSubmit}>Отправить заявку</button>
+                                    <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>
+                                        политикой конфиденциальности</Link></p>
+                                </div>
+                            </form>
+                        ) : (
+                            <div className={styles.modalOverlay2} onClick={closeSuccessModal2}>
+                                <div className={styles.successModalContent2} onClick={(e) => e.stopPropagation()}>
+                                    <div className={styles.successModal2}>
+                                        <div className={styles.successModalInner2}>
+                                            <Image src={'/email.svg'} width={52} height={52} alt="Email icon" />
+                                            <h3 className={styles.successModalTitle2}>Заявка отправлена</h3>
+                                            <p className={styles.successModalInfo2}>
+                                                Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
+                                            </p>
+                                            <p className={styles.successModalInfo2}>
+                                                Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:stm@ideologia.ru">stm@ideologia.ru</a></span>
+                                            </p>
+                                        </div>
                                     </div>
-                                </label>
+                                </div>
                             </div>
-                            <div className={styles.partnersFormRightBottom}>
-                                <button className={styles.partnersFormSubmit}>Отправить заявку</button>
-                                <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>
-                                    политикой конфиденциальности</Link></p>
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </section>
@@ -735,11 +765,11 @@ export default function Suppliers() {
                                         transition={{ duration: 0.3 }}
                                     >
                                         {openItems.includes(index) ? (
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg className={styles.questionsItemSym} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5 12H19" stroke="#2C2C2C" strokeWidth="2" strokeLinecap="round" />
                                             </svg>
                                         ) : (
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <svg className={styles.questionsItemSym} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M12 5V19M5 12H19" stroke="#2C2C2C" strokeWidth="2" strokeLinecap="round" />
                                             </svg>
                                         )}
