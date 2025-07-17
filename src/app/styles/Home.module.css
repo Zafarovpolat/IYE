@@ -1734,3 +1734,14 @@
 
     background-color: white;
 } */
+
+.sections {
+    border-radius: 40px;
+}
+
+@media (max-width: 999px) {
+    .sections {
+        border-radius: 20px;
+    }
+
+}

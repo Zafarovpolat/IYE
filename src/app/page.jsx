@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation, useMotionValue, animate } from 'framer-motion';
 import Footer from './components/Footer/Footer';
 import Link from 'next/link';
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
@@ -28,15 +28,19 @@ export default function Home() {
     const [isOverflowAuto, setIsOverflowAuto] = useState(false); // Новое состояние для overflow
     const targetOffsetRef = useRef(0);
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
+    const [deltaY, setDeltaY] = useState(30); // Default value
+    const yOffset = useMotionValue(0);
 
     useEffect(() => {
         setIsClient(true);
+        setDeltaY(window.innerWidth < 1000 ? 15 : 30);
     }, []);
 
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 767);
             setIsNewsMobile(window.innerWidth <= 1439);
+            setDeltaY(window.innerWidth < 1000 ? 15 : 30); // Update deltaY on resize
         };
 
         handleResize();
@@ -53,95 +57,154 @@ export default function Home() {
         const heroHeight = heroElement ? heroElement.offsetHeight : 0;
         const calculatedTargetOffset = heroHeight - headerHeight;
 
-        // Важно: Вызываем controls.set() только после того, как все размеры DOM вычислены
-        // и компонент гарантированно доступен для манипуляций framer-motion.
+        targetOffsetRef.current = calculatedTargetOffset;
+
+        // Устанавливаем начальные стили
         if (window.scrollY > 0) {
             document.body.style.overflowY = 'auto';
             document.body.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
             document.documentElement.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
             setNegativeMarginBottom(calculatedTargetOffset);
-            currentSectionIndexRef.current = 1;
-            targetOffsetRef.current = calculatedTargetOffset;
-            controls.set({ y: -calculatedTargetOffset });
+            yOffset.set(-calculatedTargetOffset);
         } else {
             document.body.style.overflowY = 'hidden';
             document.body.style.height = '100%';
             document.documentElement.style.height = '100%';
             setNegativeMarginBottom(0);
-            currentSectionIndexRef.current = 0;
-            targetOffsetRef.current = 0;
-            controls.set({ y: 0 });
+            yOffset.set(0);
         }
-    }, [isClient, controls]);
+    }, [isClient, yOffset]);
 
     useEffect(() => {
-        if (!isClient) return;
+        if (!isClient || isMobile) return;
 
-        let isAnimating = false;
+        let accumulatedDelta = 0;
+        let rafId = null;
+        let isWheelHandlerActive = true;
+        let scrollState = 'top'; // States: 'top', 'moving', 'bottom'
 
-        const sectionDurations = {
-            numbers: 1.2,
-        };
+        const updatePosition = () => {
+            const maxOffset = -targetOffsetRef.current - deltaY;
+            const minOffset = 0;
 
-        const debounce = (func, wait) => {
-            let timeout;
-            return (...args) => {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
-            };
+            const currentY = yOffset.get();
+            const targetY = Math.max(maxOffset, Math.min(minOffset, currentY + accumulatedDelta));
+            const newY = currentY + (targetY - currentY) * 0.15; // Increased for smoother interpolation
+            yOffset.set(newY);
+
+            // Determine scroll state
+            const isNearMaxOffset = Math.abs(newY - maxOffset) < 5; // Tightened threshold
+            const isNearMinOffset = Math.abs(newY - minOffset) < 5;
+
+            if (isNearMaxOffset && scrollState !== 'bottom') {
+                scrollState = 'bottom';
+                document.body.style.overflowY = 'auto';
+                document.body.style.height = 'auto';
+                document.documentElement.style.height = 'auto';
+                setNegativeMarginBottom(targetOffsetRef.current);
+                if (isWheelHandlerActive) {
+                    console.log('Disabling main wheel handler: switching to browser scroll');
+                    window.removeEventListener('wheel', handleWheel);
+                    isWheelHandlerActive = false;
+                }
+            } else if (isNearMinOffset && scrollState !== 'top') {
+                scrollState = 'top';
+                document.body.style.overflowY = 'hidden';
+                document.body.style.height = '100%';
+                document.documentElement.style.height = '100%';
+                setNegativeMarginBottom(0);
+            } else if (!isNearMaxOffset && !isNearMinOffset) {
+                scrollState = 'moving';
+                document.body.style.overflowY = 'hidden';
+                document.body.style.height = '100%';
+                document.documentElement.style.height = '100%';
+                setNegativeMarginBottom(0);
+            }
+
+            // Smoother damping
+            if (accumulatedDelta !== 0) {
+                accumulatedDelta *= 0.95; // Slightly reduced damping for smoother decay
+                if (Math.abs(accumulatedDelta) < 0.05) { // Tighter threshold for stopping
+                    accumulatedDelta = 0;
+                    const finalY = isNearMaxOffset ? maxOffset : isNearMinOffset ? minOffset : newY;
+                    animate(yOffset, finalY, {
+                        type: 'spring',
+                        stiffness: 80, // Increased stiffness for responsiveness
+                        damping: 25, // Reduced damping for smoother settling
+                        mass: 1.2, // Slightly reduced mass for less inertia
+                        onUpdate: (latest) => {
+                            yOffset.set(latest);
+                            const isNearMax = Math.abs(latest - maxOffset) < 5;
+                            const isNearMin = Math.abs(latest - minOffset) < 5;
+                            if (isNearMax && scrollState !== 'bottom') {
+                                scrollState = 'bottom';
+                                document.body.style.overflowY = 'auto';
+                                document.body.style.height = 'auto';
+                                document.documentElement.style.height = 'auto';
+                                setNegativeMarginBottom(targetOffsetRef.current);
+                                if (isWheelHandlerActive) {
+                                    console.log('Spring: Disabling main wheel handler');
+                                    window.removeEventListener('wheel', handleWheel);
+                                    isWheelHandlerActive = false;
+                                }
+                            } else if (isNearMin && scrollState !== 'top') {
+                                scrollState = 'top';
+                                document.body.style.overflowY = 'hidden';
+                                document.body.style.height = '100%';
+                                document.documentElement.style.height = '100%';
+                                setNegativeMarginBottom(0);
+                            }
+                        },
+                        onComplete: () => {
+                            console.log(`Spring animation completed: yOffset=${yOffset.get().toFixed(2)}, scrollState=${scrollState}`);
+                        },
+                    });
+                } else {
+                    rafId = requestAnimationFrame(updatePosition);
+                }
+            }
         };
 
         const handleWheel = (event) => {
-            if (isAnimating || currentSectionIndexRef.current > 0 || (event.deltaY < 0 && window.scrollY > 0)) {
-                return;
-            }
-
             event.preventDefault();
-
-            const delta = event.deltaY;
-            const direction = delta > 0 ? 1 : -1;
-
-            if (currentSectionIndexRef.current === 0 && direction === 1) {
-                isAnimating = true;
-                const sectionElements = ['hero', 'numbers', 'clients', 'quality', 'products', 'production', 'news', 'preFooter', 'footer'].map(id => document.getElementById(id));
-                const header = document.querySelector('header') || document.querySelector('.header');
-                const headerHeight = header ? header.offsetHeight - 2 : 0;
-                const heroHeight = sectionElements[0] ? sectionElements[0].offsetHeight : 0;
-                const targetOffset = heroHeight - headerHeight;
-
-                targetOffsetRef.current = targetOffset;
-
-                controls.start({
-                    y: -targetOffset,
-                    transition: {
-                        duration: sectionDurations['numbers'],
-                        ease: [0.4, 0, 0.2, 1],
-                    },
-                }).then(() => {
-                    currentSectionIndexRef.current = 1;
-                    isAnimating = false;
-                    setNegativeMarginBottom(targetOffset);
-                    document.body.style.height = `calc(100% - ${targetOffset}px)`;
-                    document.documentElement.style.height = `calc(100% - ${targetOffset}px)`;
-                    document.body.style.overflowY = 'auto';
-                    window.removeEventListener('wheel', debouncedHandleWheel);
-                });
+            accumulatedDelta -= event.deltaY * 0.3; // Reduced multiplier for smoother wheel response
+            if (!rafId) {
+                rafId = requestAnimationFrame(updatePosition);
             }
         };
 
-        const debouncedHandleWheel = debounce(handleWheel, 300);
-        window.addEventListener('wheel', debouncedHandleWheel, { passive: false });
+        const handleRestoreWheel = (event) => {
+            const maxOffset = -targetOffsetRef.current - deltaY;
+            if (
+                !isWheelHandlerActive &&
+                event.deltaY < 0 &&
+                window.scrollY <= 5 && // Tightened scrollY threshold
+                scrollState === 'bottom'
+            ) {
+                console.log('RestoreWheel: Re-enabling main wheel handler for scrolling up');
+                window.addEventListener('wheel', handleWheel, { passive: false });
+                isWheelHandlerActive = true;
+                accumulatedDelta -= event.deltaY * 0.3; // Consistent multiplier
+                if (!rafId) {
+                    rafId = requestAnimationFrame(updatePosition);
+                }
+            }
+        };
+
+        window.addEventListener('wheel', handleWheel, { passive: false });
+        window.addEventListener('wheel', handleRestoreWheel, { passive: false });
 
         return () => {
-            window.removeEventListener('wheel', debouncedHandleWheel);
+            console.log('Cleanup: Removing both wheel handlers and resetting styles');
+            window.removeEventListener('wheel', handleWheel);
+            window.removeEventListener('wheel', handleRestoreWheel);
+            if (rafId) cancelAnimationFrame(rafId);
             document.body.style.overflow = 'auto';
             document.body.style.height = 'auto';
             document.documentElement.style.height = 'auto';
-            // Удалите следующую строку:
-            // controls.set({ y: 0 });
             setNegativeMarginBottom(0);
         };
-    }, [isClient, controls]);
+    }, [isClient, isMobile, yOffset]);
 
     const handlePlayPause = () => {
         setPlaying(!playing);
@@ -357,9 +420,10 @@ export default function Home() {
             </motion.section>
 
             <motion.div
+                className={styles.sections}
                 animate={controls}
                 initial={{ y: 0 }}
-                style={{ backgroundColor: '#fff', marginBottom: `-${negativeMarginBottom}px` }}
+                style={{ y: yOffset, backgroundColor: '#fff', marginBottom: `-${negativeMarginBottom + deltaY}px` }}
 
             >
                 <section id="numbers" className={styles.numbersBlock}>

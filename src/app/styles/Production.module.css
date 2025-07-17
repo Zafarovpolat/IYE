@@ -1983,3 +1983,13 @@
     width: 60px;
     height: 60px;
 }
+
+.sections {
+    border-radius: 40px;
+}
+
+@media (max-width: 999px) {
+    .sections {
+        border-radius: 20px;
+    }
+}
