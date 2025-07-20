@@ -54,8 +54,9 @@ export default function Home() {
         const header = document.querySelector('header') || document.querySelector('.header');
         const heroElement = document.getElementById('hero');
         const headerHeight = header ? header.offsetHeight - 2 : 0;
-        const heroHeight = heroElement ? heroElement.offsetHeight : 0;
-        const calculatedTargetOffset = heroHeight - headerHeight;
+        const heroHeight = window.innerHeight; // 100vh для hero
+        const protrusionFactor = window.innerHeight > 1080 ? 0.15 : window.innerHeight > 768 ? 0.1 : 0.1; // 15% для >1080px, 10% для >768px
+        const calculatedTargetOffset = heroHeight * (1 + protrusionFactor); // Шторка выступает на 10% или 15%
 
         targetOffsetRef.current = calculatedTargetOffset;
 
@@ -65,13 +66,13 @@ export default function Home() {
             document.body.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
             document.documentElement.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
             setNegativeMarginBottom(calculatedTargetOffset);
-            yOffset.set(-calculatedTargetOffset);
+            yOffset.set(-calculatedTargetOffset); // Начальная позиция шторки внизу
         } else {
             document.body.style.overflowY = 'hidden';
             document.body.style.height = '100%';
             document.documentElement.style.height = '100%';
-            setNegativeMarginBottom(0);
-            yOffset.set(0);
+            setNegativeMarginBottom(heroHeight * protrusionFactor); // Выступ на 10% или 15%
+            yOffset.set(-heroHeight * protrusionFactor); // Шторка изначально поднята
         }
     }, [isClient, yOffset]);
 
@@ -81,19 +82,20 @@ export default function Home() {
         let accumulatedDelta = 0;
         let rafId = null;
         let isWheelHandlerActive = true;
-        let scrollState = 'top'; // States: 'top', 'moving', 'bottom'
+        let scrollState = 'top';
 
         const updatePosition = () => {
-            const maxOffset = -targetOffsetRef.current - deltaY;
-            const minOffset = 0;
+            const protrusionFactor = window.innerHeight > 1080 ? 0.15 : window.innerHeight > 768 ? 0.1 : 0.1; // 15% или 10%
+            const maxOffset = -targetOffsetRef.current; // Максимальное смещение вниз
+            const minOffset = -window.innerHeight * protrusionFactor; // Минимальное смещение (выступ)
 
             const currentY = yOffset.get();
             const targetY = Math.max(maxOffset, Math.min(minOffset, currentY + accumulatedDelta));
-            const newY = currentY + (targetY - currentY) * 0.15; // Increased for smoother interpolation
+            const newY = currentY + (targetY - currentY) * 0.15;
             yOffset.set(newY);
 
-            // Determine scroll state
-            const isNearMaxOffset = Math.abs(newY - maxOffset) < 5; // Tightened threshold
+            // Определяем состояние прокрутки
+            const isNearMaxOffset = Math.abs(newY - maxOffset) < 5;
             const isNearMinOffset = Math.abs(newY - minOffset) < 5;
 
             if (isNearMaxOffset && scrollState !== 'bottom') {
@@ -112,26 +114,25 @@ export default function Home() {
                 document.body.style.overflowY = 'hidden';
                 document.body.style.height = '100%';
                 document.documentElement.style.height = '100%';
-                setNegativeMarginBottom(0);
+                setNegativeMarginBottom(window.innerHeight * protrusionFactor); // Выступ на 10% или 15%
             } else if (!isNearMaxOffset && !isNearMinOffset) {
                 scrollState = 'moving';
                 document.body.style.overflowY = 'hidden';
                 document.body.style.height = '100%';
                 document.documentElement.style.height = '100%';
-                setNegativeMarginBottom(0);
+                setNegativeMarginBottom(window.innerHeight * protrusionFactor); // Выступ на 10% или 15%
             }
 
-            // Smoother damping
             if (accumulatedDelta !== 0) {
-                accumulatedDelta *= 0.95; // Slightly reduced damping for smoother decay
-                if (Math.abs(accumulatedDelta) < 0.05) { // Tighter threshold for stopping
+                accumulatedDelta *= 0.95;
+                if (Math.abs(accumulatedDelta) < 0.05) {
                     accumulatedDelta = 0;
                     const finalY = isNearMaxOffset ? maxOffset : isNearMinOffset ? minOffset : newY;
                     animate(yOffset, finalY, {
                         type: 'spring',
-                        stiffness: 80, // Increased stiffness for responsiveness
-                        damping: 25, // Reduced damping for smoother settling
-                        mass: 1.2, // Slightly reduced mass for less inertia
+                        stiffness: 80,
+                        damping: 25,
+                        mass: 1.2,
                         onUpdate: (latest) => {
                             yOffset.set(latest);
                             const isNearMax = Math.abs(latest - maxOffset) < 5;
@@ -152,7 +153,7 @@ export default function Home() {
                                 document.body.style.overflowY = 'hidden';
                                 document.body.style.height = '100%';
                                 document.documentElement.style.height = '100%';
-                                setNegativeMarginBottom(0);
+                                setNegativeMarginBottom(window.innerHeight * protrusionFactor); // Выступ на 10% или 15%
                             }
                         },
                         onComplete: () => {
@@ -167,24 +168,24 @@ export default function Home() {
 
         const handleWheel = (event) => {
             event.preventDefault();
-            accumulatedDelta -= event.deltaY * 0.3; // Reduced multiplier for smoother wheel response
+            accumulatedDelta -= event.deltaY * 0.3;
             if (!rafId) {
                 rafId = requestAnimationFrame(updatePosition);
             }
         };
 
         const handleRestoreWheel = (event) => {
-            const maxOffset = -targetOffsetRef.current - deltaY;
+            const maxOffset = -targetOffsetRef.current;
             if (
                 !isWheelHandlerActive &&
                 event.deltaY < 0 &&
-                window.scrollY <= 5 && // Tightened scrollY threshold
+                window.scrollY <= 5 &&
                 scrollState === 'bottom'
             ) {
                 console.log('RestoreWheel: Re-enabling main wheel handler for scrolling up');
                 window.addEventListener('wheel', handleWheel, { passive: false });
                 isWheelHandlerActive = true;
-                accumulatedDelta -= event.deltaY * 0.3; // Consistent multiplier
+                accumulatedDelta -= event.deltaY * 0.3;
                 if (!rafId) {
                     rafId = requestAnimationFrame(updatePosition);
                 }

@@ -3,7 +3,7 @@
 .hero {
     position: relative;
     width: 100%;
-    height: 1550px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,17 +55,8 @@
     .heroText {
         padding-top: 164px;
     }
-
-    .hero {
-        height: 1162px;
-    }
 }
 
-@media (max-width: 1440px) {
-    .hero {
-        height: 870px;
-    }
-}
 
 @media (max-width: 999px) {
     .subtitle {
@@ -94,10 +85,6 @@
     .subtitle {
         font-size: 18px;
         line-height: 24px;
-    }
-
-    .hero {
-        height: 640px;
     }
 }
 
@@ -279,13 +266,7 @@
 
 /* Для разрешений от 1440px до 1919px */
 @media (max-width: 1919px) and (min-width: 1440px) {
-    .numbersHeaderInfo {
-        font-size: 36px;
-        /* Уменьшенный размер шрифта */
-        line-height: 46px;
-        max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
-        /* Линейное уменьшение с 1210px до 1000px */
-    }
+
 
     .numbersHeaderBlock {
         gap: calc(120px + (390 - 120) * (100vw - 1440px) / (1919 - 1440));
@@ -299,12 +280,13 @@
 
 /* Для разрешений от 1000px до 1439px */
 @media (max-width: 1439px) and (min-width: 1000px) {
+
     .numbersHeaderInfo {
-        font-size: 30px;
+        font-size: 36px;
         /* Уменьшенный размер шрифта */
-        line-height: 40px;
-        max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
-        /* Линейное увеличение с 700px до 939px */
+        line-height: 46px;
+        max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
+        /* Линейное уменьшение с 1210px до 1000px */
     }
 
     .numbersHeaderBlock {
@@ -341,12 +323,13 @@
 
 /* Для разрешений от 768px до 999px */
 @media (max-width: 999px) and (min-width: 768px) {
+
     .numbersHeaderInfo {
-        font-size: 24px;
+        font-size: 30px;
         /* Уменьшенный размер шрифта */
-        line-height: 34px;
-        max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
-        /* Линейное увеличение с 500px до 669px */
+        line-height: 40px;
+        max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
+        /* Линейное увеличение с 700px до 939px */
     }
 
     .numbersHeaderBlock {
@@ -381,6 +364,7 @@
 
 /* Для разрешений меньше 768px */
 @media (max-width: 767px) {
+
     .numbersHeaderBlock {
         flex-direction: column;
         align-items: flex-start;

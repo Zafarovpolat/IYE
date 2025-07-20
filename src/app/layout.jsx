@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import Head from 'next/head'; // Импортируем Head для добавления в <head>
 import Header from './components/Header/Header';
 import styles from './styles/Layout.module.css';
+import AppWrapper from './AppWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -53,7 +54,7 @@ export default function RootLayout({ children }) {
             </Head>
             <body className={inter.className}>
                 <Header />
-                <main className={styles.main}>{children}</main>
+                <AppWrapper>{children}</AppWrapper>
             </body>
         </html>
     );
