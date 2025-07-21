@@ -1,5 +1,5 @@
 .technology {
-    padding-top: 84px;
+    padding-top: 104px;
 }
 
 .technologyHeaderBlock {
@@ -762,6 +762,10 @@
 }
 
 /* PREFOOTER */
+
+.preFooter {
+    margin-bottom: 130px;
+}
 
 .preFooterWrapper {
     padding-top: 130px;

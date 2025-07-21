@@ -45,7 +45,22 @@ export default function Contacts() {
                         center: [55.798191, 37.938147],
                         zoom: 15,
                     });
-                    const placemark = new window.ymaps.Placemark([55.798191, 37.938147]);
+
+                    // Создаем кастомную метку
+                    const placemark = new window.ymaps.Placemark(
+                        [55.798191, 37.938147],
+                        {
+                            hintContent: 'Идеология Еды', // Подсказка при наведении
+                            balloonContent: 'Московская область, город Балашиха, улица Западная, дом 7А', // Контент балуна
+                        },
+                        {
+                            iconLayout: 'default#image',
+                            iconImageHref: '/Pin.svg', // Путь к вашему изображению метки
+                            iconImageSize: [180, 180], // Размер изображения метки в пикселях
+                            iconImageOffset: [-20, -40], // Смещение метки (чтобы точка привязки была внизу изображения)
+                        }
+                    );
+
                     map.geoObjects.add(placemark);
                 });
             };

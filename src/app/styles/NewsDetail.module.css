@@ -222,6 +222,29 @@
     border-radius: 10px;
     border: 1px solid #BBC5D6;
     margin-bottom: 40px;
+    scrollbar-width: auto;
+    /* Для Firefox */
+    scrollbar-color: #888 #f1f1f1;
+    /* Для Firefox */
+}
+
+.customTableContainer::-webkit-scrollbar {
+    height: 8px;
+    /* Толщина горизонтального скроллбара */
+}
+
+.customTableContainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.customTableContainer::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.customTableContainer::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .customTable {
@@ -440,13 +463,15 @@
     width: 44px;
     height: 44px;
     border-radius: 12px;
+    gap: 4px;
     background-color: transparent;
     text-decoration: none;
     border: 1px solid #BBC5D6;
     color: #2C2C2C;
     /* Начальный цвет для SVG */
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition: color 0.3s ease, border-color 0.3s ease, width 0.2s ease-in-out;
     /* Плавный переход */
+    overflow: hidden;
 }
 
 .icon {
@@ -456,6 +481,21 @@
 
 .socialIcon:hover {
     color: #159F4A;
+}
+
+.copiedContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.copiedText {
+    font-family: 'Literata';
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    transform: translateY(-2px);
 }
 
 @media (max-width: 999px) {
@@ -738,6 +778,10 @@
 .newsSwiper {
     width: 100%;
     margin-bottom: 30px;
+}
+
+.disabled {
+    display: none;
 }
 
 @media (max-width: 1919px) {

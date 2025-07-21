@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../../styles/NewsDetail.module.css';
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules'; // Импортируем модули навигации и пагинации
 import 'swiper/css';
@@ -45,13 +45,25 @@ const newsItems = [
 export default function NewsDetail({ params }) {
     const news = newsItems.find((item) => item.id === parseInt(params.id));
     const [isNewsMobile, setIsNewsMobile] = useState(false);
+    const [isSliderMobile, setIsSliderMobile] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(1); // Состояние для текущего слайда
     const [isHovered, setIsHovered] = useState(false);
     const swiperRef = useRef(null); // Для хранения экземпляра Swiper
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            setIsCopied(true);
+            setTimeout(() => setIsCopied(false), 4000); // Сбрасываем состояние через 4 секунды
+        } catch (err) {
+            console.error('Ошибка при копировании:', err);
+        }
+    };
 
     const slides = [
-        { src: '/news-slide1.png', caption: 'Подпись к фотографии 1' },
-        { src: '/news-slide2.png', caption: 'Подпись к фотографии 2' },
+        { src: '/news-slide1.png', caption: '1/2 Подпись к фотографии' },
+        { src: '/news-slide2.png', caption: '2/2 Подпись к фотографии' },
     ];
 
     if (!news) {
@@ -61,6 +73,7 @@ export default function NewsDetail({ params }) {
     useEffect(() => {
         const handleResize = () => {
             setIsNewsMobile(window.innerWidth <= 1439);
+            setIsSliderMobile(window.innerWidth <= 767);
         };
 
         handleResize();
@@ -103,33 +116,70 @@ export default function NewsDetail({ params }) {
                         </div>
                         <div className={styles.newsDetailsSlider}>
                             <div className={styles.newsDetailsSliderWrapper}>
-                                <button className={styles.newsDetailsSliderPrevBtn}>
-                                    <Image style={{ transform: 'rotate(180deg)' }} src={'/nextBtn.svg'} width={24} height={24}></Image>
-                                </button>
-                                <Swiper
-                                    spaceBetween={20}
-                                    slidesPerView={1}
-                                    modules={[Navigation, Pagination]} // Подключаем модули
-                                    navigation={{
-                                        prevEl: `.${styles.newsDetailsSliderPrevBtn}`,
-                                        nextEl: `.${styles.newsDetailsSliderNextBtn}`,
-                                    }}
-                                    className={styles.newsDetailsSwiper}
-                                >
-                                    <SwiperSlide>
-                                        <Image className={styles.newsDetailsSwiperImg} src={'/news-slide1.png'} width={900} height={490}></Image>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <Image className={styles.newsDetailsSwiperImg} src={'/news-slide2.png'} width={900} height={490}></Image>
-                                    </SwiperSlide>
-                                </Swiper>
-                                <button className={styles.newsDetailsSliderNextBtn}>
-                                    <Image src={'/nextBtn.svg'} width={24} height={24}></Image>
-                                </button>
+                                {isSliderMobile ? (
+                                    <Swiper
+                                        spaceBetween={10}
+                                        slidesPerView={1.1}
+                                        className={styles.newsDetailsSwiper}
+                                        onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex + 1)}
+                                        ref={swiperRef}
+                                    >
+                                        {slides.map((slide, index) => (
+                                            <SwiperSlide key={index}>
+                                                <Image
+                                                    className={styles.newsDetailsSwiperImg}
+                                                    src={slide.src}
+                                                    width={900}
+                                                    height={490}
+                                                    alt={slide.caption}
+                                                />
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
+                                ) : (
+                                    <>
+                                        <button
+                                            className={`${styles.newsDetailsSliderPrevBtn} ${currentSlide === 1 ? styles.disabled : ''}`}
+                                            disabled={currentSlide === 1}
+                                        >
+                                            <Image style={{ transform: 'rotate(180deg)' }} src={'/nextBtn.svg'} width={24} height={24}></Image>
+                                        </button>
+                                        <Swiper
+                                            spaceBetween={20}
+                                            slidesPerView={1}
+                                            modules={[Navigation, Pagination]}
+                                            navigation={{
+                                                prevEl: `.${styles.newsDetailsSliderPrevBtn}`,
+                                                nextEl: `.${styles.newsDetailsSliderNextBtn}`,
+                                            }}
+                                            onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex + 1)}
+                                            className={styles.newsDetailsSwiper}
+                                            ref={swiperRef}
+                                        >
+                                            {slides.map((slide, index) => (
+                                                <SwiperSlide key={index}>
+                                                    <Image
+                                                        className={styles.newsDetailsSwiperImg}
+                                                        src={slide.src}
+                                                        width={900}
+                                                        height={490}
+                                                        alt={slide.caption}
+                                                    />
+                                                </SwiperSlide>
+                                            ))}
+                                        </Swiper>
+                                        <button
+                                            className={`${styles.newsDetailsSliderNextBtn} ${currentSlide === slides.length ? styles.disabled : ''}`}
+                                            disabled={currentSlide === slides.length}
+                                        >
+                                            <Image src={'/nextBtn.svg'} width={24} height={24}></Image>
+                                        </button>
+                                    </>
+                                )}
                             </div>
                             <div className={styles.newsDetailsSwiperInfo}>
-                                <span className={styles.newsDetailsSwiperCount}>1/3</span>
-                                <p className={styles.newsDetailsSwiperText}>Подпись к фотографии (видео)</p>
+                                <span className={styles.newsDetailsSwiperCount}>{currentSlide}/{slides.length}</span>
+                                <p className={styles.newsDetailsSwiperText}>{slides[currentSlide - 1]?.caption}</p>
                             </div>
                         </div>
                         <div className={styles.newsDetailsReasons}>
@@ -257,19 +307,60 @@ export default function NewsDetail({ params }) {
                                     <ul className={styles.newsVideoSocialsList}>
 
                                         <li className={styles.newsVideoSocialsitem}>
-                                            <a href="https://share.com" target="_blank" rel="noopener noreferrer" className={styles.socialIcon}>
-                                                <svg
-                                                    width="20"
-                                                    height="20"
-                                                    viewBox="0 0 20 20"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    className={styles.icon}
-                                                >
-                                                    <path d="M13.9322 1.00019C15.2725 1.01185 16.5546 1.55067 17.5023 2.49957C18.4499 3.44836 18.9881 4.73148 18.9998 6.07318C19.0107 7.33125 18.5583 8.54671 17.7345 9.48901L17.565 9.67355L15.1911 12.0504C14.6729 12.5693 14.0493 12.9704 13.3627 13.2269C12.676 13.4833 11.942 13.5893 11.2109 13.5369C10.4799 13.4844 9.76858 13.2751 9.12545 12.9233C8.56267 12.6154 8.06385 12.2043 7.65375 11.7127L7.48326 11.4977L7.41599 11.3971C7.10805 10.8841 7.23208 10.2106 7.72102 9.84425C8.20995 9.47806 8.89033 9.54876 9.29502 9.98911L9.37243 10.0823L9.46366 10.1986C9.68453 10.4634 9.95396 10.6842 10.2571 10.85C10.6034 11.0394 10.986 11.1521 11.3796 11.1803C11.7731 11.2085 12.1683 11.1522 12.5379 11.0142C12.9077 10.8761 13.244 10.6598 13.5231 10.3803L15.8675 8.03299C16.3688 7.51331 16.6469 6.81687 16.6407 6.0944C16.6344 5.37188 16.3446 4.6806 15.8343 4.16966C15.324 3.65871 14.6336 3.36858 13.912 3.3623C13.1934 3.35607 12.5006 3.63112 11.9822 4.12906L10.6359 5.47066L10.5456 5.55094C10.0812 5.92786 9.39845 5.89875 8.96787 5.46512C8.50856 5.00255 8.51048 4.25492 8.97248 3.79504L10.3253 2.44883L10.3373 2.43683L10.5216 2.26705C11.4626 1.44229 12.6759 0.989343 13.9322 1.00019Z" fill="currentColor" />
-                                                    <path d="M8.78817 6.46311C9.51926 6.51554 10.2313 6.72484 10.8745 7.07671C11.4373 7.3846 11.9362 7.79573 12.3463 8.28729L12.5167 8.50228L12.584 8.60285C12.8919 9.11588 12.7678 9.78942 12.279 10.1558C11.7901 10.5219 11.1097 10.4512 10.705 10.0109L10.6276 9.91769L10.5354 9.80143C10.3146 9.5368 10.0459 9.31576 9.74289 9.15001C9.39666 8.96062 9.01396 8.84796 8.62045 8.81968C8.22678 8.79146 7.83093 8.84766 7.46114 8.98577C7.13756 9.10666 6.84009 9.28762 6.58383 9.51817L6.47693 9.61966L4.12515 11.9735C3.62782 12.4924 3.35317 13.1862 3.35935 13.9056C3.36562 14.6282 3.65539 15.3194 4.1657 15.8303C4.67601 16.3413 5.36639 16.6314 6.08804 16.6377C6.80657 16.6439 7.49851 16.368 8.01684 15.87L9.354 14.5321L9.44339 14.4509C9.90668 14.0726 10.5901 14.0997 11.022 14.5321C11.4826 14.9933 11.4826 15.741 11.022 16.2022L9.66272 17.5632C8.69868 18.4954 7.40706 19.0115 6.06685 18.9998C4.72678 18.988 3.44532 18.4492 2.4977 17.5004C1.55009 16.5516 1.01195 15.2686 1.00019 13.9268C0.988547 12.5849 1.50394 11.2917 2.43504 10.3264L4.80802 7.94958L5.00799 7.76043C5.4838 7.33256 6.03655 6.99751 6.63728 6.77314C7.32382 6.51676 8.0573 6.41077 8.78817 6.46311Z" fill="currentColor" />
-                                                </svg>
-                                            </a>
+                                            <motion.a
+                                                href="#"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleCopy();
+                                                }}
+                                                className={styles.socialIcon}
+                                                animate={{
+                                                    width: isCopied ? 157 : 44, // Расширение до 157px при копировании
+                                                }}
+                                                transition={{ duration: 0.2, ease: 'easeInOut' }} // Ускоренная анимация без задержки
+                                            >
+                                                <AnimatePresence mode="wait">
+                                                    {isCopied ? (
+                                                        <motion.div
+                                                            key="copied"
+                                                            className={styles.copiedContainer}
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            exit={{ opacity: 0 }}
+                                                            transition={{ duration: 0.2, ease: 'easeInOut' }}
+                                                        >
+                                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M15 6.1875L5.375 15.8125L1 11.4375" stroke="#159F4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                            </svg>
+
+                                                            <span className={styles.copiedText}>Скопировано</span>
+                                                        </motion.div>
+                                                    ) : (
+                                                        <motion.svg
+                                                            key="share"
+                                                            width="20"
+                                                            height="20"
+                                                            viewBox="0 0 20 20"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            className={styles.icon}
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            exit={{ opacity: 0 }}
+                                                            transition={{ duration: 0.2, ease: 'easeInOut' }}
+                                                        >
+                                                            <path
+                                                                d="M13.9322 1.00019C15.2725 1.01185 16.5546 1.55067 17.5023 2.49957C18.4499 3.44836 18.9881 4.73148 18.9998 6.07318C19.0107 7.33125 18.5583 8.54671 17.7345 9.48901L17.565 9.67355L15.1911 12.0504C14.6729 12.5693 14.0493 12.9704 13.3627 13.2269C12.676 13.4833 11.942 13.5893 11.2109 13.5369C10.4799 13.4844 9.76858 13.2751 9.12545 12.9233C8.56267 12.6154 8.06385 12.2043 7.65375 11.7127L7.48326 11.4977L7.41599 11.3971C7.10805 10.8841 7.23208 10.2106 7.72102 9.84425C8.20995 9.47806 8.89033 9.54876 9.29502 9.98911L9.37243 10.0823L9.46366 10.1986C9.68453 10.4634 9.95396 10.6842 10.2571 10.85C10.6034 11.0394 10.986 11.1521 11.3796 11.1803C11.7731 11.2085 12.1683 11.1522 12.5379 11.0142C12.9077 10.8761 13.244 10.6598 13.5231 10.3803L15.8675 8.03299C16.3688 7.51331 16.6469 6.81687 16.6407 6.0944C16.6344 5.37188 16.3446 4.6806 15.8343 4.16966C15.324 3.65871 14.6336 3.36858 13.912 3.3623C13.1934 3.35607 12.5006 3.63112 11.9822 4.12906L10.6359 5.47066L10.5456 5.55094C10.0812 5.92786 9.39845 5.89875 8.96787 5.46512C8.50856 5.00255 8.51048 4.25492 8.97248 3.79504L10.3253 2.44883L10.3373 2.43683L10.5216 2.26705C11.4626 1.44229 12.6759 0.989343 13.9322 1.00019Z"
+                                                                fill="currentColor"
+                                                            />
+                                                            <path
+                                                                d="M8.78817 6.46311C9.51926 6.51554 10.2313 6.72484 10.8745 7.07671C11.4373 7.3846 11.9362 7.79573 12.3463 8.28729L12.5167 8.50228L12.584 8.60285C12.8919 9.11588 12.7678 9.78942 12.279 10.1558C11.7901 10.5219 11.1097 10.4512 10.705 10.0109L10.6276 9.91769L10.5354 9.80143C10.3146 9.5368 10.0459 9.31576 9.74289 9.15001C9.39666 8.96062 9.01396 8.84796 8.62045 8.81968C8.22678 8.79146 7.83093 8.84766 7.46114 8.98577C7.13756 9.10666 6.84009 9.28762 6.58383 9.51817L6.47693 9.61966L4.12515 11.9735C3.62782 12.4924 3.35317 13.1862 3.35935 13.9056C3.36562 14.6282 3.65539 15.3194 4.1657 15.8303C4.67601 16.3413 5.36639 16.6314 6.08804 16.6377C6.80657 16.6439 7.49851 16.368 8.01684 15.87L9.354 14.5321L9.44339 14.4509C9.90668 14.0726 10.5901 14.0997 11.022 14.5321C11.4826 14.9933 11.4826 15.741 11.022 16.2022L9.66272 17.5632C8.69868 18.4954 7.40706 19.0115 6.06685 18.9998C4.72678 18.988 3.44532 18.4492 2.4977 17.5004C1.55009 16.5516 1.01195 15.2686 1.00019 13.9268C0.988547 12.5849 1.50394 11.2917 2.43504 10.3264L4.80802 7.94958L5.00799 7.76043C5.4838 7.33256 6.03655 6.99751 6.63728 6.77314C7.32382 6.51676 8.0573 6.41077 8.78817 6.46311Z"
+                                                                fill="currentColor"
+                                                            />
+                                                        </motion.svg>
+                                                    )}
+                                                </AnimatePresence>
+                                            </motion.a>
                                         </li>
 
                                         <li className={styles.newsVideoSocialsitem}>
@@ -390,7 +481,7 @@ export default function NewsDetail({ params }) {
                                 className={styles.newsSwiper}
                                 breakpoints={{
                                     300: {
-                                        slidesPerView: 1, // 2 слайда на экранах ≥ 768px
+                                        slidesPerView: 1.1, // 2 слайда на экранах ≥ 768px
                                         spaceBetween: 20,
                                     },
                                     768: {
