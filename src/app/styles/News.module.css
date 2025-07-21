@@ -14,8 +14,6 @@
     margin-bottom: 60px;
 }
 
-@media (max-width: 1919px) {}
-
 @media (max-width: 1439px) {
 
     .clientsHeaderHeading {
@@ -230,8 +228,6 @@
     }
 
     .newsHeaderInfo {
-        font-size: 36px;
-        line-height: 46px;
         max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
     }
 
@@ -248,8 +244,8 @@
     }
 
     .newsHeaderInfo {
-        font-size: 30px;
-        line-height: 40px;
+        font-size: 36px;
+        line-height: 46px;
         max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
     }
 
@@ -299,6 +295,8 @@
     }
 
     .newsHeaderInfo {
+        font-size: 30px;
+        line-height: 40px;
         max-width: 100%;
         margin-bottom: 50px;
     }

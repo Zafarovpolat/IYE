@@ -1114,13 +1114,18 @@
     }
 
     .packInfo {
-        font-size: 36px;
-        line-height: 46px;
+
         margin-bottom: 60px;
     }
 }
 
 @media (max-width: 1439px) {
+
+    .packInfo {
+        font-size: 36px;
+        line-height: 46px;
+    }
+
     .packInfoBar3 {
         right: 60px;
     }

@@ -395,14 +395,11 @@ export default function Vacancies() {
                                 </motion.div>
                             </>
                         ) : (
-                            <Swiper spaceBetween={10} slidesPerView={1} className={styles.qualitySwiper}>
+                            <Swiper spaceBetween={10} slidesPerView={1.1} className={styles.qualitySwiper}>
                                 <SwiperSlide>
                                     <motion.div
                                         className={styles.qualityCard}
-                                        initial={{ y: 170 }}
-                                        whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                        viewport={{ once: true }}
+
                                     >
                                         <div className={styles.qualityCardUp}>
                                             <p className={styles.qualityText}>Стабильность и уверенность</p>
@@ -422,10 +419,7 @@ export default function Vacancies() {
                                 <SwiperSlide>
                                     <motion.div
                                         className={styles.qualityCard}
-                                        initial={{ y: 170 }}
-                                        whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                        viewport={{ once: true }}
+
                                     >
                                         <div className={styles.qualityCardUp}>
                                             <p className={styles.qualityText}>Карьерный рост и развитие</p>
@@ -445,10 +439,7 @@ export default function Vacancies() {
                                 <SwiperSlide>
                                     <motion.div
                                         className={styles.qualityCard}
-                                        initial={{ y: 170 }}
-                                        whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                        viewport={{ once: true }}
+
                                     >
                                         <div className={styles.qualityCardUp}>
                                             <p className={styles.qualityText}>Современное производство</p>
@@ -468,10 +459,7 @@ export default function Vacancies() {
                                 <SwiperSlide>
                                     <motion.div
                                         className={styles.qualityCard}
-                                        initial={{ y: 170 }}
-                                        whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                        viewport={{ once: true }}
+
                                     >
                                         <div className={styles.qualityCardUp}>
                                             <p className={styles.qualityText}>Дружная команда</p>
@@ -491,10 +479,7 @@ export default function Vacancies() {
                                 <SwiperSlide>
                                     <motion.div
                                         className={styles.qualityCard}
-                                        initial={{ y: 170 }}
-                                        whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                        viewport={{ once: true }}
+
                                     >
                                         <div className={styles.qualityCardUp}>
                                             <p className={styles.qualityText}>Гордость за продукт</p>
@@ -514,10 +499,7 @@ export default function Vacancies() {
                                 <SwiperSlide>
                                     <motion.div
                                         className={styles.qualityCard}
-                                        initial={{ y: 170 }}
-                                        whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                        viewport={{ once: true }}
+
                                     >
                                         <div className={styles.qualityCardUp}>
                                             <p className={styles.qualityText}>Сильный бренд и перспективы</p>

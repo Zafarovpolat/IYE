@@ -556,14 +556,11 @@ export default function About() {
                                             </motion.div>
                                         </>
                                     ) : (
-                                        <Swiper spaceBetween={10} slidesPerView={1} className={styles.qualitySwiper}>
+                                        <Swiper spaceBetween={10} slidesPerView={1.1} className={styles.qualitySwiper}>
                                             <SwiperSlide>
                                                 <motion.div
                                                     className={styles.qualityCard}
-                                                    initial={{ y: 170 }}
-                                                    whileInView={{ y: 0 }}
-                                                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                                    viewport={{ once: true }}
+
                                                 >
                                                     <div className={styles.qualityCardUp}>
                                                         <p className={styles.qualityText}>Широкий ассортимент</p>
@@ -584,10 +581,7 @@ export default function About() {
                                                 <motion.div
                                                     className={`${styles.qualityCard} ${styles.qualityCardGreen}`}
                                                     style={{ backgroundColor: '#159F4A' }}
-                                                    initial={{ y: 170 }}
-                                                    whileInView={{ y: 0 }}
-                                                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                                    viewport={{ once: true }}
+
                                                 >
                                                     <div className={styles.qualityCardUp}>
                                                         <p className={styles.qualityText}>Гибкие условия сотрудничества</p>
@@ -608,10 +602,7 @@ export default function About() {
                                                 <motion.div
                                                     className={`${styles.qualityCard} ${styles.qualityCardGreen}`}
                                                     style={{ backgroundColor: '#159F4A' }}
-                                                    initial={{ y: 170 }}
-                                                    whileInView={{ y: 0 }}
-                                                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                                    viewport={{ once: true }}
+
                                                 >
                                                     <div className={styles.qualityCardUp}>
                                                         <p className={styles.qualityText}>Гарантию качества</p>
@@ -631,10 +622,7 @@ export default function About() {
                                             <SwiperSlide>
                                                 <motion.div
                                                     className={styles.qualityCard}
-                                                    initial={{ y: 170 }}
-                                                    whileInView={{ y: 0 }}
-                                                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                                    viewport={{ once: true }}
+
                                                 >
                                                     <div className={styles.qualityCardUp}>
                                                         <p className={styles.qualityText}>Надёжность поставок</p>

@@ -679,7 +679,7 @@ export default function Home() {
                                             />
                                         </div>
                                         <p className={styles.qualityDescription}>
-                                            Мы используем только проверенные ингредиенты, чтобы гарантировать высочайшее качество продукции. Мы
+                                            Мы
                                             используем только качественные и проверенные ингредиенты, соответствующие строгим стандартам
                                             безопасности. Каждая партия сырья проходит лабораторные тесты на соответствие нормам, что гарантирует
                                             натуральность, свежесть и безопасность нашей продукции.
@@ -795,14 +795,10 @@ export default function Home() {
                                     </motion.div>
                                 </>
                             ) : (
-                                <Swiper spaceBetween={10} slidesPerView={1} className={styles.qualitySwiper}>
+                                <Swiper spaceBetween={10} slidesPerView={1.1} className={styles.qualitySwiper}>
                                     <SwiperSlide>
                                         <motion.div
                                             className={styles.qualityCard}
-                                            initial={{ y: 170 }}
-                                            whileInView={{ y: 0 }}
-                                            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                            viewport={{ once: true }}
                                         >
                                             <div className={styles.qualityCardUp}>
                                                 <p className={styles.qualityText}>Тщательный отбор сырья</p>
@@ -815,20 +811,13 @@ export default function Home() {
                                                 />
                                             </div>
                                             <p className={styles.qualityDescription}>
-                                                Мы используем только проверенные ингредиенты, чтобы гарантировать высочайшее качество продукции. Мы
-                                                используем только качественные и проверенные ингредиенты, соответствующие строгим стандартам
-                                                безопасности. Каждая партия сырья проходит лабораторные тесты на соответствие нормам, что гарантирует
-                                                натуральность, свежесть и безопасность нашей продукции.
+                                                Мы используем только качественные и проверенные ингредиенты, соответствующие строгим стандартам безопасности. Каждая партия сырья проходит лабораторные тесты на соответствие нормам, что гарантирует натуральность, свежесть и безопасность нашей продукции
                                             </p>
                                         </motion.div>
                                     </SwiperSlide>
                                     <SwiperSlide>
                                         <motion.div
                                             className={styles.qualityCard}
-                                            initial={{ y: 170 }}
-                                            whileInView={{ y: 0 }}
-                                            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                            viewport={{ once: true }}
                                         >
                                             <div className={styles.qualityCardUp}>
                                                 <p className={styles.qualityText}>Строгий контроль поставщиков</p>
@@ -841,19 +830,13 @@ export default function Home() {
                                                 />
                                             </div>
                                             <p className={styles.qualityDescription}>
-                                                Мы работаем только с проверенными и сертифицированными поставщиками, чья продукция соответствует
-                                                международным стандартам. Каждый поставщик проходит аудит, а сырьё — дополнительное тестирование перед
-                                                поступлением на производство.
+                                                Мы работаем только с проверенными и сертифицированными поставщиками, чья продукция соответствует международным стандартам. Каждый поставщик проходит аудит, а сырьё — дополнительное тестирование перед поступлением на производство
                                             </p>
                                         </motion.div>
                                     </SwiperSlide>
                                     <SwiperSlide>
                                         <motion.div
                                             className={`${styles.qualityCard} ${styles.qualityCardDark}`}
-                                            initial={{ y: 170 }}
-                                            whileInView={{ y: 0 }}
-                                            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                            viewport={{ once: true }}
                                         >
                                             <div className={styles.qualityCardUp}>
                                                 <p className={styles.qualityText}>Современное оборудование</p>
@@ -866,9 +849,7 @@ export default function Home() {
                                                 />
                                             </div>
                                             <p className={styles.qualityDescription}>
-                                                Производственные линии оснащены современным оборудованием для стабильного качества и скорости
-                                                производства. Металлодетекторы исключают посторонние включения, а автоматизированные системы и
-                                                лабораторные тесты гарантируют безопасность продукции.
+                                                Производственные линии оснащены современным оборудованием для стабильного качества и скорости производства. Металлодетекторы исключают посторонние включения, а автоматизированные системы и лабораторные тесты гарантируют безопасность продукции
                                             </p>
                                         </motion.div>
                                     </SwiperSlide>
@@ -876,10 +857,6 @@ export default function Home() {
                                         <motion.div
                                             className={`${styles.qualityCard} ${styles.qualityCardDark}`}
 
-                                            initial={{ y: 170 }}
-                                            whileInView={{ y: 0 }}
-                                            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                            viewport={{ once: true }}
                                         >
                                             <div className={styles.qualityCardUp}>
                                                 <p className={styles.qualityText}>Профессиональная команда</p>
@@ -892,19 +869,13 @@ export default function Home() {
                                                 />
                                             </div>
                                             <p className={styles.qualityDescription}>
-                                                В нашем штате — опытные технологи, инженеры и эксперты по качеству, которые следят за каждым этапом
-                                                производства. Мы постоянно обучаем сотрудников, внедряем передовые методики и следуем лучшим практикам
-                                                отрасли.
+                                                В нашем штате — опытные технологи, инженеры и эксперты по качеству, которые следят за каждым этапом производства. Мы постоянно обучаем сотрудников, внедряем передовые методики и следуем лучшим практикам отрасли
                                             </p>
                                         </motion.div>
                                     </SwiperSlide>
                                     <SwiperSlide>
                                         <motion.div
                                             className={styles.qualityCard}
-                                            initial={{ y: 170 }}
-                                            whileInView={{ y: 0 }}
-                                            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                            viewport={{ once: true }}
                                         >
                                             <div className={styles.qualityCardUp}>
                                                 <p className={styles.qualityText}>Уникальная система контроля качества на всех этапах производства</p>
@@ -917,27 +888,20 @@ export default function Home() {
                                                 />
                                             </div>
                                             <p className={styles.qualityDescription}>
-                                                Наша продукция проходит многоуровневый контроль: от проверки сырья до финального тестирования. Это
-                                                гарантирует стабильное качество и безопасность.
+                                                Наша продукция проходит многоуровневый контроль: от проверки сырья до финального тестирования. Это гарантирует стабильное качество и безопасность
                                             </p>
                                         </motion.div>
                                     </SwiperSlide>
                                     <SwiperSlide>
                                         <motion.div
                                             className={styles.qualityCard}
-                                            initial={{ y: 170 }}
-                                            whileInView={{ y: 0 }}
-                                            transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                            viewport={{ once: true }}
                                         >
                                             <div className={styles.qualityCardUp}>
                                                 <p className={styles.qualityText}>Собственный автопарк</p>
                                                 <Image src="/van.svg" alt="Собственный автопарк" width={50} height={50} className={styles.qualityIcon} />
                                             </div>
                                             <p className={styles.qualityDescription}>
-                                                Мы обеспечиваем быструю и безопасную доставку продукции за счёт собственной логистики. Ежедневно наши
-                                                автомобили отправляются к нашим клиентам, поддерживая точные сроки поставок и оптимальные условия
-                                                хранения во время транспортировки.
+                                                Мы обеспечиваем быструю и безопасную доставку продукции за счёт собственной логистики. Ежедневно наши автомобили отправляются к нашим клиентам, поддерживая точные сроки поставок и оптимальные условия хранения во время транспортировки
                                             </p>
                                         </motion.div>
                                     </SwiperSlide>
@@ -961,13 +925,13 @@ export default function Home() {
                         <div className={styles.productsCardsContainer}>
                             <Swiper
                                 spaceBetween={20}
-                                slidesPerView={4}
+                                slidesPerView={'auto'}
                                 className={styles.productsSwiper}
-                                breakpoints={{ 1440: { slidesPerView: 4 }, 1280: { slidesPerView: 3 }, 640: { slidesPerView: 2 }, 360: { slidesPerView: 1 } }}
+                                breakpoints={{ 1440: { slidesPerView: 'auto' }, 1280: { slidesPerView: 'auto' }, 640: { slidesPerView: 'auto' }, 360: { slidesPerView: '1.05' } }}
                                 ref={swiperRef}
                                 onSlideChange={(swiper) => setSwiperIndex(swiper.activeIndex)}
                             >
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.productCardSwiperSlide}>
                                     <div className={styles.productCard}>
                                         <div className={styles.productCardUp}>
                                             <p className={styles.productTitle}>Сэндвичи</p>
@@ -976,7 +940,7 @@ export default function Home() {
                                         <Image src='/sandwich.png' quality={100} alt='Сэндвич' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.productCardSwiperSlide}>
                                     <div className={styles.productCard}>
                                         <div className={styles.productCardUp}>
                                             <p className={styles.productTitle}>Блины</p>
@@ -985,7 +949,7 @@ export default function Home() {
                                         <Image src='/blini.png' alt='Блины' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.productCardSwiperSlide}>
                                     <div className={styles.productCard}>
                                         <div className={styles.productCardUp}>
                                             <p className={styles.productTitle}>Пироги</p>
@@ -994,7 +958,7 @@ export default function Home() {
                                         <Image src='/pirogi.png' alt='Пироги' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.productCardSwiperSlide}>
                                     <div className={styles.productCard}>
                                         <div className={styles.productCardUp}>
                                             <p className={styles.productTitle}>Слоёные изделия</p>
@@ -1003,7 +967,7 @@ export default function Home() {
                                         <Image src='/soleniye.png' alt='Слоёные изделия' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.productCardSwiperSlide}>
                                     <div className={styles.productCard}>
                                         <div className={styles.productCardUp}>
                                             <p className={styles.productTitle}>Изделия из песочного теста</p>
@@ -1012,7 +976,7 @@ export default function Home() {
                                         <Image src='/pesochnoye.png' alt='Песочные изделия' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.productCardSwiperSlide}>
                                     <div className={styles.productCard}>
                                         <div className={styles.productCardUp}>
                                             <p className={styles.productTitle}>Торты</p>
@@ -1021,7 +985,7 @@ export default function Home() {
                                         <Image src='/torti.png' alt='Торты' width={484} height={440} className={styles.productImage} />
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.productCardSwiperSlide}>
                                     <div className={styles.productCard}>
                                         <div className={styles.productCardUp}>
                                             <p className={styles.productTitle}>Пирожные</p>
@@ -1130,8 +1094,8 @@ export default function Home() {
                                     className={styles.newsSwiper}
                                     breakpoints={{
                                         768: { slidesPerView: 2 },
-                                        767: { slidesPerView: 1 },
-                                        360: { slidesPerView: 1 },
+                                        767: { slidesPerView: 1.1, spaceBetween: 10 },
+                                        360: { slidesPerView: 1.1, spaceBetween: 10 },
                                     }}
                                 >
                                     <SwiperSlide>

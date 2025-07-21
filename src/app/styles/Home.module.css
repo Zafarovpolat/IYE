@@ -598,16 +598,14 @@
 
 @media (max-width: 1919px) and (min-width: 1440px) {
     .clientsHeaderInfo {
-        font-size: 36px;
-        line-height: 46px;
         max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
     }
 }
 
 @media (max-width: 1439px) and (min-width: 1000px) {
     .clientsHeaderInfo {
-        font-size: 30px;
-        line-height: 40px;
+        font-size: 36px;
+        line-height: 46px;
         max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
     }
 
@@ -642,8 +640,8 @@
     }
 
     .clientsHeaderInfo {
-        font-size: 24px;
-        line-height: 34px;
+        font-size: 30px;
+        line-height: 40px;
         max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
     }
 
@@ -753,10 +751,10 @@
 }
 
 .qualityHeaderBottomBlock {
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    gap: 414px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
 }
 
 .qualityHeaderTitle {
@@ -769,6 +767,7 @@
     border-bottom: 1px solid #FFFFFF;
     max-width: fit-content;
     white-space: nowrap;
+    height: fit-content;
 }
 
 .qualityHeaderInfo {
@@ -779,6 +778,7 @@
     letter-spacing: 0%;
     max-width: 955px;
     color: #FFFFFF;
+    grid-column: 2 / 4;
 }
 
 .qualityCardsContainer {
@@ -848,12 +848,18 @@
 }
 
 @media (max-width: 1920px) {
-    .qualityHeaderBottomBlock {
-        gap: 254px;
-    }
 
     .qualityCardsContainer {
+        grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
+    }
+
+    .qualityCard {
+        width: 100%;
+    }
+
+    .qualityCardUp {
+        gap: 10px;
     }
 }
 
@@ -875,8 +881,9 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
-        gap: 0;
+        gap: 20px;
     }
 
     .qualityHeaderTitle {
@@ -919,6 +926,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
@@ -937,6 +945,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
@@ -960,7 +969,7 @@
     .qualityCard {
         padding: 20px;
         height: 100%;
-        min-height: clamp(200px, 280px, 340px);
+        min-height: clamp(200px, 280px, 390px);
     }
 
     .qualityText {
@@ -983,6 +992,13 @@
 
     .qualityCardDark {
         background-color: #084927;
+        border: 1px solid #159F4A;
+    }
+}
+
+@media (max-width: 400px) {
+    .qualityCard {
+        min-height: 320px;
     }
 }
 
@@ -1036,14 +1052,23 @@
     padding: 0;
 }
 
+.productCardSwiperSlide {
+    width: 484px !important;
+    /* Фиксированная ширина */
+    height: 600px;
+    /* Фиксированная высота */
+}
+
 /* Карточка с фиксированной шириной */
 .productCard {
     background: #F1F3F5;
     border-radius: 20px;
     height: 600px;
+    width: 484px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
 }
 
 .productCardUp {
@@ -1098,8 +1123,6 @@
 /* Для разрешений от 1440px до 1919px */
 @media (max-width: 1919px) and (min-width: 1440px) {
     .productsHeaderInfo {
-        font-size: 36px;
-        line-height: 46px;
         max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
     }
 
@@ -1111,8 +1134,9 @@
 /* Для разрешений от 1000px до 1439px */
 @media (max-width: 1439px) and (min-width: 1000px) {
     .productsHeaderInfo {
-        font-size: 30px;
-        line-height: 40px;
+        font-size: 36px;
+        line-height: 46px;
+
         max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
     }
 
@@ -1129,15 +1153,24 @@
     }
 
     .productCard {
+        width: 410px;
         height: 530px;
+    }
+
+    .productCardSwiperSlide {
+        width: 410px !important;
+        /* Фиксированная ширина */
+        height: 530px;
+        /* Фиксированная высота */
     }
 }
 
 /* Для разрешений от 768px до 999px */
 @media (max-width: 999px) and (min-width: 768px) {
     .productsHeaderInfo {
-        font-size: 24px;
-        line-height: 34px;
+        font-size: 30px;
+        line-height: 40px;
+        ;
         max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
     }
 
@@ -1152,7 +1185,15 @@
     }
 
     .productCard {
+        width: 410px;
         height: 530px;
+    }
+
+    .productCardSwiperSlide {
+        width: 410px !important;
+        /* Фиксированная ширина */
+        height: 530px;
+        /* Фиксированная высота */
     }
 
     .productTitle {
@@ -1223,7 +1264,15 @@
     }
 
     .productCard {
-        height: 430px;
+        width: 100%;
+        height: 400px;
+    }
+
+    .productCardSwiperSlide {
+        width: 95% !important;
+        /* Фиксированная ширина */
+        height: 400px;
+        /* Фиксированная высота */
     }
 }
 
@@ -1390,8 +1439,7 @@
 
 @media (max-width: 1919px) and (min-width: 1440px) {
     .productionHeaderInfo {
-        font-size: 36px;
-        line-height: 46px;
+
         max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
     }
 
@@ -1402,8 +1450,9 @@
 
 @media (max-width: 1439px) and (min-width: 1000px) {
     .productionHeaderInfo {
-        font-size: 30px;
-        line-height: 40px;
+        font-size: 36px;
+        line-height: 46px;
+
         max-width: calc(700px + (939 - 700) * (100vw - 1000px) / (1439 - 1000));
     }
 
@@ -1420,8 +1469,9 @@
 
 @media (max-width: 999px) and (min-width: 768px) {
     .productionHeaderInfo {
-        font-size: 24px;
-        line-height: 34px;
+        font-size: 30px;
+        line-height: 40px;
+
         max-width: calc(500px + (669 - 500) * (100vw - 768px) / (999 - 768));
     }
 

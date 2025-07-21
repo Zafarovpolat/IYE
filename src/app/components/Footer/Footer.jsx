@@ -83,7 +83,7 @@ export default function Footer() {
                     viewport={{ once: true }}
                 >
                     <Image
-                        src="/hero-text.svg"
+                        src="/footer-text.svg"
                         alt="Идеология Еды"
                         width={1200}
                         height={200}
@@ -97,7 +97,7 @@ export default function Footer() {
                     className={styles.legal}
                     initial={{ y: 197, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                    transition={{ duration: 1, ease: [0.4, 0, 0.2, 1], }}
                     style={{ display: 'flex' }} // Явное указание стиля для отображения
                 >
                     <p className={styles.copyright}>© 2025 Идеология Еды</p>
