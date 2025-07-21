@@ -55,158 +55,109 @@ export default function Production() {
         const header = document.querySelector('header') || document.querySelector('.header');
         const heroElement = document.getElementById('hero');
         const headerHeight = header ? header.offsetHeight - 2 : 0;
-        const heroHeight = window.innerHeight; // 100vh для hero
-        const protrusionFactor = window.innerHeight > 1080 ? 0.15 : window.innerHeight > 768 ? 0.1 : 0.1; // 15% для >1080px, 10% для >768px
-        const calculatedTargetOffset = heroHeight * (1 + protrusionFactor); // Шторка выступает на 10% или 15%
+        const heroHeight = heroElement ? heroElement.offsetHeight : 0;
+        const calculatedTargetOffset = heroHeight - headerHeight;
 
-        targetOffsetRef.current = calculatedTargetOffset;
-
-        // Устанавливаем начальные стили
+        // Важно: Вызываем controls.set() только после того, как все размеры DOM вычислены
+        // и компонент гарантированно доступен для манипуляций framer-motion.
         if (window.scrollY > 0) {
             document.body.style.overflowY = 'auto';
             document.body.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
             document.documentElement.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
             setNegativeMarginBottom(calculatedTargetOffset);
-            yOffset.set(-calculatedTargetOffset); // Начальная позиция шторки внизу
+            currentSectionIndexRef.current = 1;
+            targetOffsetRef.current = calculatedTargetOffset;
+            controls.set({ y: -calculatedTargetOffset });
         } else {
             document.body.style.overflowY = 'hidden';
             document.body.style.height = '100%';
             document.documentElement.style.height = '100%';
-            setNegativeMarginBottom(heroHeight * protrusionFactor); // Выступ на 10% или 15%
-            yOffset.set(-heroHeight * protrusionFactor); // Шторка изначально поднята
+            setNegativeMarginBottom(0);
+            currentSectionIndexRef.current = 0;
+            targetOffsetRef.current = 0;
+            controls.set({ y: 0 });
         }
-    }, [isClient, yOffset]);
+    }, [isClient, controls]);
 
     useEffect(() => {
-        if (!isClient || isMobile) return;
+        if (!isClient) return;
 
-        let accumulatedDelta = 0;
-        let rafId = null;
-        let isWheelHandlerActive = true;
-        let scrollState = 'top';
+        let isAnimating = false;
 
-        const updatePosition = () => {
-            const protrusionFactor = window.innerHeight > 1080 ? 0.15 : window.innerHeight > 768 ? 0.1 : 0.1; // 15% или 10%
-            const maxOffset = -targetOffsetRef.current; // Максимальное смещение вниз
-            const minOffset = -window.innerHeight * protrusionFactor; // Минимальное смещение (выступ)
+        const sectionDurations = {
+            numbers: 1.2,
+        };
 
-            const currentY = yOffset.get();
-            const targetY = Math.max(maxOffset, Math.min(minOffset, currentY + accumulatedDelta));
-            const newY = currentY + (targetY - currentY) * 0.15;
-            yOffset.set(newY);
-
-            // Определяем состояние прокрутки
-            const isNearMaxOffset = Math.abs(newY - maxOffset) < 5;
-            const isNearMinOffset = Math.abs(newY - minOffset) < 5;
-
-            if (isNearMaxOffset && scrollState !== 'bottom') {
-                scrollState = 'bottom';
-                document.body.style.overflowY = 'auto';
-                document.body.style.height = 'auto';
-                document.documentElement.style.height = 'auto';
-                setNegativeMarginBottom(targetOffsetRef.current);
-                if (isWheelHandlerActive) {
-                    console.log('Disabling main wheel handler: switching to browser scroll');
-                    window.removeEventListener('wheel', handleWheel);
-                    isWheelHandlerActive = false;
-                }
-            } else if (isNearMinOffset && scrollState !== 'top') {
-                scrollState = 'top';
-                document.body.style.overflowY = 'hidden';
-                document.body.style.height = '100%';
-                document.documentElement.style.height = '100%';
-                setNegativeMarginBottom(window.innerHeight * protrusionFactor); // Выступ на 10% или 15%
-            } else if (!isNearMaxOffset && !isNearMinOffset) {
-                scrollState = 'moving';
-                document.body.style.overflowY = 'hidden';
-                document.body.style.height = '100%';
-                document.documentElement.style.height = '100%';
-                setNegativeMarginBottom(window.innerHeight * protrusionFactor); // Выступ на 10% или 15%
-            }
-
-            if (accumulatedDelta !== 0) {
-                accumulatedDelta *= 0.95;
-                if (Math.abs(accumulatedDelta) < 0.05) {
-                    accumulatedDelta = 0;
-                    const finalY = isNearMaxOffset ? maxOffset : isNearMinOffset ? minOffset : newY;
-                    animate(yOffset, finalY, {
-                        type: 'spring',
-                        stiffness: 80,
-                        damping: 25,
-                        mass: 1.2,
-                        onUpdate: (latest) => {
-                            yOffset.set(latest);
-                            const isNearMax = Math.abs(latest - maxOffset) < 5;
-                            const isNearMin = Math.abs(latest - minOffset) < 5;
-                            if (isNearMax && scrollState !== 'bottom') {
-                                scrollState = 'bottom';
-                                document.body.style.overflowY = 'auto';
-                                document.body.style.height = 'auto';
-                                document.documentElement.style.height = 'auto';
-                                setNegativeMarginBottom(targetOffsetRef.current);
-                                if (isWheelHandlerActive) {
-                                    console.log('Spring: Disabling main wheel handler');
-                                    window.removeEventListener('wheel', handleWheel);
-                                    isWheelHandlerActive = false;
-                                }
-                            } else if (isNearMin && scrollState !== 'top') {
-                                scrollState = 'top';
-                                document.body.style.overflowY = 'hidden';
-                                document.body.style.height = '100%';
-                                document.documentElement.style.height = '100%';
-                                setNegativeMarginBottom(window.innerHeight * protrusionFactor); // Выступ на 10% или 15%
-                            }
-                        },
-                        onComplete: () => {
-                            console.log(`Spring animation completed: yOffset=${yOffset.get().toFixed(2)}, scrollState=${scrollState}`);
-                        },
-                    });
-                } else {
-                    rafId = requestAnimationFrame(updatePosition);
-                }
-            }
+        const debounce = (func, wait) => {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
         };
 
         const handleWheel = (event) => {
+            if (isAnimating) return;
+
             event.preventDefault();
-            accumulatedDelta -= event.deltaY * 0.3;
-            if (!rafId) {
-                rafId = requestAnimationFrame(updatePosition);
+
+            const delta = event.deltaY;
+            const direction = delta > 0 ? 1 : -1;
+
+            if (currentSectionIndexRef.current === 0 && direction === 1) {
+                isAnimating = true;
+                const sectionElements = ['hero', 'numbers', 'clients', 'quality', 'products', 'production', 'news', 'preFooter', 'footer'].map(id => document.getElementById(id));
+                const header = document.querySelector('header') || document.querySelector('.header');
+                const headerHeight = header ? header.offsetHeight - 2 : 0;
+                const heroHeight = sectionElements[0] ? sectionElements[0].offsetHeight : 0;
+                const targetOffset = heroHeight - headerHeight;
+
+                targetOffsetRef.current = targetOffset;
+
+                controls.start({
+                    y: -targetOffset - deltaY,
+                    transition: {
+                        duration: sectionDurations['numbers'],
+                        ease: [0.4, 0, 0.2, 1],
+                    },
+                }).then(() => {
+                    currentSectionIndexRef.current = 1;
+                    isAnimating = false;
+                    setNegativeMarginBottom(targetOffset);
+                    document.body.style.height = `calc(100% - ${targetOffset}px)`;
+                    document.documentElement.style.height = `calc(100% - ${targetOffset}px)`;
+                    document.body.style.overflowY = 'auto';
+                });
+            } else if (currentSectionIndexRef.current === 1 && direction === -1 && window.scrollY <= 0) {
+                isAnimating = true;
+                controls.start({
+                    y: 0,
+                    transition: {
+                        duration: sectionDurations['numbers'],
+                        ease: [0.4, 0, 0.2, 1],
+                    },
+                }).then(() => {
+                    currentSectionIndexRef.current = 0;
+                    isAnimating = false;
+                    setNegativeMarginBottom(0);
+                    document.body.style.height = '100%';
+                    document.documentElement.style.height = '100%';
+                    document.body.style.overflowY = 'hidden';
+                });
             }
         };
 
-        const handleRestoreWheel = (event) => {
-            const maxOffset = -targetOffsetRef.current;
-            if (
-                !isWheelHandlerActive &&
-                event.deltaY < 0 &&
-                window.scrollY <= 5 &&
-                scrollState === 'bottom'
-            ) {
-                console.log('RestoreWheel: Re-enabling main wheel handler for scrolling up');
-                window.addEventListener('wheel', handleWheel, { passive: false });
-                isWheelHandlerActive = true;
-                accumulatedDelta -= event.deltaY * 0.3;
-                if (!rafId) {
-                    rafId = requestAnimationFrame(updatePosition);
-                }
-            }
-        };
-
-        window.addEventListener('wheel', handleWheel, { passive: false });
-        window.addEventListener('wheel', handleRestoreWheel, { passive: false });
+        const debouncedHandleWheel = debounce(handleWheel, 300);
+        window.addEventListener('wheel', debouncedHandleWheel, { passive: false });
 
         return () => {
-            console.log('Cleanup: Removing both wheel handlers and resetting styles');
-            window.removeEventListener('wheel', handleWheel);
-            window.removeEventListener('wheel', handleRestoreWheel);
-            if (rafId) cancelAnimationFrame(rafId);
+            window.removeEventListener('wheel', debouncedHandleWheel);
             document.body.style.overflow = 'auto';
             document.body.style.height = 'auto';
             document.documentElement.style.height = 'auto';
             setNegativeMarginBottom(0);
         };
-    }, [isClient, isMobile, yOffset]);
+    }, [isClient, controls]);
 
     const handlePlayPause = () => {
         setPlaying(!playing);
@@ -426,7 +377,7 @@ export default function Production() {
                 className={styles.sections}
                 animate={controls}
                 initial={{ y: 0 }}
-                style={{ y: yOffset, backgroundColor: '#fff', marginBottom: `-${negativeMarginBottom + deltaY}px`, zIndex: 3 }}
+                style={{ y: yOffset, backgroundColor: '#fff', marginBottom: `-${negativeMarginBottom + deltaY}px`, zIndex: 3, position: 'relative' }}
             >
 
                 <section id='technology' className={styles.technology}>

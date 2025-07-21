@@ -1,0 +1,351 @@
+.privacy {
+    padding-top: 124px;
+    padding-bottom: 110px;
+}
+
+.privacyWrapper {
+    border-top: 1px solid #2C2C2C;
+    padding-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.privacyRight {
+    max-width: 1100px;
+}
+
+.privacyTitle {
+    font-family: 'Literata';
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    margin-bottom: 60px;
+    color: #2C2C2C;
+}
+
+.privacyText {
+    font-family: 'Literata';
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 10px;
+}
+
+.privacyTextLarge {
+    font-family: 'Literata';
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-top: 20px;
+}
+
+.privacyTextLarge:last-of-type {
+    margin-bottom: 40px;
+}
+
+.privacyTextLarge a {
+    color: #159F4A;
+    text-decoration: underline;
+}
+
+.privacyBoxes {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: #2C2C2C;
+}
+
+.privacyBoxTitle {
+    font-family: 'Literata';
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 20px;
+}
+
+.privacyBoxItem {
+    font-family: 'Literata';
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    margin-bottom: 10px;
+}
+
+.privacyBoxSubtitle {
+    font-family: 'Literata';
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    margin-bottom: 20px;
+}
+
+.privacyBoxSubtitle2 {
+    font-size: 24px;
+    line-height: 32px;
+    font-family: 'Literata';
+    font-weight: 400;
+    letter-spacing: 0%;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.privacyBoxItem:last-of-type {
+    margin-bottom: 0;
+}
+
+.privacyBoxItemList {
+    list-style-position: inside;
+}
+
+.privacyTextBold {
+    font-weight: 600;
+}
+
+.privacyBoxItemBold {
+    font-weight: 500;
+}
+
+@media (max-width: 1439px) {
+    .privacyRight {
+        max-width: 900px;
+    }
+
+    .privacyWrapper {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .privacy {
+        padding-bottom: 90px;
+    }
+
+    .privacyTitle {
+        font-size: 36px;
+        line-height: 46px;
+    }
+}
+
+@media (max-width: 999px) {
+    .privacy {
+        padding-top: 116px;
+    }
+
+    .privacyTitle {
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .privacyText {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .privacyTextLarge {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .privacyBoxTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .privacyBoxItem,
+    .privacyBoxSubtitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .privacyBoxSubtitle2 {
+        font-size: 18px;
+        line-height: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .privacy {
+        padding-top: 96px;
+        padding-bottom: 50px;
+    }
+
+    .privacyWrapper {
+        padding-top: 40px;
+    }
+
+    .privacyTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .privacyBoxTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+}
+
+/* PREFOOTER */
+
+.preFooterWrapper {
+    padding-top: 130px;
+    padding-bottom: 130px;
+    border-top: 1px solid #BBC5D6;
+    border-bottom: 1px solid #BBC5D6;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.preFooterPartnerCard {
+    background: #159F4A;
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+    min-height: 330px;
+}
+
+.preFooterTopText {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #fff;
+    padding-bottom: 8px;
+    border-bottom: 1px solid;
+    width: fit-content;
+    z-index: 1;
+}
+
+.preFooterTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 58px;
+    letter-spacing: 0%;
+    vertical-align: bottom;
+}
+
+.preFooterLink {
+    align-items: end;
+}
+
+.preFooterPhoto {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* Медиа-запросы */
+@media (max-width: 1439px) {
+    .preFooterPhoto {
+        display: none;
+    }
+
+    .preFooterWrapper {
+        grid-template-columns: 1fr;
+        padding-top: 110px;
+        padding-bottom: 110px;
+    }
+
+    .preFooterTitle {
+        font-size: 36px;
+        line-height: 46px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .preFooter {
+        margin-bottom: 70px;
+    }
+
+    .preFooterPhoto {
+        display: flex;
+        height: 100%;
+    }
+
+    .preFooterWrapper {
+        gap: 10px;
+        grid-template-rows: repeat(2, 1fr);
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+
+    .preFooterPartnerCard {
+        min-height: 200px;
+        padding: 20px;
+    }
+
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        width: 40px;
+        height: 40px;
+    }
+
+    .preFooterTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+}
+
+/* CLIENTS (дополнение) */
+.partnerCard {
+    background: #fff;
+    border: 1px solid #BBC5D6;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+}
+
+.partnerLink {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    z-index: 2;
+}
+
+.arrowContainer {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+}
