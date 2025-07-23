@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer/Footer';
 import styles from '../styles/Suppliers.module.css';
-import Button from '../components/Button/Button';
 import Link from 'next/link';
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -28,6 +27,128 @@ export default function Suppliers() {
     const targetOffsetRef = useRef(0);
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
     const [isSuccessModalOpen2, setIsSuccessModalOpen2] = useState(false); // New state for success modal
+    const [focusedInputs, setFocusedInputs] = useState({});
+    const [phoneError, setPhoneError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [inputValues, setInputValues] = useState({
+        name: '',
+        company: '',
+        phone: '',
+        email: ''
+    });
+
+    const handleFocus = (inputName) => {
+        setFocusedInputs(prev => ({ ...prev, [inputName]: true }));
+    };
+
+    const handleBlur = (inputName) => {
+        if (!inputValues[inputName]) {
+            setFocusedInputs(prev => ({ ...prev, [inputName]: false }));
+        }
+
+        if (inputName === 'phone') {
+            validatePhone(inputValues.phone);
+        } else if (inputName === 'email') {
+            validateEmail(inputValues.email);
+        }
+    };
+
+    const formatPhoneNumber = (value) => {
+        // Удаляем все символы кроме цифр
+        const numbers = value.replace(/\D/g, '');
+
+        // Если начинается с 8, заменяем на 7
+        let formattedNumbers = numbers;
+        if (numbers.startsWith('8')) {
+            formattedNumbers = '7' + numbers.slice(1);
+        }
+
+        // Если не начинается с 7, добавляем 7 в начало
+        if (!formattedNumbers.startsWith('7') && formattedNumbers.length > 0) {
+            formattedNumbers = '7' + formattedNumbers;
+        }
+
+        // Ограничиваем до 11 цифр (7 + 10 цифр номера)
+        formattedNumbers = formattedNumbers.slice(0, 11);
+
+        // Применяем маску +7 xxx xxx-xx-xx
+        if (formattedNumbers.length >= 1) {
+            let formatted = '+7';
+
+            if (formattedNumbers.length > 1) {
+                formatted += ' ' + formattedNumbers.slice(1, 4);
+            }
+            if (formattedNumbers.length > 4) {
+                formatted += ' ' + formattedNumbers.slice(4, 7);
+            }
+            if (formattedNumbers.length > 7) {
+                formatted += '-' + formattedNumbers.slice(7, 9);
+            }
+            if (formattedNumbers.length > 9) {
+                formatted += '-' + formattedNumbers.slice(9, 11);
+            }
+
+            return formatted;
+        }
+
+        return value === '' ? '' : '+7 ';
+    };
+
+    const validateEmail = (email) => {
+        if (email === '') {
+            setEmailError('');
+            return true;
+        }
+
+        // Проверяем наличие @ и .
+        const hasAt = email.includes('@');
+        const hasDot = email.includes('.');
+
+        if (!hasAt || !hasDot) {
+            setEmailError('Введите корректный email адрес');
+            return false;
+        }
+
+        // Более точная проверка структуры email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setEmailError('Введите корректный email адрес');
+            return false;
+        }
+
+        setEmailError('');
+        return true;
+    };
+
+    const validatePhone = (phone) => {
+        const numbers = phone.replace(/\D/g, '');
+
+        if (phone === '') {
+            setPhoneError('');
+            return true;
+        }
+
+        if (numbers.length < 11) {
+            setPhoneError('Введите полный номер телефона');
+            return false;
+        }
+
+        setPhoneError('');
+        return true;
+    };
+
+    const handleChange = (inputName, value) => {
+        if (inputName === 'phone') {
+            const formattedPhone = formatPhoneNumber(value);
+            setInputValues(prev => ({ ...prev, [inputName]: formattedPhone }));
+
+            // Валидация в реальном времени
+            validatePhone(formattedPhone);
+        } else {
+            setInputValues(prev => ({ ...prev, [inputName]: value }));
+        }
+    };
+
 
     useEffect(() => {
         setIsClient(true);
@@ -80,6 +201,16 @@ export default function Suppliers() {
         e.preventDefault();
         // Simulate form submission logic (e.g., API call)
         setIsSuccessModalOpen2(true); // Open the success modal
+        const isPhoneValid = validatePhone(inputValues.phone);
+        const isEmailValid = validateEmail(inputValues.email);
+
+        if (!isPhoneValid || !isEmailValid) {
+
+            return;
+        }
+
+        // Здесь ваша логика отправки формы
+        console.log('Form submitted:', inputValues);
     };
 
     const closeSuccessModal2 = () => {
@@ -286,38 +417,91 @@ export default function Suppliers() {
                             </button>
                             <div className={styles.contactForm}>
                                 <div className={styles.contactFormLeft}>
-                                    <h3 className={styles.contactFormTitle}>Хотите стать нашим партнёром?</h3>
+                                    <Image className={styles.contactFormImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
+                                    <h3 className={styles.contactFormTitle}>Хотите стать нашим поставщиком?</h3>
                                     <p className={styles.contactFormInfo}>
-                                        Мы всегда открыты к новым партнёрствам и готовы предложить лучшие условия для вашего бизнеса. Заполните форму и мы свяжемся с вами в ближайшее время
+                                        Мы всегда рады новым надёжным партнёрам и готовы предложить выгодные условия сотрудничества. Заполните форму, и мы свяжемся с вами в ближайшее время
                                     </p>
                                 </div>
                                 <div className={styles.contactFormRight}>
                                     <form onSubmit={handleFormSubmit}>
                                         <div className={styles.contactFormRightUp}>
-                                            <input
-                                                type="text"
-                                                placeholder="Имя и Фамилия"
-                                                className={styles.clientsInput}
-                                                required
-                                            />
-                                            <input
-                                                type="text"
-                                                placeholder="Компания"
-                                                className={styles.clientsInput}
-                                                required
-                                            />
-                                            <input
-                                                type="tel"
-                                                placeholder="Номер телефона"
-                                                className={styles.clientsInput}
-                                                required
-                                            />
-                                            <input
-                                                type="email"
-                                                placeholder="Электронная почта"
-                                                className={styles.clientsInput}
-                                                required
-                                            />
+                                            <div className={styles.inputContainer}>
+                                                <input
+                                                    type="text"
+                                                    className={styles.partnersInput}
+                                                    value={inputValues.name}
+                                                    onFocus={() => handleFocus('name')}
+                                                    onBlur={() => handleBlur('name')}
+                                                    onChange={(e) => handleChange('name', e.target.value)}
+                                                />
+                                                <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
+                                                    Имя и Фамилия
+                                                </label>
+                                            </div>
+
+                                            <div className={styles.inputContainer}>
+                                                <input
+                                                    type="text"
+                                                    className={styles.partnersInput}
+                                                    value={inputValues.company}
+                                                    onFocus={() => handleFocus('company')}
+                                                    onBlur={() => handleBlur('company')}
+                                                    onChange={(e) => handleChange('company', e.target.value)}
+                                                />
+                                                <label className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''}`}>
+                                                    Компания
+                                                </label>
+                                            </div>
+
+                                            <div className={styles.inputContainer}>
+                                                <input
+                                                    type="tel"
+                                                    className={`${styles.partnersInput} ${phoneError ? styles.inputError : ''}`}
+                                                    value={inputValues.phone}
+                                                    onFocus={() => handleFocus('phone')}
+                                                    onBlur={() => handleBlur('phone')}
+                                                    onChange={(e) => handleChange('phone', e.target.value)}
+                                                    placeholder=""
+                                                />
+                                                <label className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}>
+                                                    Номер телефона
+                                                </label>
+                                                {phoneError && (
+                                                    <div className={styles.errorMessage}>
+                                                        {phoneError}
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className={styles.inputContainer}>
+                                                <input
+                                                    type="email"
+                                                    className={`${styles.partnersInput} ${emailError ? styles.inputError : ''}`}
+                                                    value={inputValues.email}
+                                                    onFocus={() => handleFocus('email')}
+                                                    onBlur={() => handleBlur('email')}
+                                                    onChange={(e) => handleChange('email', e.target.value)}
+                                                />
+                                                <label className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}>
+                                                    Электронная почта
+                                                </label>
+                                                {emailError && (
+                                                    <div className={styles.errorMessage}>
+                                                        {emailError}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className={styles.partnersFileBox}>
+                                            <input className={styles.partnersFileInput} type="file" id='partnersFile' />
+                                            <label className={styles.partnersFileLabel} htmlFor="partnersFile">
+                                                <Image src={'/paperclip.svg'} width={24} height={24}></Image>
+                                                <div className={styles.partnersFiletext}>
+                                                    <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
+                                                    <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
+                                                </div>
+                                            </label>
                                         </div>
                                         <div className={styles.contactFormRightBottom}>
                                             <button type="submit" className={styles.contactFormSubmit}>
@@ -342,6 +526,7 @@ export default function Suppliers() {
                                 ✕
                             </button>
                             <div className={styles.successModal}>
+                                <Image className={styles.successModalImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
                                 <div className={styles.successModalInner}>
                                     <Image src={'/email.svg'} width={52} height={52}></Image>
                                     <h3 className={styles.successModalTitle}>Заявка отправлена</h3>
@@ -368,7 +553,7 @@ export default function Suppliers() {
 
                     {isMobile ? (
                         <Swiper
-                            spaceBetween={20}
+                            spaceBetween={10}
                             slidesPerView={1.1}
                             className={styles.foodCards}
                         >
@@ -690,25 +875,91 @@ export default function Suppliers() {
                         {!isSuccessModalOpen2 ? (
                             <form onSubmit={handleFormSubmit2} className={styles.partnersFormRight}>
                                 <div className={styles.partnersFormRightUp}>
-                                    <input type="text" placeholder='Имя и Фамилия' className={styles.partnersInput} />
-                                    <input type="text" placeholder='Компания' className={styles.partnersInput} />
-                                    <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
-                                    <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
+                                    <div className={styles.inputContainer}>
+                                        <input
+                                            type="text"
+                                            className={styles.partnersInput}
+                                            value={inputValues.name}
+                                            onFocus={() => handleFocus('name')}
+                                            onBlur={() => handleBlur('name')}
+                                            onChange={(e) => handleChange('name', e.target.value)}
+                                        />
+                                        <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
+                                            Имя и Фамилия
+                                        </label>
+                                    </div>
+
+                                    <div className={styles.inputContainer}>
+                                        <input
+                                            type="text"
+                                            className={styles.partnersInput}
+                                            value={inputValues.company}
+                                            onFocus={() => handleFocus('company')}
+                                            onBlur={() => handleBlur('company')}
+                                            onChange={(e) => handleChange('company', e.target.value)}
+                                        />
+                                        <label className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''}`}>
+                                            Компания
+                                        </label>
+                                    </div>
+
+                                    <div className={styles.inputContainer}>
+                                        <input
+                                            type="tel"
+                                            className={`${styles.partnersInput} ${phoneError ? styles.inputError : ''}`}
+                                            value={inputValues.phone}
+                                            onFocus={() => handleFocus('phone')}
+                                            onBlur={() => handleBlur('phone')}
+                                            onChange={(e) => handleChange('phone', e.target.value)}
+                                            placeholder=""
+                                        />
+                                        <label className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}>
+                                            Номер телефона
+                                        </label>
+                                        {phoneError && (
+                                            <div className={styles.errorMessage}>
+                                                {phoneError}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className={styles.inputContainer}>
+                                        <input
+                                            type="email"
+                                            className={`${styles.partnersInput} ${emailError ? styles.inputError : ''}`}
+                                            value={inputValues.email}
+                                            onFocus={() => handleFocus('email')}
+                                            onBlur={() => handleBlur('email')}
+                                            onChange={(e) => handleChange('email', e.target.value)}
+                                        />
+                                        <label className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}>
+                                            Электронная почта
+                                        </label>
+                                        {emailError && (
+                                            <div className={styles.errorMessage}>
+                                                {emailError}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
+
                                 <div className={styles.partnersFileBox}>
                                     <input className={styles.partnersFileInput} type="file" id='partnersFile' />
                                     <label className={styles.partnersFileLabel} htmlFor="partnersFile">
-                                        <Image src={'/paperclip.svg'} width={24} height={24}></Image>
+                                        <Image src={'/paperclip.svg'} width={24} height={24} alt="attach" />
                                         <div className={styles.partnersFiletext}>
                                             <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
                                             <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
                                         </div>
                                     </label>
                                 </div>
+
                                 <div className={styles.partnersFormRightBottom}>
                                     <button className={styles.partnersFormSubmit}>Отправить заявку</button>
-                                    <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>
-                                        политикой конфиденциальности</Link></p>
+                                    <p className={styles.partnersPolicy}>
+                                        Нажимая на кнопку, вы соглашаетесь с{' '}
+                                        <Link href={'/'}>политикой конфиденциальности</Link>
+                                    </p>
                                 </div>
                             </form>
                         ) : (
