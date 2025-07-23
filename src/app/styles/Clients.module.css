@@ -1655,6 +1655,10 @@
         padding: 20px;
     }
 
+    .partnersFormLeft {
+        padding: 0 10px;
+    }
+
     .partnersFormRightUp {
         grid-template-columns: 1fr;
 

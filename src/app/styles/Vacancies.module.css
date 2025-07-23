@@ -1,6 +1,7 @@
 .clientsHeader {
     padding: 104px 0 0px;
     overflow-x: hidden;
+    margin-bottom: 130px;
 }
 
 .clientsHeaderHeading {
@@ -20,7 +21,11 @@
     align-items: start;
     padding-bottom: 110px;
     justify-content: space-between;
-    gap: 512px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    border-bottom: 1px solid #BBC5D6;
+
 }
 
 .clientsHeaderTextTitle {
@@ -37,6 +42,7 @@
 
 .clientsHeaderBottomBlock {
     max-width: 1194px;
+    grid-column: 2 / 4;
 }
 
 .clientsHeaderTextInfo {
@@ -87,13 +93,6 @@
     border-radius: 20px;
 }
 
-@media (max-width: 1919px) {
-    .clientsHeaderBottomText {
-        gap: 254px;
-    }
-
-}
-
 @media (max-width: 1439px) {
 
     .clientsHeaderHeading {
@@ -102,8 +101,9 @@
         margin-bottom: 90px;
     }
 
-    .clientsHeader {
-        padding: 64px 0 0px;
+    .cardsSwiperSlide {
+        width: 426px !important;
+        height: 282px !important;
     }
 
     .clientsHeaderBottomBlock {
@@ -112,7 +112,7 @@
 
     .clientsHeaderBottomText {
         margin-top: 90px;
-        padding-bottom: 90px;
+        padding-bottom: 110px;
     }
 
     .clientsHeaderTitle {
@@ -126,13 +126,8 @@
     }
 
     .clientsHeader {
-        padding: 64px 0 30px;
-    }
-
-    .clientsHeaderCardItem,
-    .swiper-slide {
-        min-height: 333px;
-        height: 100%;
+        padding: 104px 0 0px;
+        margin-bottom: 110px;
     }
 
     .cardNumberText {
@@ -151,14 +146,10 @@
         padding: 60px 0 110px;
     }
 
-    .cardImage {
-        max-width: 300px;
-        max-height: 267px;
-    }
-
     .clientsHeaderButton {
         margin-bottom: 90px;
     }
+
 
 }
 
@@ -178,6 +169,8 @@
 
     .clientsHeaderBottomText {
         gap: 20px;
+        display: flex;
+
         flex-direction: column;
     }
 
@@ -202,11 +195,6 @@
         font-size: 56px;
     }
 
-    .cardImage {
-        max-width: 265px;
-        max-height: 236px;
-    }
-
     .cardUnitText {
         font-size: 16px;
         line-height: 22px;
@@ -228,6 +216,7 @@
 
     .clientsHeader {
         padding: 96px 0 0px;
+        margin-bottom: 70px;
     }
 
     .clientsHeaderTextInfo {
@@ -237,7 +226,7 @@
     }
 
     .clientsHeaderBottomText {
-        padding-bottom: 50px;
+        padding-bottom: 70px;
         margin-top: 0;
     }
 
@@ -260,11 +249,6 @@
             "card3";
     }
 
-    .cardImage {
-        max-width: 200px;
-        max-height: 189px;
-    }
-
     .cardNumberText {
         font-size: 50px;
         line-height: 50px;
@@ -276,7 +260,18 @@
 
 
     .cardsSwiperSlide img {
-        height: 192px;
+        height: 198px;
+    }
+
+
+    .cardImage {
+        max-width: 200px;
+        max-height: 189px;
+    }
+
+    .cardsSwiperSlide {
+        width: 90% !important;
+        height: 90% !important;
     }
 }
 
@@ -299,7 +294,9 @@
     display: flex;
     justify-content: start;
     align-items: start;
-    gap: 414px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
 }
 
 .qualityHeaderTitle {
@@ -322,6 +319,7 @@
     letter-spacing: 0%;
     max-width: 955px;
     color: #FFFFFF;
+    grid-column: 2 / 4;
 }
 
 .qualityCardsContainer {
@@ -329,7 +327,6 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 340px);
     gap: 20px;
-    padding-bottom: 130px;
 }
 
 .qualitySwiper {
@@ -391,12 +388,9 @@
 }
 
 @media (max-width: 1920px) {
-    .qualityHeaderBottomBlock {
-        gap: 254px;
-    }
 
     .qualityCardsContainer {
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 340px);
     }
 }
 
@@ -409,7 +403,7 @@
 
     .qualityCardsContainer {
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 340px);
     }
 
     .qualityHeaderInfo {
@@ -418,6 +412,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 0;
     }
@@ -449,7 +444,7 @@
 
     .qualityCardsContainer {
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 340px);
     }
 
     .qualityCardUp {
@@ -463,12 +458,15 @@
     .qualityHeaderBottomBlock {
         flex-direction: column;
         gap: 20px;
+        display: flex;
+
     }
 }
 
 @media (max-width: 767px) {
     .quality {
-        padding-bottom: 110px;
+        padding-top: 50px;
+        padding-bottom: 70px;
     }
 
     .qualityHeaderBlock {
@@ -479,6 +477,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
@@ -533,6 +532,9 @@
     align-items: start;
     justify-content: space-between;
     padding-bottom: 130px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .numbersTitle {
@@ -550,6 +552,7 @@
 
 .numbersRight {
     max-width: 1193px;
+    grid-column: 2 / 4;
 }
 
 .numbersInfo {
@@ -628,12 +631,6 @@
     color: white;
 }
 
-@media (max-width: 1920px) {
-    .numbersWrapper {
-        gap: 491px;
-    }
-}
-
 @media (max-width: 1439px) {
     .numbersRight {
         max-width: 100%;
@@ -645,6 +642,7 @@
         padding-bottom: 110px;
         gap: 0;
         flex-direction: column;
+        display: flex;
     }
 
     .numbersTitle {
@@ -733,11 +731,32 @@
 }
 
 .vacanciesTags {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
     list-style-type: none;
     margin-bottom: 40px;
+    padding: 0;
+    margin-left: 0;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    /* Скрываем скроллбар */
+    -webkit-overflow-scrolling: touch;
+    /* для плавного скролла на iOS */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE и Edge */
+}
+
+/* Скрываем скроллбар в Webkit браузерах */
+.vacanciesTags::-webkit-scrollbar {
+    display: none;
+}
+
+.vacanciesTag {
+    flex-shrink: 0;
+    /* Предотвращает сжатие элементов */
 }
 
 .vacanciesTagBtn {
@@ -750,6 +769,8 @@
     background: #F1F3F5;
     border: none;
     padding: 7px 12px 9px;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 .vacanciesTagBtnActive {
@@ -939,10 +960,15 @@
 
     .vacanciesList {
         margin-bottom: 20px;
+        gap: 10px;
     }
 
     .vacanciesMoreBtn {
         width: 100%;
+    }
+
+    .vacanciesItemLink {
+        align-items: end;
     }
 }
 
@@ -1285,6 +1311,10 @@
         padding: 20px 10px;
     }
 
+    .partnersFormLeft {
+        padding: 0 10px;
+    }
+
     .partnersFormRight {
         padding: 20px;
     }
@@ -1371,6 +1401,7 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 20px;
+    margin-bottom: 130px;
 }
 
 .preFooterPartnerCard {

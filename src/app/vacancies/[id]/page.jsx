@@ -7,7 +7,7 @@ import Footer from '../../components/Footer/Footer';
 import Button from '../../components/Button/Button';
 import styles from '../../styles/VacanciesDetail.module.css';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const vacanciesDataActive = [
     {
@@ -52,11 +52,58 @@ const vacanciesData = [
 export default function VacanciesDetail() {
     const { id } = useParams();
     const [vacancy, setVacancy] = useState(null);
+    const vacancyDetailWrapperRef = useRef(null); // Ссылка на .vacancyDetailWrapper
+    const vacancyDetailRightRef = useRef(null);
 
     useEffect(() => {
         const foundVacancy = vacanciesDataActive.find((v) => v.id === id);
         setVacancy(foundVacancy);
+
     }, [id]);
+
+    useEffect(() => {
+        let timeoutId;
+
+        const debounce = (func, delay) => {
+            return (...args) => {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => func(...args), delay);
+            };
+        };
+
+        const handleScrollAndResize = () => {
+            if (vacancyDetailWrapperRef.current && vacancyDetailRightRef.current) {
+                const button = vacancyDetailRightRef.current;
+                const wrapper = vacancyDetailWrapperRef.current;
+                // Вычисляем исходную позицию кнопки с учётом всех отступов
+                const wrapperRect = wrapper.getBoundingClientRect();
+                const buttonOffsetTop = button.offsetTop; // Отступ кнопки относительно родителя
+                const originalButtonTop = wrapperRect.top + buttonOffsetTop + window.scrollY + 60; // Учитываем padding-bottom 60px
+                const windowBottom = window.scrollY + window.innerHeight;
+
+                // Проверяем, достиг ли нижний край окна исходной позиции кнопки
+                if (windowBottom >= originalButtonTop) {
+                    button.classList.add(styles.static); // Переключаем на position: static
+                } else {
+                    button.classList.remove(styles.static); // Возвращаем position: fixed
+                }
+            }
+        };
+
+        const debouncedHandleScrollAndResize = debounce(handleScrollAndResize, 100);
+
+        window.addEventListener('scroll', debouncedHandleScrollAndResize);
+        window.addEventListener('resize', debouncedHandleScrollAndResize);
+
+        // Вызываем сразу для инициализации
+        handleScrollAndResize();
+
+        return () => {
+            window.removeEventListener('scroll', debouncedHandleScrollAndResize);
+            window.removeEventListener('resize', debouncedHandleScrollAndResize);
+            clearTimeout(timeoutId);
+        };
+    }, []);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -84,9 +131,7 @@ export default function VacanciesDetail() {
         return (
             <div className={`${styles.container} container`}>
                 <h3>Вакансия не найдена</h3>
-                <Link href="/vacancies">
-                    <Button>Вернуться к списку вакансий</Button>
-                </Link>
+                <Button>Вернуться к списку вакансий</Button>
             </div>
         );
     }
@@ -104,7 +149,7 @@ export default function VacanciesDetail() {
                     <p className={styles.vacancyDetailSubTitle}>
                         {`${vacancy.category} • ${vacancy.schedule} • ${vacancy.location}`}
                     </p>
-                    <div className={styles.vacancyDetailWrapper}>
+                    <div className={styles.vacancyDetailWrapper} ref={vacancyDetailWrapperRef}>
                         <div className={styles.vacancyDetailLeft}>
                             <div className={styles.vacancyDetailInfo}>
                                 <h4 className={styles.vacancyDetailInfoTitle}>обязанности</h4>
@@ -140,7 +185,7 @@ export default function VacanciesDetail() {
                                 </ul>
                             </div>
                         </div>
-                        <div className={styles.vacancyDetailRight}>
+                        <div className={styles.vacancyDetailRight} ref={vacancyDetailRightRef}>
                             <button className={styles.vacancyDetailBtn} onClick={toggleModal}>Откликнуться на вакансию</button>
                         </div>
                     </div>

@@ -9,6 +9,8 @@ import Link from 'next/link';
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import { Autoplay } from 'swiper/modules'; // Для автоскролла
+import 'swiper/css/autoplay'; // Стили для автоскролла (если нужны)
 
 export default function Vacancies() {
     const videoRef = useRef(null);
@@ -46,29 +48,6 @@ export default function Vacancies() {
     useEffect(() => {
         setIsClient(true);
     }, []);
-
-    useEffect(() => {
-        if (isClient && mapRef.current) {
-            const script = document.createElement('script');
-            script.src = `https://api-maps.yandex.ru/2.1/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY}&lang=ru_RU`;
-            script.async = true;
-            script.onload = () => {
-                window.ymaps.ready(() => {
-                    const map = new window.ymaps.Map(mapRef.current, {
-                        center: [55.798191, 37.938147],
-                        zoom: 15,
-                    });
-                    const placemark = new window.ymaps.Placemark([55.798191, 37.938147]);
-                    map.geoObjects.add(placemark);
-                });
-            };
-            document.head.appendChild(script);
-
-            return () => {
-                document.head.removeChild(script);
-            };
-        }
-    }, [isClient]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -246,10 +225,15 @@ export default function Vacancies() {
                                 </button>
                                 <div className={styles.cardsContainerBlock}>
                                     <Swiper
+                                        modules={[Autoplay]} // Подключение модуля автоскролла
                                         className={styles.cardsSwiper}
                                         slidesPerView={2}
+                                        autoplay={{
+                                            delay: 3000, // Задержка между слайдами (3 секунды)
+                                            disableOnInteraction: false, // Продолжать автоскролл после взаимодействия пользователя
+                                        }}
                                         spaceBetween={20}
-                                        breakpoints={{ 360: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, }}
+                                        breakpoints={{ 360: { slidesPerView: 1.1 }, 768: { slidesPerView: 'auto' }, 1440: { slidesPerView: 2 }, }}
                                     >
                                         <SwiperSlide className={styles.cardsSwiperSlide}><Image width={586} height={387} src={'/vacancies1.png'}></Image></SwiperSlide>
                                         <SwiperSlide className={styles.cardsSwiperSlide}><Image width={586} height={387} src={'/vacancies2.png'}></Image></SwiperSlide>
@@ -550,7 +534,7 @@ export default function Vacancies() {
                                 <li className={styles.numbersCard}>
                                     <div className={styles.numbersCardUp}>
                                         <h3 className={styles.numbersCardTitle}>5+</h3>
-                                        <span className={styles.numbersCardSubTitle}>лет стабильной работы</span>
+                                        <span className={styles.numbersCardSubTitle}>лет</span>
                                     </div>
 
                                     <p className={styles.numbersCardInfo}>На рынке производства готовой еды</p>
@@ -628,13 +612,13 @@ export default function Vacancies() {
                                         <label className={styles.partnersFileLabel} htmlFor="partnersFile">
                                             <Image src={'/paperclip.svg'} width={24} height={24}></Image>
                                             <div className={styles.partnersFiletext}>
-                                                <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
+                                                <h5 className={styles.partnersFileInputTitle}>Прикрепить резюме</h5>
                                                 <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
                                             </div>
                                         </label>
                                     </div>
                                     <div className={styles.partnersFormRightBottom}>
-                                        <button className={styles.partnersFormSubmit}>Отправить заявку</button>
+                                        <button className={styles.partnersFormSubmit}>Отправить резюме</button>
                                         <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>
                                             политикой конфиденциальности</Link></p>
                                     </div>
@@ -665,9 +649,7 @@ export default function Vacancies() {
             <section id='preFooter' className={styles.preFooter}>
                 <div className={`${styles.container} container`}>
                     <div className={styles.preFooterWrapper}>
-                        {isClient && (
-                            <div ref={mapRef} className={styles.preFooterPhoto} style={{ width: '100%', height: '100%' }} />
-                        )}
+                        <Image width={586} height={400} src="/map.svg" alt="" className={styles.preFooterPhoto} />
                         <motion.div
                             className={`${styles.preFooterCard} ${styles.preFooterPartnerCard}`}
                             onMouseEnter={() => setIsPreFooterHovered(true)}

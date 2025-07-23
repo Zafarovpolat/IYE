@@ -3,10 +3,14 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Footer from '../components/Footer/Footer';
-import Button from '../components/Button/Button';
 import styles from '../styles/News.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+
 
 export default function News() {
     const [isPreFooterHovered, setIsPreFooterHovered] = useState(false);

@@ -1186,6 +1186,10 @@
         padding: 20px 10px;
     }
 
+    .partnersFormLeft {
+        padding: 0 10px;
+    }
+
     .partnersFormRight {
         padding: 20px;
     }

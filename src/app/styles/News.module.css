@@ -23,7 +23,7 @@
     }
 
     .clientsHeader {
-        padding: 64px 0 0px;
+        padding: 104px 0 0px;
     }
 
 
@@ -78,11 +78,38 @@
     margin-bottom: 70px;
 }
 
+.newsHeaderBottomBlock {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .newsTags {
     display: flex;
     gap: 10px;
     list-style-type: none;
-    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    /* Скрываем скроллбар */
+    -webkit-overflow-scrolling: touch;
+    /* для плавного скролла на iOS */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE и Edge */
+}
+
+/* Скрываем скроллбар в Webkit браузерах */
+.newsTags::-webkit-scrollbar {
+    display: none;
+}
+
+.newsTag {
+    flex-shrink: 0;
+    /* Предотвращает сжатие элементов */
 }
 
 .newsTagBtn {
@@ -95,6 +122,8 @@
     font-size: 16px;
     line-height: 24px;
     letter-spacing: 0%;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 .newsTagBtnActive {
@@ -319,7 +348,6 @@
 @media (max-width: 767px) {
 
     .newsCard {
-        max-width: 440px;
         margin: 0 auto;
         padding: 0 20px;
     }

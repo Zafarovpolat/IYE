@@ -700,6 +700,7 @@
         transform: translateY(8px);
         margin-top: 0;
     }
+
 }
 
 /* VACANCIES */
@@ -885,4 +886,38 @@
         flex-wrap: wrap;
     }
 
+    .vacancyDetailWrapper {
+        position: relative;
+    }
+
+    .vacancyDetailRight {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        padding: 10px 20px;
+        width: 100%;
+        margin-top: 0;
+        z-index: 100;
+        background-color: white;
+        transition: position 0.3s ease;
+        /* Плавное изменение позиции, если нужно */
+    }
+
+    .vacancyDetailRight.static {
+        position: static;
+        /* Обычное положение в потоке документа */
+        bottom: auto;
+        /* Сбрасываем отступ */
+        padding: 0;
+        padding-top: 40px;
+    }
+
+    .vacancyDetailBtn {
+        margin-top: 0;
+    }
+
+    .partnersFormRight {
+        padding: 20px;
+    }
 }
