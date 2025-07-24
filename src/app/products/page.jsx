@@ -151,6 +151,7 @@ export default function Production() {
     const sectionControls = useAnimation();
 
     useEffect(() => {
+        if (window.innerWidth < 1000) return;
         // Disable scrolling initially
         document.body.style.overflow = 'hidden';
         return () => {
@@ -166,62 +167,94 @@ export default function Production() {
     }, [isAnimationComplete]);
 
     const handleScroll = async (e) => {
-        // Only proceed if section is visible, not complete, not mobile, and not animating
-        if (!isSectionVisible || isAnimationComplete || isMobile || isAnimating) return;
+        if (isAnimationComplete || isMobile || isAnimating || (window.innerWidth < 1000)) return;
         e.preventDefault();
-        if (animationStep < 2) { // 3 cards, so 2 steps
+        if (animationStep < 2) {
             setIsAnimating(true);
             const nextStep = animationStep + 1;
 
-            // Get elements for animation
+            // Получаем элементы для анимации
             const currentItem = listItemRefs.current[animationStep];
             const nextItem = listItemRefs.current[animationStep + 1];
+            const thirdItem = animationStep === 0 ? listItemRefs.current[2] : null;
 
-            if (currentItem && nextItem) {
+            if (currentItem) {
                 const currentRect = currentItem.getBoundingClientRect();
-                const cardHeight = currentRect.height;
-                const gap = 40; // Match your CSS gap
-                const fixedDistance = cardHeight + gap; // Consistent distance for card movement
+                const nextRect = nextItem.getBoundingClientRect();
+                const thirdRect = thirdItem ? thirdItem.getBoundingClientRect() : null;
 
-                // Calculate new section height
+                const distanceToFirst = currentRect.top - nextRect.top;
+                // Расстояние для перемещения третьей карточки на место второй (только при первом скролле)
+                const distanceToSecond = thirdRect && animationStep === 0 ? nextRect.top - thirdRect.top : 0;
+
+                // При втором скролле: дополнительное расстояние для третьей карточки
+                // Она должна подняться еще на расстояние между второй и первой позициями
+                const additionalDistanceForThird = animationStep === 1 ? distanceToFirst : 0;
+
+                // Получаем текущую высоту секции и уменьшаем на высоту исчезающей карточки
                 const currentSectionHeight = sectionRef.current.offsetHeight;
-                const heightReduction = cardHeight + (animationStep === 0 ? gap : 0); // Include gap for first step
-                const newSectionHeight = currentSectionHeight - heightReduction;
+                const cardHeight = currentRect.height + 40;
+                const newSectionHeight = currentSectionHeight - cardHeight;
 
                 const cardAnimation = controls.start((i) => {
-                    // Animate all cards from animationStep + 1 to the end
-                    if (i >= animationStep + 1 && listItemRefs.current[i]) {
-                        return {
-                            y: fixedDistance * (i - animationStep), // Each card moves up by fixed distance
-                            transition: {
-                                duration: 2,
-                                ease: [0.25, 0.1, 0.25, 1],
-                                ...(i === animationStep + 1 && {
+                    if (i === animationStep + 1) {
+                        if (animationStep === 0) {
+                            return {
+                                y: distanceToFirst,
+                                transition: {
+                                    duration: 2,
+                                    ease: [0.25, 0.1, 0.25, 1],
                                     onComplete: () => {
                                         setAnimationStep(nextStep);
                                         setIsAnimating(false);
                                         if (nextStep === 2) {
                                             setIsAnimationComplete(true);
                                         }
-                                    },
-                                }),
-                            },
+                                    }
+                                }
+                            };
+                        } else if (animationStep === 1) {
+                            return {
+                                y: 2 * distanceToFirst, // Перемещаем третью карточку на место первой
+                                transition: {
+                                    duration: 2,
+                                    ease: [0.25, 0.1, 0.25, 1],
+                                    onComplete: () => {
+                                        setAnimationStep(nextStep);
+                                        setIsAnimating(false);
+                                        if (nextStep === 2) {
+                                            setIsAnimationComplete(true);
+                                        }
+                                    }
+                                }
+                            };
+                        }
+                    }
+                    if (animationStep === 0 && i === 2) {
+                        return {
+                            y: distanceToSecond,
+                            transition: {
+                                duration: 2,
+                                ease: [0.25, 0.1, 0.25, 1]
+                            }
                         };
                     }
                     return {};
                 });
 
-                // Animate section height
+                // Анимация высоты секции
                 const sectionAnimation = sectionControls.start({
                     height: newSectionHeight,
                     transition: {
                         duration: 2,
-                        ease: [0.25, 0.1, 0.25, 1],
-                    },
+                        ease: [0.25, 0.1, 0.25, 1]
+                    }
                 });
 
-                // Wait for both animations to complete
+                // Ждём завершения обеих анимаций
                 await Promise.all([cardAnimation, sectionAnimation]);
+
+
             } else {
                 setIsAnimating(false);
             }

@@ -4,32 +4,15 @@ import Image from 'next/image';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import Footer from '../components/Footer/Footer';
 import styles from '../styles/Vacancies.module.css';
-import Button from '../components/Button/Button';
 import Link from 'next/link';
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { Autoplay } from 'swiper/modules'; // Для автоскролла
-import 'swiper/css/autoplay'; // Стили для автоскролла (если нужны)
 
 export default function Vacancies() {
-    const videoRef = useRef(null);
-    const [playing, setPlaying] = useState(false);
     const [isClient, setIsClient] = useState(false);
-    const [isClientHovered, setIsClientHovered] = useState(false);
     const [isPreFooterHovered, setIsPreFooterHovered] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-    const [isNewsMobile, setIsNewsMobile] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
-    const hasAnimatedRef = useRef(false);
-    const controls = useAnimation();
-    const heroRef = useRef(null);
-    const currentSectionIndexRef = useRef(0);
-    const swiperRef = useRef(null);
-    const [isOverflowAuto, setIsOverflowAuto] = useState(false);
-    const targetOffsetRef = useRef(0);
-    const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
-    const mapRef = useRef(null);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // New state for success modal
     const [focusedInputs, setFocusedInputs] = useState({});
     const [phoneError, setPhoneError] = useState('');
@@ -206,50 +189,6 @@ export default function Vacancies() {
         y: '100%',
     };
 
-    const clientCardBackgroundVariants = {
-        initial: {
-            backgroundColor: '#fff',
-            backgroundImage: `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, transparent 0%, transparent 0%)`,
-        },
-        hover: {
-            backgroundColor: '#159F4A',
-            backgroundImage: [
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 0%, transparent 0%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 50%, transparent 50%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 100%, transparent 100%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 150%, transparent 150%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 200%, transparent 200%)`,
-            ],
-            transition: {
-                backgroundImage: { duration: 0.4, ease: 'easeOut' },
-                backgroundColor: { duration: 0.4, ease: 'easeOut' }
-            }
-        },
-    };
-
-    const clientPartnerTextVariants = {
-        initial: {
-            color: '#2C2C2C',
-        },
-        hover: {
-            color: '#fff',
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
-    };
-
-    const clientArrowVariants = {
-        initial: {
-            stroke: '#2C2C2C',
-            rotate: 0
-        },
-        hover: {
-            stroke: '#fff',
-            rotate: 45,
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
-    };
-
-    // Variants for preFooter section partnerCard
     const preFooterCardBackgroundVariants = {
         initial: {
             backgroundColor: '#159F4A',
@@ -294,23 +233,7 @@ export default function Vacancies() {
     };
 
     const SCALE_REDUCTION = 1.5;
-    const rippleVariants = {
-        initial: {
-            scale: 0,
-            transition: { duration: 0 }
-        },
-        hover: (i) => {
-            const baseScale = 5;
-            const maxScale = baseScale - (i * SCALE_REDUCTION);
-            return {
-                scale: [1, 4, maxScale],
-                transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                }
-            };
-        }
-    };
+
     const rippleVariants2 = {
         initial: {
             opacity: 0,
@@ -331,10 +254,90 @@ export default function Vacancies() {
         'rgb(84, 186, 123)'
     ];
 
+    const vacanciesRef = useRef(null);
+    const vacanciesSwiperRef = useRef(null);
+    const cardsContainerRef = useRef(null); // Новый ref для контейнера карт
+    const [isVacanciesVisible, setIsVacanciesVisible] = useState(false);
+    const isAnimationComplete = useRef(false);
+    const isAnimating = useRef(false);
+
+    useEffect(() => {
+        if (window.innerWidth < 1000) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !isMobile) {
+                    setIsVacanciesVisible(true);
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    setIsVacanciesVisible(false);
+                    document.body.style.overflow = 'auto';
+                }
+            },
+            {
+                root: null,
+                threshold: 0.8, // Увеличенный threshold - контейнер должен быть виден на 80%
+                rootMargin: '-50px 0px -50px 0px' // Отступы сверху и снизу для более точного срабатывания
+            }
+        );
+
+        // Наблюдаем за контейнером карт, а не за всей секцией
+        if (cardsContainerRef.current) {
+            observer.observe(cardsContainerRef.current);
+        }
+
+        return () => {
+            if (cardsContainerRef.current) {
+                observer.unobserve(cardsContainerRef.current);
+            }
+        };
+    }, [isMobile]);
+
+    // Обновите ваш существующий handleWheel useEffect, добавив логику для вакансий
+    useEffect(() => {
+        const handleWheel = async (e) => {
+            // Предотвращаем скролл если любая из секций активна
+            if ((isVacanciesVisible && !isMobile)) {
+                e.preventDefault();
+            } else {
+                return;
+            }
+
+            // НОВАЯ ЛОГИКА: Обработка секции вакансий
+            if (isVacanciesVisible && !isMobile && vacanciesSwiperRef.current) {
+                const swiper = vacanciesSwiperRef.current.swiper;
+                if (e.deltaY > 0) { // Скролл вниз
+                    if (!swiper.isEnd) {
+                        swiper.slideNext();
+
+                    } else {
+                        setIsVacanciesVisible(false);
+                        document.body.style.overflow = 'auto';
+                    }
+                } else if (e.deltaY < 0) { // Скролл вверх
+                    if (!swiper.isBeginning) {
+                        swiper.slidePrev();
+                    } else {
+                        setIsVacanciesVisible(true);
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            }
+        };
+
+        window.addEventListener('wheel', handleWheel, { passive: false });
+        return () => window.removeEventListener('wheel', handleWheel);
+    }, [
+        isAnimationComplete,
+        isAnimating,
+        isMobile,
+        isVacanciesVisible // Добавьте это в зависимости
+    ]);
+
     return (
         <>
 
-            <section id="clientsHeader" className={styles.clientsHeader}>
+            <section id="clientsHeader" className={styles.clientsHeader} ref={vacanciesRef}>
                 <div className={`${styles.container} container`}>
                     <h1 className={styles.clientsHeaderHeading}>Вакансии</h1>
                     <div className={styles.clientsHeaderText}>
@@ -350,21 +353,27 @@ export default function Vacancies() {
                                 <button className={styles.clientsHeaderButton} >
                                     Смотреть вакансии
                                 </button>
-                                <div className={styles.cardsContainerBlock}>
+                                <div className={styles.cardsContainerBlock} ref={cardsContainerRef}>
                                     <Swiper
-                                        modules={[Autoplay]} // Подключение модуля автоскролла
                                         className={styles.cardsSwiper}
                                         slidesPerView={2}
-                                        autoplay={{
-                                            delay: 3000, // Задержка между слайдами (3 секунды)
-                                            disableOnInteraction: false, // Продолжать автоскролл после взаимодействия пользователя
-                                        }}
                                         spaceBetween={20}
-                                        breakpoints={{ 360: { slidesPerView: 1.1 }, 768: { slidesPerView: 'auto' }, 1440: { slidesPerView: 2 }, }}
+                                        breakpoints={{
+                                            360: { slidesPerView: 1.1 },
+                                            768: { slidesPerView: 'auto' },
+                                            1440: { slidesPerView: 2 },
+                                        }}
+                                        ref={vacanciesSwiperRef} // Добавьте эту строку
                                     >
-                                        <SwiperSlide className={styles.cardsSwiperSlide}><Image width={586} height={387} src={'/vacancies1.png'}></Image></SwiperSlide>
-                                        <SwiperSlide className={styles.cardsSwiperSlide}><Image width={586} height={387} src={'/vacancies2.png'}></Image></SwiperSlide>
-                                        <SwiperSlide className={styles.cardsSwiperSlide}><Image width={586} height={387} src={'/vacancies3.png'}></Image></SwiperSlide>
+                                        <SwiperSlide className={styles.cardsSwiperSlide}>
+                                            <Image width={586} height={387} src={'/vacancies1.png'} alt="Вакансия 1" />
+                                        </SwiperSlide>
+                                        <SwiperSlide className={styles.cardsSwiperSlide}>
+                                            <Image width={586} height={387} src={'/vacancies2.png'} alt="Вакансия 2" />
+                                        </SwiperSlide>
+                                        <SwiperSlide className={styles.cardsSwiperSlide}>
+                                            <Image width={586} height={387} src={'/vacancies3.png'} alt="Вакансия 3" />
+                                        </SwiperSlide>
                                     </Swiper>
                                 </div>
                             </div>

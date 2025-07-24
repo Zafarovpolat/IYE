@@ -360,50 +360,6 @@ export default function Production() {
         y: '100%',
     };
 
-    const clientCardBackgroundVariants = {
-        initial: {
-            backgroundColor: '#fff',
-            backgroundImage: `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, transparent 0%, transparent 0%)`,
-        },
-        hover: {
-            backgroundColor: '#159F4A',
-            backgroundImage: [
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 0%, transparent 0%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 50%, transparent 50%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 100%, transparent 100%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 150%, transparent 150%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 200%, transparent 200%)`,
-            ],
-            transition: {
-                backgroundImage: { duration: 0.4, ease: 'easeOut' },
-                backgroundColor: { duration: 0.4, ease: 'easeOut' }
-            }
-        },
-    };
-
-    const clientPartnerTextVariants = {
-        initial: {
-            color: '#2C2C2C',
-        },
-        hover: {
-            color: '#fff',
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
-    };
-
-    const clientArrowVariants = {
-        initial: {
-            stroke: '#2C2C2C',
-            rotate: 0
-        },
-        hover: {
-            stroke: '#fff',
-            rotate: 45,
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
-    };
-
-    // Variants for preFooter section partnerCard
     const preFooterCardBackgroundVariants = {
         initial: {
             backgroundColor: '#159F4A',

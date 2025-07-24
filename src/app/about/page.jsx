@@ -25,8 +25,148 @@ export default function About() {
     const sectionRef = useRef(null);
     const listItemRefs = useRef([]);
     const [isSectionVisible, setIsSectionVisible] = useState(false); // New state to track visibility
+    const historyRef = useRef(null);
+    const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+    const swiperRef = useRef(null);
+    const isAnimatingRef = useRef(false);
+
+    const getThreshold = () => {
+        if (window.innerWidth < 1920) {
+            return 0.3;
+        }
+        return 0.4;
+    };
 
     useEffect(() => {
+
+        if (window.innerWidth < 1000) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !isMobile) {
+                    setIsHistoryVisible(true);
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    setIsHistoryVisible(false);
+                    // Only unlock scroll if not handled by wheel event
+                    if (!swiperRef.current || swiperRef.current.swiper.isBeginning) {
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            },
+            {
+                root: null,
+                threshold: 0.4,
+            }
+        );
+
+        if (historyRef.current) {
+            observer.observe(historyRef.current);
+        }
+
+        return () => {
+            if (historyRef.current) {
+                observer.unobserve(historyRef.current);
+            }
+        };
+    }, [isMobile]);
+
+    useEffect(() => {
+
+        if (window.innerWidth < 1000) return;
+
+        const handleWheel = async (e) => {
+            // Prevent default scrolling if either section is active
+            if ((isSectionVisible && !isAnimationComplete && !isMobile) || (isHistoryVisible && !isMobile)) {
+                e.preventDefault();
+            } else {
+                return; // Allow default scrolling if neither section is active
+            }
+
+            // Handle aboutQuality section
+            if (isSectionVisible && !isAnimationComplete && !isMobile && !isAnimating) {
+                if (animationStep < 4) {
+                    setIsAnimating(true);
+                    const nextStep = animationStep + 1;
+                    const currentItem = listItemRefs.current[animationStep];
+                    const nextItem = listItemRefs.current[animationStep + 1];
+
+                    if (currentItem && nextItem) {
+                        const currentRect = currentItem.getBoundingClientRect();
+                        const cardHeight = currentRect.height;
+                        const gap = 40;
+                        const fixedDistance = cardHeight + gap;
+                        const currentSectionHeight = sectionRef.current.offsetHeight;
+                        const heightReduction = cardHeight + (animationStep === 0 ? gap : 40);
+                        const newSectionHeight = currentSectionHeight - heightReduction;
+
+                        const cardAnimation = controls.start((i) => {
+                            if (i > animationStep) {
+                                const totalSteps = nextStep;
+                                return {
+                                    y: -fixedDistance * totalSteps,
+                                    transition: {
+                                        duration: 2,
+                                        ease: [0.25, 0.1, 0.25, 1],
+                                        ...(i === animationStep + 1 && {
+                                            onComplete: () => {
+                                                setAnimationStep(nextStep);
+                                                setIsAnimating(false);
+                                                if (nextStep === 4) {
+                                                    setIsAnimationComplete(true);
+                                                    document.body.style.overflow = 'auto';
+                                                }
+                                            },
+                                        }),
+                                    },
+                                };
+                            }
+                            return {};
+                        });
+
+                        const sectionAnimation = sectionControls.start({
+                            height: newSectionHeight,
+                            transition: {
+                                duration: 2,
+                                ease: [0.25, 0.1, 0.25, 1],
+                            },
+                        });
+
+                        await Promise.all([cardAnimation, sectionAnimation]);
+                    } else {
+                        setIsAnimating(false);
+                    }
+                }
+            }
+            // Handle history section
+            else if (isHistoryVisible && !isMobile && swiperRef.current) {
+                const swiper = swiperRef.current.swiper;
+                if (e.deltaY > 0) { // Scroll down
+                    if (!swiper.isEnd) {
+                        swiper.slideNext();
+                    } else {
+                        setIsHistoryVisible(false);
+                        document.body.style.overflow = 'auto';
+                    }
+                } else if (e.deltaY < 0) { // Scroll up
+                    if (!swiper.isBeginning) {
+                        swiper.slidePrev();
+                    } else {
+                        setIsHistoryVisible(false);
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            }
+        };
+
+        window.addEventListener('wheel', handleWheel, { passive: false });
+        return () => window.removeEventListener('wheel', handleWheel);
+    }, [isSectionVisible, isAnimationComplete, isAnimating, animationStep, isMobile, isHistoryVisible]);
+
+    useEffect(() => {
+
+        if (window.innerWidth < 1000) return;
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting && !isAnimationComplete && !isMobile) {
@@ -40,7 +180,7 @@ export default function About() {
             },
             {
                 root: null,
-                threshold: 0.4, // Trigger when 30% of section is visible
+                threshold: getThreshold(),
             }
         );
 
@@ -56,14 +196,6 @@ export default function About() {
     }, [isAnimationComplete, isMobile]);
 
     useEffect(() => {
-        // Disable scrolling initially
-        document.body.style.overflow = 'hidden';
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, []);
-
-    useEffect(() => {
         // Enable scrolling after animation is complete
         if (isAnimationComplete) {
             document.body.style.overflow = 'auto';
@@ -71,11 +203,12 @@ export default function About() {
     }, [isAnimationComplete]);
 
     const handleScroll = async (e) => {
-        if (!isSectionVisible || isAnimationComplete || isMobile || isAnimating) return;
+        if (!isSectionVisible || isAnimationComplete || isMobile || isAnimatingRef.current) return;
         e.preventDefault();
 
         if (animationStep < 4) { // 5 cards, so 4 steps
             setIsAnimating(true);
+            isAnimatingRef.current = true; // Мгновенная блокировка
             const nextStep = animationStep + 1;
 
             // Get elements for animation
@@ -107,6 +240,7 @@ export default function About() {
                                     onComplete: () => {
                                         setAnimationStep(nextStep);
                                         setIsAnimating(false);
+                                        isAnimatingRef.current = false; // Разблокировка
                                         if (nextStep === 4) {
                                             setIsAnimationComplete(true);
                                         }
@@ -167,29 +301,8 @@ export default function About() {
     ];
 
     const rippleOrigin = {
-        x: '100%',
         y: '100%',
-    };
-
-    const clientCardBackgroundVariants = {
-        initial: {
-            backgroundColor: '#fff',
-            backgroundImage: `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, transparent 0%, transparent 0%)`,
-        },
-        hover: {
-            backgroundColor: '#159F4A',
-            backgroundImage: [
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 0%, transparent 0%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 50%, transparent 50%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 100%, transparent 100%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 150%, transparent 150%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 200%, transparent 200%)`,
-            ],
-            transition: {
-                backgroundImage: { duration: 0.4, ease: 'easeOut' },
-                backgroundColor: { duration: 0.4, ease: 'easeOut' }
-            }
-        },
+        y: '100%',
     };
 
     useEffect(() => {
@@ -265,7 +378,14 @@ export default function About() {
         <>
             <section id='aboutHeader' className={styles.aboutHeader}>
                 <div className={`${styles.container} container`}>
-                    <h1 className={styles.aboutHeaderTitle}>О компании</h1>
+                    <motion.h1
+                        className={styles.aboutHeaderTitle}
+                        initial={{ y: 90 }}
+                        animate={{ y: 0 }}
+                        transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55], delay: 0 }}
+                    >
+                        О компании
+                    </motion.h1>
                     {isClient && (isTripleCards || isDoubleCards) ? (
                         <Swiper
                             className={styles.swiperContainer}
@@ -284,32 +404,48 @@ export default function About() {
                         >
                             {cards.map((card, index) => (
                                 <SwiperSlide key={index}>
-                                    <div className={styles.aboutHeaderCardItem}>
+                                    <motion.div
+                                        className={styles.aboutHeaderCardItem}
+                                        initial={{ y: 90 }}
+                                        animate={{ y: 0 }}
+                                        transition={{ duration: 1.5, ease: [0.68, -0.55, 0.265, 1.55], delay: 0.3 }}
+                                    >
                                         <Image
                                             src={card.src}
                                             alt={card.alt}
                                             layout="fill"
                                             objectFit="cover"
                                         />
-                                    </div>
+                                    </motion.div>
                                 </SwiperSlide>
                             ))}
                         </Swiper>
                     ) : (
                         <ul className={styles.aboutHeaderCards}>
                             {cards.map((card, index) => (
-                                <li key={index} className={styles.aboutHeaderCardItem}>
+                                <motion.li
+                                    key={index}
+                                    className={styles.aboutHeaderCardItem}
+                                    initial={{ y: 90 }}
+                                    animate={{ y: 0 }}
+                                    transition={{ duration: 1.5, ease: [0.68, -0.55, 0.265, 1.55], delay: 0.3 }}
+                                >
                                     <Image
                                         src={card.src}
                                         alt={card.alt}
                                         layout="fill"
                                         objectFit="cover"
                                     />
-                                </li>
+                                </motion.li>
                             ))}
                         </ul>
                     )}
-                    <div className={styles.aboutHeaderText}>
+                    <motion.div
+                        className={styles.aboutHeaderText}
+                        initial={{ y: 90 }}
+                        animate={{ y: 0 }}
+                        transition={{ duration: 1.5, ease: [0.68, -0.55, 0.265, 1.55], delay: 0.4 }}
+                    >
                         <div className={styles.aboutHeaderBottomText}>
                             <h5 className={styles.aboutHeaderTextTitle}>компания</h5>
                             <div className={styles.aboutHeaderBottomBlock}>
@@ -326,7 +462,7 @@ export default function About() {
                                 </p>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
@@ -336,67 +472,164 @@ export default function About() {
                         <div className={styles.numbersHeaderBottomBlock}>
                             <h5 className={styles.numbersHeaderTitle}>цифры</h5>
                             <h3 className={styles.numbersHeaderInfo}>
-                                Наши достижения в цифрах
+                                Наши достижения в цифрах
                             </h3>
                         </div>
                     </div>
                     <div className={styles.cardsContainerBlock}>
-                        <div className={styles.cardBlock}>
-                            <div className={styles.cardNumberWrapperBlock}>
+                        {/* Первая карточка */}
+                        <motion.div
+                            className={styles.cardBlock}
+                            initial={{ x: -245 }}
+                            whileInView={{ x: 0 }}
+                            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                            viewport={{ once: true }}
+                        >
+                            <motion.div
+                                className={styles.cardNumberWrapperBlock}
+                                initial={{ x: -245 }}
+                                whileInView={{ x: 0 }}
+                                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                            >
                                 <span className={styles.cardNumberText}>100 000</span>
                                 <span className={styles.cardUnitText}>ед.</span>
-                            </div>
-                            <p className={styles.cardDescriptionText}>
+                            </motion.div>
+                            <motion.p
+                                className={styles.cardDescriptionText}
+                                initial={{ y: 15 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                            >
                                 продукции в день
-                            </p>
-                            <img
+                            </motion.p>
+                            <motion.img
                                 src="/soleniye.png"
                                 alt="Пиццы"
                                 width={360}
                                 height={320}
                                 className={`${styles.cardImage}`}
                                 sizes="100vw"
+                                initial={{ y: 15 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                                style={{ willChange: 'transform' }}
                                 priority
                             />
-                        </div>
-                        <div className={styles.cardBlock}>
-                            <div className={styles.cardNumberWrapperBlock}>
+                        </motion.div>
+
+                        {/* Вторая карточка */}
+                        <motion.div
+                            className={styles.cardBlock}
+                            initial={{ x: -245 }}
+                            whileInView={{ x: 0 }}
+                            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                            viewport={{ once: true }}
+                        >
+                            <motion.div
+                                className={styles.cardNumberWrapperBlock}
+                                initial={{ x: -245 }}
+                                whileInView={{ x: 0 }}
+                                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                            >
                                 <span className={styles.cardNumberText}>10 000</span>
                                 <span className={styles.cardUnitText}>кв.м</span>
-                            </div>
-                            <p className={styles.cardDescriptionText}>
+                            </motion.div>
+                            <motion.p
+                                className={styles.cardDescriptionText}
+                                initial={{ y: 15 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                            >
                                 производственной мощности
-                            </p>
-                        </div>
-                        <div className={styles.cardBlock}>
-                            <img
+                            </motion.p>
+                        </motion.div>
+
+                        {/* Третья карточка */}
+                        <motion.div
+                            className={styles.cardBlock}
+                            initial={{ x: -245 }}
+                            whileInView={{ x: 0 }}
+                            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                            viewport={{ once: true }}
+                        >
+                            <motion.img
                                 src="/about-card-gb.png"
                                 alt="Пиццы"
                                 width={587}
                                 height={780}
                                 className={`${styles.cardBackgroundImage}`}
                                 sizes="100vw"
+                                initial={{ x: 245 }}
+                                whileInView={{ x: 0 }}
+                                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                                style={{ willChange: 'transform' }}
                                 priority
                             />
-                        </div>
-                        <div className={styles.cardBlock}>
-                            <div className={styles.cardNumberWrapperBlock}>
+                        </motion.div>
+
+                        {/* Четвертая карточка */}
+                        <motion.div
+                            className={styles.cardBlock}
+                            initial={{ x: -245 }}
+                            whileInView={{ x: 0 }}
+                            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                            viewport={{ once: true }}
+                        >
+                            <motion.div
+                                className={styles.cardNumberWrapperBlock}
+                                initial={{ x: -245 }}
+                                whileInView={{ x: 0 }}
+                                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                            >
                                 <span className={styles.cardNumberText}>300</span>
                                 <span className={styles.cardUnitText}>сотрудников</span>
-                            </div>
-                            <p className={styles.cardDescriptionText}>
+                            </motion.div>
+                            <motion.p
+                                className={styles.cardDescriptionText}
+                                initial={{ y: 15 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                            >
                                 в команде
-                            </p>
-                        </div>
-                        <div className={styles.cardBlock}>
-                            <div className={styles.cardNumberWrapperBlock}>
+                            </motion.p>
+                        </motion.div>
+
+                        {/* Пятая карточка */}
+                        <motion.div
+                            className={styles.cardBlock}
+                            initial={{ x: -245 }}
+                            whileInView={{ x: 0 }}
+                            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                            viewport={{ once: true }}
+                        >
+                            <motion.div
+                                className={styles.cardNumberWrapperBlock}
+                                initial={{ x: -245 }}
+                                whileInView={{ x: 0 }}
+                                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                            >
                                 <span className={styles.cardNumberText}>{`>5`}</span>
                                 <span className={styles.cardUnitText}>лет</span>
-                            </div>
-                            <p className={styles.cardDescriptionText}>
+                            </motion.div>
+                            <motion.p
+                                className={styles.cardDescriptionText}
+                                initial={{ y: 15 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                            >
                                 на рынке
-                            </p>
-                        </div>
+                            </motion.p>
+                        </motion.div>
                     </div>
                     <div className={styles.numbersHeaderLink2}>
                         <Button href="/about" />
@@ -404,27 +637,29 @@ export default function About() {
                 </div>
             </section>
 
-            <section id='history' className={styles.history}>
+            <section id='history' className={styles.history} >
                 <div className={`${styles.container} container`}>
                     <div className={styles.historyContent}>
                         <h5 className={styles.historyTitle}>История</h5>
                         <div className={styles.historyLeft}>
                             <div className={styles.historyText}>
-                                <h3 className={styles.historyHeader}>Наша история началась с небольшой пекарни, производящей выпечку</h3>
+                                <h3 className={styles.historyHeader}>Наша история началась с небольшой пекарни, производящей выпечку</h3>
                                 <p className={styles.historyDescription}>
-                                    Со временем мы расширили ассортимент, добавив сэндвичи, пироги, блины, десерты и многое другое. Постоянное внимание к качеству и потребностям клиентов помогло нам вырасти в крупного производителя. Мы работаем только с проверенными поставщиками, совершенствуем рецептуру и следим за трендами рынка
+                                    Со временем мы расширили ассортимент, добавив сэндвичи, пироги, блины, десерты и многое другое. Постоянное внимание к качеству и потребностям клиентов помогло нам вырасти в крупного производителя. Мы работаем только с проверенными поставщиками, совершенствуем рецептуру и следим за трендами рынка
                                 </p>
                             </div>
                             <Swiper
                                 spaceBetween={20}
                                 slidesPerView={'auto'}
                                 className={styles.historySwiper}
+                                speed={1000}
                                 breakpoints={{
                                     360: { spaceBetween: 10 },
                                     768: { spaceBetween: 20 },
                                 }}
+                                ref={swiperRef}
                             >
-                                <SwiperSlide className={styles.historyCardSwiper}>
+                                <SwiperSlide ref={historyRef} className={styles.historyCardSwiper}>
                                     <div className={styles.historyCard}>
                                         <Image src="/history1.png" alt="История 1" width={300} height={200} className={styles.historyCardImage} />
                                     </div>
@@ -460,7 +695,13 @@ export default function About() {
                             className={styles.facesList}
                         >
                             <SwiperSlide className={styles.facesListItemSlide}>
-                                <li className={styles.facesListItem}>
+                                <motion.li
+                                    className={styles.facesListItem}
+                                    initial={{ y: 245 }}
+                                    whileInView={{ y: 0 }}
+                                    transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
+                                    viewport={{ once: true }}
+                                >
                                     <div className={styles.facesListItemUp}>
                                         <Image className={styles.facesListItemImg} src={'/face1.png'} width={435} height={580} alt="Светлана Шмыгля" />
                                     </div>
@@ -468,10 +709,16 @@ export default function About() {
                                         <h4 className={styles.facesListItemTitle}>Светлана Шмыгля</h4>
                                         <p className={styles.facesListItemInfo}>Директор производства</p>
                                     </div>
-                                </li>
+                                </motion.li>
                             </SwiperSlide>
                             <SwiperSlide className={styles.facesListItemSlide}>
-                                <li className={styles.facesListItem}>
+                                <motion.li
+                                    className={styles.facesListItem}
+                                    initial={{ y: 245 }}
+                                    whileInView={{ y: 0 }}
+                                    transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
+                                    viewport={{ once: true }}
+                                >
                                     <div className={styles.facesListItemUp}>
                                         <Image className={styles.facesListItemImg} src={'/face2.png'} width={435} height={580} alt="Андрей Мандрейчук" />
                                     </div>
@@ -479,10 +726,16 @@ export default function About() {
                                         <h4 className={styles.facesListItemTitle}>Андрей Мандрейчук</h4>
                                         <p className={styles.facesListItemInfo}>Директор отдела качества и пищевой безопасности</p>
                                     </div>
-                                </li>
+                                </motion.li>
                             </SwiperSlide>
                             <SwiperSlide className={styles.facesListItemSlide}>
-                                <li className={styles.facesListItem}>
+                                <motion.li
+                                    className={styles.facesListItem}
+                                    initial={{ y: 245 }}
+                                    whileInView={{ y: 0 }}
+                                    transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
+                                    viewport={{ once: true }}
+                                >
                                     <div className={styles.facesListItemUp}>
                                         <Image className={styles.facesListItemImg} src={'/face1.png'} width={435} height={580} alt="Анжела Звягина" />
                                     </div>
@@ -490,10 +743,16 @@ export default function About() {
                                         <h4 className={styles.facesListItemTitle}>Анжела Звягина</h4>
                                         <p className={styles.facesListItemInfo}>HR-директор</p>
                                     </div>
-                                </li>
+                                </motion.li>
                             </SwiperSlide>
                             <SwiperSlide className={styles.facesListItemSlide}>
-                                <li className={styles.facesListItem}>
+                                <motion.li
+                                    className={styles.facesListItem}
+                                    initial={{ y: 245 }}
+                                    whileInView={{ y: 0 }}
+                                    transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
+                                    viewport={{ once: true }}
+                                >
                                     <div className={styles.facesListItemUp}>
                                         <Image className={styles.facesListItemImg} src={'/face2.png'} width={435} height={580} alt="Олег Стойко" />
                                     </div>
@@ -501,12 +760,18 @@ export default function About() {
                                         <h4 className={styles.facesListItemTitle}>Олег Стойко</h4>
                                         <p className={styles.facesListItemInfo}>Директор технического отдела</p>
                                     </div>
-                                </li>
+                                </motion.li>
                             </SwiperSlide>
                         </Swiper>
                     ) : (
                         <ul className={styles.facesList}>
-                            <li className={styles.facesListItem}>
+                            <motion.li
+                                className={styles.facesListItem}
+                                initial={{ y: 245 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
+                                viewport={{ once: true }}
+                            >
                                 <div className={styles.facesListItemUp}>
                                     <Image className={styles.facesListItemImg} src={'/face1.png'} width={435} height={580}></Image>
                                 </div>
@@ -514,8 +779,14 @@ export default function About() {
                                     <h4 className={styles.facesListItemTitle}>Светлана Шмыгля</h4>
                                     <p className={styles.facesListItemInfo}>Директор производства</p>
                                 </div>
-                            </li>
-                            <li className={styles.facesListItem}>
+                            </motion.li>
+                            <motion.li
+                                className={styles.facesListItem}
+                                initial={{ y: 245 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
+                                viewport={{ once: true }}
+                            >
                                 <div className={styles.facesListItemUp}>
                                     <Image className={styles.facesListItemImg} src={'/face2.png'} width={435} height={580}></Image>
                                 </div>
@@ -523,8 +794,14 @@ export default function About() {
                                     <h4 className={styles.facesListItemTitle}>Андрей Мандрейчук </h4>
                                     <p className={styles.facesListItemInfo}>Директор отдела качества и пищевой безопасности</p>
                                 </div>
-                            </li>
-                            <li className={styles.facesListItem}>
+                            </motion.li>
+                            <motion.li
+                                className={styles.facesListItem}
+                                initial={{ y: 245 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
+                                viewport={{ once: true }}
+                            >
                                 <div className={styles.facesListItemUp}>
                                     <Image className={styles.facesListItemImg} src={'/face1.png'} width={435} height={580}></Image>
                                 </div>
@@ -532,8 +809,14 @@ export default function About() {
                                     <h4 className={styles.facesListItemTitle}>Анжела Звягина</h4>
                                     <p className={styles.facesListItemInfo}>HR-директор</p>
                                 </div>
-                            </li>
-                            <li className={styles.facesListItem}>
+                            </motion.li>
+                            <motion.li
+                                className={styles.facesListItem}
+                                initial={{ y: 245 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
+                                viewport={{ once: true }}
+                            >
                                 <div className={styles.facesListItemUp}>
                                     <Image className={styles.facesListItemImg} src={'/face2.png'} width={435} height={580}></Image>
                                 </div>
@@ -541,7 +824,7 @@ export default function About() {
                                     <h4 className={styles.facesListItemTitle}>Олег Стойко</h4>
                                     <p className={styles.facesListItemInfo}>Директор технического отдела</p>
                                 </div>
-                            </li>
+                            </motion.li>
                         </ul>
                     )}
                 </div>
@@ -551,44 +834,51 @@ export default function About() {
                 <div className={`${styles.container} container`}>
                     <h3 className={styles.achievementsTitle}>Мы гордимся тем, что</h3>
                     <ul className={styles.achievementsCards}>
-                        <li className={styles.achievementsCard}>
-                            <div className={styles.achievementsCardUp}>
-                                <h4 className={styles.achievementsCardText}>Используем только свежие и качественные ингредиенты</h4>
-                                <p className={styles.achievementsCardDescription}>Мы тщательно отбираем поставщиков, чтобы в нашу продукцию попадали только проверенные и безопасные ингредиенты</p>
-                            </div>
-                            <div className={styles.achievementsTags}>
-                                <span className={styles.achievementsTag}>сертифицированные поставщики</span>
-                                <span className={styles.achievementsTag}>лабораторные тесты</span>
-                                <span className={styles.achievementsTag}>работа напрямую с производителями</span>
-                            </div>
-                        </li>
-                        <li className={styles.achievementsCard}>
-                            <div className={styles.achievementsCardUp}>
-                                <h4 className={styles.achievementsCardText}>Внедрили строгий контроль качества на каждом этапе производства</h4>
-                                <p className={styles.achievementsCardDescription}>Чтобы гарантировать безопасность и высокое качество готовой продукции, мы используем многоуровневую систему контроля с применением цифровых технологий и машинного зрения</p>
-                            </div>
-                            <div className={styles.achievementsTags}>
-                                <span className={styles.achievementsTag}>металлодетекторы</span>
-                                <span className={styles.achievementsTag}>машинное зрение</span>
-                                <span className={styles.achievementsTag}>цифровая система контроля</span>
-                                <span className={styles.achievementsTag}>внутренние аудиты</span>
-                                <span className={styles.achievementsTag}>НАССР</span>
-                                <span className={styles.achievementsTag}>температурный контроль</span>
-                                <span className={styles.achievementsTag}>контроль гигиены персонала</span>
-                            </div>
-                        </li>
-                        <li className={styles.achievementsCard}>
-                            <div className={styles.achievementsCardUp}>
-                                <h4 className={styles.achievementsCardText}>Постоянно обновляем оборудование для повышения эффективности производства</h4>
-                                <p className={styles.achievementsCardDescription}>Современные технологии позволяют нам ускорять процессы, минимизировать потери и улучшать качество готовой еды</p>
-                            </div>
-                            <div className={styles.achievementsTags}>
-                                <span className={styles.achievementsTag}>автоматизированные линии</span>
-                                <span className={styles.achievementsTag}>системы мониторинга</span>
-                                <span className={styles.achievementsTag}>высокоточные термощупы</span>
-                                <span className={styles.achievementsTag}>оборудование для упаковки в газовой среде (MAP)</span>
-                            </div>
-                        </li>
+                        {[
+                            {
+                                text: "Используем только свежие и качественные ингредиенты",
+                                description: "Мы тщательно отбираем поставщиков, чтобы в нашу продукцию попадали только проверенные и безопасные ингредиенты",
+                                tags: ["сертифицированные поставщики", "лабораторные тесты", "работа напрямую с производителями"]
+                            },
+                            {
+                                text: "Внедрили строгий контроль качества на каждом этапе производства",
+                                description: "Чтобы гарантировать безопасность и высокое качество готовой продукции, мы используем многоуровневую систему контроля с применением цифровых технологий и машинного зрения",
+                                tags: ["металлодетекторы", "машинное зрение", "цифровая система контроля", "внутренние аудиты", "НАССР", "температурный контроль", "контроль гигиены персонала"]
+                            },
+                            {
+                                text: "Постоянно обновляем оборудование для повышения эффективности производства",
+                                description: "Современные технологии позволяют нам ускорять процессы, минимизировать потери и улучшать качество готовой еды",
+                                tags: ["автоматизированные линии", "системы мониторинга", "высокоточные термощупы", "оборудование для упаковки в газовой среде (MAP)"]
+                            }
+                        ].map((item, index) => (
+                            <motion.li
+                                key={index}
+                                className={styles.achievementsCard}
+                                initial={{ y: 261.5 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
+                                viewport={{ once: true }}
+                            >
+                                <div className={styles.achievementsCardUp}>
+                                    <h4 className={styles.achievementsCardText}>{item.text}</h4>
+                                    <p className={styles.achievementsCardDescription}>{item.description}</p>
+                                </div>
+                                <div className={styles.achievementsTags}>
+                                    {item.tags.map((tag, tagIndex) => (
+                                        <motion.span
+                                            key={tagIndex}
+                                            className={styles.achievementsTag}
+                                            initial={{ y: 70 }}
+                                            whileInView={{ y: 0 }}
+                                            transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55], delay: 0.2 }}
+                                            viewport={{ once: true }}
+                                        >
+                                            {tag}
+                                        </motion.span>
+                                    ))}
+                                </div>
+                            </motion.li>
+                        ))}
                     </ul>
                 </div>
             </section>
@@ -673,7 +963,20 @@ export default function About() {
                                 </p>
                             </div>
                             <div className={styles.logisticsImgBox}>
-                                <Image className={styles.logisticsImg} src="/van2.png" alt="Логистика" width={615} height={320} />
+                                <motion.div
+                                    initial={{ x: 304 }}
+                                    whileInView={{ x: 24 }}
+                                    transition={{ duration: 2, ease: [0.25, 0.1, 0.25, 1] }}
+                                    viewport={{ once: true }}
+                                >
+                                    <Image
+                                        className={styles.logisticsImg}
+                                        src="/van2.png"
+                                        alt="Логистика"
+                                        width={1008}
+                                        height={380}
+                                    />
+                                </motion.div>
                             </div>
                         </div>
                     </div>
@@ -886,7 +1189,7 @@ export default function About() {
                                         className={styles.clientCard}
                                         initial={{ y: 170 }}
                                         whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                                        transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
                                         viewport={{ once: true }}
                                     >
                                         <Image src="/vkus.svg" alt="ВкусВилл" width={100} height={100} className={styles.clientLogo} />
@@ -896,7 +1199,7 @@ export default function About() {
                                         className={styles.clientCard}
                                         initial={{ y: 170 }}
                                         whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                                        transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
                                         viewport={{ once: true }}
                                     >
                                         <Image src="/Самокат.svg" alt="Самокат" width={100} height={100} className={styles.clientLogo} />
@@ -906,7 +1209,7 @@ export default function About() {
                                         className={styles.clientCard}
                                         initial={{ y: 170 }}
                                         whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                                        transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
                                         viewport={{ once: true }}
                                     >
                                         <Image src="/Перекресток.svg" alt="Перекрёсток" width={100} height={100} className={styles.clientLogo} />
@@ -916,7 +1219,7 @@ export default function About() {
                                         className={styles.clientCard}
                                         initial={{ y: 170 }}
                                         whileInView={{ y: 0 }}
-                                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                                        transition={{ duration: 1, ease: [0.68, -0.55, 0.265, 1.55] }}
                                         viewport={{ once: true }}
                                     >
                                         <Image src="/Пятерочка.svg" alt="Пятёрочка" width={100} height={100} className={styles.clientLogo} />

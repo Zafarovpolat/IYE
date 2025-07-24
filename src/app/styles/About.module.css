@@ -1593,6 +1593,7 @@
 .logisticsImg {
     object-fit: cover;
     height: 100%;
+    width: 100%;
 }
 
 @media (max-width: 1439px) {
@@ -1613,7 +1614,7 @@
     }
 
     .logisticsImg {
-        width: 60%;
+        width: 100%;
     }
 }
 
