@@ -415,8 +415,13 @@
     margin-bottom: 16px;
 }
 
+.inputContainer {
+    position: relative;
+    grid-column: 1 / 3;
+}
+
 .partnersInput {
-    grid-column: 1 / 2;
+    width: 100%;
     border: 1px solid #BBC5D6;
     border-radius: 8px;
     font-family: Literata;
@@ -424,15 +429,66 @@
     font-size: 18px;
     line-height: 24px;
     letter-spacing: 0%;
-    padding: 12px 16px 16px;
+    padding: 12px 16px 12px;
+    background: transparent;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
-.partnersInput:nth-child(2) {
+.customPlaceholder {
+    position: absolute;
+    left: 12px;
+    top: 25px;
+    transform: translateY(-50%);
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: #747B87;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: white;
+    /* фон для перекрытия рамки */
+    padding: 0 4px;
+}
+
+.customPlaceholder.active {
+    top: 0;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #2C2C2C;
+    /* цвет активного лейбла, замените на нужный */
+}
+
+/* Стили для инпута с ошибкой */
+.partnersInput.inputError {
+    border-color: #F13A3A;
+}
+
+.partnersInput.inputError:focus {
+    border-color: #F13A3A;
+}
+
+/* Сообщение об ошибке */
+.errorMessage {
+    margin-top: 4px;
+    left: 0px;
+    top: 100%;
+    margin-top: 4px;
+    font-family: Literata;
+    font-size: 14px;
+    line-height: 20px;
+    color: #F13A3A;
+    font-weight: 400;
+}
+
+.inputContainer:nth-child(1) {
+    grid-column: 1 / 2;
+}
+
+.inputContainer:nth-child(2) {
     grid-column: 2 / 3;
-}
-
-.partnersInput:nth-child(3) {
-    grid-column: 1 / 3;
 }
 
 .partnersTextArea {
@@ -449,6 +505,15 @@
     width: 100%;
     max-width: 600px;
     height: 190px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.partnersTextArea:hover {
+    border-color: #159F4A;
+}
+
+.partnersTextArea:focus {
+    outline: none;
 }
 
 .partnersFileBox {
@@ -694,6 +759,13 @@
 
     .partnersFormRightUp {
         grid-template-columns: 1fr;
+
+    }
+
+    .inputContainer:nth-child(2),
+    .inputContainer:nth-child(3),
+    .inputContainer:nth-child(4) {
+        grid-column: 1 / 2;
 
     }
 

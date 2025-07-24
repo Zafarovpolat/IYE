@@ -19,7 +19,8 @@
     align-items: start;
     padding-bottom: 110px;
     justify-content: space-between;
-    gap: 512px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .clientsHeaderTextTitle {
@@ -32,10 +33,12 @@
     padding-bottom: 8px;
     max-width: fit-content;
     white-space: nowrap;
+    gap: 20px;
 }
 
 .clientsHeaderBottomBlock {
     max-width: 1194px;
+    grid-column: 2 / 4;
 }
 
 .clientsHeaderTextInfo {
@@ -197,6 +200,15 @@
     padding: 60px;
     border-radius: 20px;
     color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.contactFormImage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    user-select: none;
 }
 
 .contactFormTitle {
@@ -226,6 +238,14 @@
     display: grid;
     gap: 16px;
     margin-bottom: 32px;
+}
+
+.contactForm .inputContainer {
+    grid-column: 1 / 2;
+}
+
+.contactForm .inputContainer:nth-child(4) {
+    grid-column: 1 / 2;
 }
 
 .clientsInput {
@@ -327,6 +347,16 @@
     background-color: #084927;
     padding: 60px;
     border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.successModalImage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    user-select: none;
 }
 
 .successModalInner {
@@ -365,13 +395,6 @@
 
 .successModalInfo:last-child {
     margin-bottom: 0;
-}
-
-@media (max-width: 1919px) {
-    .clientsHeaderBottomText {
-        gap: 254px;
-    }
-
 }
 
 @media (max-width: 1439px) {
@@ -443,7 +466,6 @@
     .contactForm {
         grid-template-columns: 1fr 1fr;
         max-width: 100%;
-
     }
 
     .modalContent,
@@ -491,6 +513,7 @@
     }
 
     .clientsHeaderBottomText {
+        display: flex;
         gap: 20px;
         flex-direction: column;
     }
@@ -683,6 +706,9 @@
     justify-content: space-between;
     align-items: start;
     justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .advantagesTitle {
@@ -700,6 +726,7 @@
 .advantagesLeft {
     max-width: 1194px;
     width: 100%;
+    grid-column: 2 / 4;
 }
 
 .advantagesSubtitle {
@@ -766,12 +793,6 @@
     border-radius: 20px;
 }
 
-@media (max-width: 1919px) {
-    .advantagesContent {
-        gap: 254px;
-    }
-}
-
 @media (max-width: 1439px) {
 
     .advantagesSubtitle {
@@ -779,6 +800,7 @@
     }
 
     .advantagesContent {
+        display: flex;
         padding-top: 90px;
         gap: 20px;
         flex-direction: column;
@@ -861,18 +883,18 @@
     }
 
     .advantagesListItem {
-        max-width: 320px;
         flex-direction: column;
         display: flex;
     }
 
     .advantagesListItemContent {
         padding: 20px;
+        height: 346px;
     }
 
     .advantagesListItem img {
+        width: 100%;
         max-width: 100%;
-        max-height: 300px;
         object-fit: cover;
         border-radius: 12px;
     }
@@ -1004,6 +1026,10 @@
     overflow: hidden;
 }
 
+.productsBannerLogo img {
+    border-radius: 100%;
+}
+
 .productsBannerLogo:last-child {
     display: flex;
     align-items: center;
@@ -1049,6 +1075,10 @@
 
 .productsCardsContainerMobile {
     display: none;
+}
+
+.productsSwiper {
+    overflow: visible !important;
 }
 
 /* Для разрешений 1920px и выше */
@@ -1417,8 +1447,13 @@
     margin-bottom: 32px;
 }
 
-.partnersInput {
+.inputContainer {
+    position: relative;
     grid-column: 1 / 3;
+}
+
+.partnersInput {
+    width: 100%;
     border: 1px solid #BBC5D6;
     border-radius: 8px;
     font-family: Literata;
@@ -1426,14 +1461,65 @@
     font-size: 18px;
     line-height: 24px;
     letter-spacing: 0%;
-    padding: 12px 16px 16px;
+    padding: 12px 16px 12px;
+    background: transparent;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
-.partnersInput:nth-child(3) {
+.customPlaceholder {
+    position: absolute;
+    left: 12px;
+    top: 25px;
+    transform: translateY(-50%);
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: #747B87;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: white;
+    /* фон для перекрытия рамки */
+    padding: 0 4px;
+}
+
+.customPlaceholder.active {
+    top: 0;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #2C2C2C;
+    /* цвет активного лейбла, замените на нужный */
+}
+
+/* Стили для инпута с ошибкой */
+.partnersInput.inputError {
+    border-color: #F13A3A;
+}
+
+.partnersInput.inputError:focus {
+    border-color: #F13A3A;
+}
+
+/* Сообщение об ошибке */
+.errorMessage {
+    margin-top: 4px;
+    left: 0px;
+    top: 100%;
+    margin-top: 4px;
+    font-family: Literata;
+    font-size: 14px;
+    line-height: 20px;
+    color: #F13A3A;
+    font-weight: 400;
+}
+
+.inputContainer:nth-child(3) {
     grid-column: 1 / 2;
 }
 
-.partnersInput:nth-child(4) {
+.inputContainer:nth-child(4) {
     grid-column: 2 / 3;
 }
 
@@ -1664,8 +1750,16 @@
 
     }
 
+    .inputContainer:nth-child(1) {
+        grid-column: 1 / 2;
+    }
+
+    .inputContainer:nth-child(2) {
+        grid-column: 1 / 2;
+    }
+
     .partnersInput,
-    .partnersInput:nth-child(4) {
+    .inputContainer:nth-child(4) {
         grid-column: 1 / 2;
     }
 

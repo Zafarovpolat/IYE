@@ -31,6 +31,127 @@ export default function Vacancies() {
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
     const mapRef = useRef(null);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // New state for success modal
+    const [focusedInputs, setFocusedInputs] = useState({});
+    const [phoneError, setPhoneError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [inputValues, setInputValues] = useState({
+        name: '',
+        company: '',
+        phone: '',
+        email: ''
+    });
+
+    const handleFocus = (inputName) => {
+        setFocusedInputs(prev => ({ ...prev, [inputName]: true }));
+    };
+
+    const handleBlur = (inputName) => {
+        if (!inputValues[inputName]) {
+            setFocusedInputs(prev => ({ ...prev, [inputName]: false }));
+        }
+
+        if (inputName === 'phone') {
+            validatePhone(inputValues.phone);
+        } else if (inputName === 'email') {
+            validateEmail(inputValues.email);
+        }
+    };
+
+    const formatPhoneNumber = (value) => {
+        // Удаляем все символы кроме цифр
+        const numbers = value.replace(/\D/g, '');
+
+        // Если начинается с 8, заменяем на 7
+        let formattedNumbers = numbers;
+        if (numbers.startsWith('8')) {
+            formattedNumbers = '7' + numbers.slice(1);
+        }
+
+        // Если не начинается с 7, добавляем 7 в начало
+        if (!formattedNumbers.startsWith('7') && formattedNumbers.length > 0) {
+            formattedNumbers = '7' + formattedNumbers;
+        }
+
+        // Ограничиваем до 11 цифр (7 + 10 цифр номера)
+        formattedNumbers = formattedNumbers.slice(0, 11);
+
+        // Применяем маску +7 xxx xxx-xx-xx
+        if (formattedNumbers.length >= 1) {
+            let formatted = '+7';
+
+            if (formattedNumbers.length > 1) {
+                formatted += ' ' + formattedNumbers.slice(1, 4);
+            }
+            if (formattedNumbers.length > 4) {
+                formatted += ' ' + formattedNumbers.slice(4, 7);
+            }
+            if (formattedNumbers.length > 7) {
+                formatted += '-' + formattedNumbers.slice(7, 9);
+            }
+            if (formattedNumbers.length > 9) {
+                formatted += '-' + formattedNumbers.slice(9, 11);
+            }
+
+            return formatted;
+        }
+
+        return value === '' ? '' : '+7 ';
+    };
+
+    const validateEmail = (email) => {
+        if (email === '') {
+            setEmailError('');
+            return true;
+        }
+
+        // Проверяем наличие @ и .
+        const hasAt = email.includes('@');
+        const hasDot = email.includes('.');
+
+        if (!hasAt || !hasDot) {
+            setEmailError('Введите корректный email адрес');
+            return false;
+        }
+
+        // Более точная проверка структуры email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setEmailError('Введите корректный email адрес');
+            return false;
+        }
+
+        setEmailError('');
+        return true;
+    };
+
+    const validatePhone = (phone) => {
+        const numbers = phone.replace(/\D/g, '');
+
+        if (phone === '') {
+            setPhoneError('');
+            return true;
+        }
+
+        if (numbers.length < 11) {
+            setPhoneError('Введите полный номер телефона');
+            return false;
+        }
+
+        setPhoneError('');
+        return true;
+    };
+
+    const handleChange = (inputName, value) => {
+        if (inputName === 'phone') {
+            const formattedPhone = formatPhoneNumber(value);
+            setInputValues(prev => ({ ...prev, [inputName]: formattedPhone }));
+
+            // Валидация в реальном времени
+            validatePhone(formattedPhone);
+        } else {
+            setInputValues(prev => ({ ...prev, [inputName]: value }));
+        }
+    };
 
     const vacanciesData = [
         { id: '1', title: 'Повар на производство', category: 'Производство', schedule: 'Полный день', location: 'Москва' },
@@ -64,6 +185,16 @@ export default function Vacancies() {
         e.preventDefault();
         // Simulate form submission logic (e.g., API call)
         setIsSuccessModalOpen(true); // Open the success modal
+        const isPhoneValid = validatePhone(inputValues.phone);
+        const isEmailValid = validateEmail(inputValues.email);
+
+        if (!isPhoneValid || !isEmailValid) {
+
+            return;
+        }
+
+        // Здесь ваша логика отправки формы
+        console.log('Form submitted:', inputValues);
     };
 
     const closeSuccessModal = () => {
@@ -600,27 +731,99 @@ export default function Vacancies() {
 
 
                             {!isSuccessModalOpen ? (
-                                <form onClick={handleFormSubmit} className={styles.partnersFormRight}>
+                                <form onSubmit={handleFormSubmit} className={styles.partnersFormRight}>
                                     <div className={styles.partnersFormRightUp}>
-                                        <input type="text" placeholder='Имя и Фамилия' className={styles.partnersInput} />
-                                        <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
-                                        <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
-                                        <textarea className={styles.partnersTextArea} name="textArea" id="" placeholder='Расскажите о себе'></textarea>
+                                        <div className={styles.inputContainer}>
+                                            <input
+                                                type="text"
+                                                className={styles.partnersInput}
+                                                value={inputValues.name}
+                                                onFocus={() => handleFocus('name')}
+                                                onBlur={() => handleBlur('name')}
+                                                onChange={(e) => handleChange('name', e.target.value)}
+                                            />
+                                            <label
+                                                className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''
+                                                    }`}
+                                            >
+                                                Имя и Фамилия
+                                            </label>
+                                        </div>
+
+                                        <div className={styles.inputContainer}>
+                                            <input
+                                                type="tel"
+                                                className={`${styles.partnersInput} ${phoneError ? styles.inputError : ''}`}
+                                                value={inputValues.phone}
+                                                onFocus={() => handleFocus('phone')}
+                                                onBlur={() => handleBlur('phone')}
+                                                onChange={(e) => handleChange('phone', e.target.value)}
+                                                placeholder=""
+                                            />
+                                            <label
+                                                className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''
+                                                    }`}
+                                            >
+                                                Номер телефона
+                                            </label>
+                                            {phoneError && <div className={styles.errorMessage}>{phoneError}</div>}
+                                        </div>
+
+                                        <div className={styles.inputContainer}>
+                                            <input
+                                                type="email"
+                                                className={`${styles.partnersInput} ${emailError ? styles.inputError : ''}`}
+                                                value={inputValues.email}
+                                                onFocus={() => handleFocus('email')}
+                                                onBlur={() => handleBlur('email')}
+                                                onChange={(e) => handleChange('email', e.target.value)}
+                                            />
+                                            <label
+                                                className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''
+                                                    }`}
+                                            >
+                                                Электронная почта
+                                            </label>
+                                            {emailError && <div className={styles.errorMessage}>{emailError}</div>}
+                                        </div>
+
+                                        <div className={styles.inputContainer}>
+                                            <textarea
+                                                className={styles.partnersTextArea}
+                                                name="textArea"
+                                                value={inputValues.textArea}
+                                                onFocus={() => handleFocus('textArea')}
+                                                onBlur={() => handleBlur('textArea')}
+                                                onChange={(e) => handleChange('textArea', e.target.value)}
+                                            />
+                                            <label
+                                                className={`${styles.customPlaceholder} ${focusedInputs.textArea || inputValues.textArea ? styles.active : ''
+                                                    }`}
+                                            >
+                                                Расскажите о себе
+                                            </label>
+                                        </div>
                                     </div>
+
                                     <div className={styles.partnersFileBox}>
-                                        <input className={styles.partnersFileInput} type="file" id='partnersFile' />
+                                        <input className={styles.partnersFileInput} type="file" id="partnersFile" />
                                         <label className={styles.partnersFileLabel} htmlFor="partnersFile">
-                                            <Image src={'/paperclip.svg'} width={24} height={24}></Image>
+                                            <Image src={'/paperclip.svg'} width={24} height={24} alt="attach" />
                                             <div className={styles.partnersFiletext}>
                                                 <h5 className={styles.partnersFileInputTitle}>Прикрепить резюме</h5>
                                                 <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
                                             </div>
                                         </label>
                                     </div>
+
                                     <div className={styles.partnersFormRightBottom}>
-                                        <button className={styles.partnersFormSubmit}>Отправить резюме</button>
-                                        <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>
-                                            политикой конфиденциальности</Link></p>
+                                        <button className={styles.partnersFormSubmit} type="submit">
+                                            Отправить резюме
+                                        </button>
+                                        <p className={styles.partnersPolicy}>
+                                            Нажимая на кнопку, вы соглашаетесь с{' '}
+                                            <Link href={'/'}>политикой конфиденциальности</Link>
+                                        </p>
                                     </div>
                                 </form>
                             ) : (

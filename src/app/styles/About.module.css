@@ -34,7 +34,9 @@
     padding-bottom: 110px;
     border-bottom: 1px solid #BBC5D6;
     justify-content: space-between;
-    gap: 512px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .aboutHeaderTextTitle {
@@ -50,6 +52,7 @@
 
 .aboutHeaderBottomBlock {
     max-width: 1194px;
+    grid-column: 2 / 4;
 }
 
 .aboutHeaderTextInfo {
@@ -90,10 +93,6 @@
     .aboutHeaderCardItem {
         min-height: 358px;
         height: 100%;
-    }
-
-    .aboutHeaderBottomText {
-        gap: 254px;
     }
 
     .swiper-slide {
@@ -153,6 +152,7 @@
     }
 
     .aboutHeaderBottomText {
+        display: flex;
         gap: 20px;
         flex-direction: column;
     }
@@ -599,6 +599,9 @@
     justify-content: space-between;
     width: 100%;
     align-items: start;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .clientsHeaderTitle {
@@ -625,6 +628,7 @@
 .clientsLeft {
     max-width: 1194px;
     width: 100%;
+    grid-column: 2 / 4;
 }
 
 .clientsCardsContainer {
@@ -742,9 +746,6 @@
         max-width: calc(1000px + (1210 - 1000) * (100vw - 1440px) / (1919 - 1440));
     }
 
-    .clientsHeaderBottomBlock {
-        gap: 254px;
-    }
 }
 
 @media (max-width: 1439px) and (min-width: 1000px) {
@@ -765,6 +766,7 @@
     }
 
     .clientsHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
     }
 
@@ -792,6 +794,7 @@
     }
 
     .clientsHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
     }
 
@@ -840,6 +843,7 @@
     }
 
     .clientsHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
     }
 
@@ -908,7 +912,10 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
-    gap: 254px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    overflow: visible;
 }
 
 .historyTitle {
@@ -920,11 +927,13 @@
     color: #2C2C2C;
     padding-bottom: 8px;
     border-bottom: 1px solid #2C2C2C;
+    max-width: fit-content;
 }
 
 .historyLeft {
     max-width: 1194px;
     width: 100%;
+    grid-column: 2 / 4;
 }
 
 .historyHeader {
@@ -948,7 +957,6 @@
 
 .historySwiper {
     overflow: visible !important;
-    /* Для гарантии видимости переполнения */
 }
 
 .historyText {
@@ -978,6 +986,20 @@
     object-fit: cover;
 }
 
+.historyCardSwiper {
+    width: 435px !important;
+}
+
+@media (max-width: 1440px) {
+    .historyCardSwiper {
+        width: 315px !important;
+    }
+
+    .historyCard {
+        height: 358px;
+    }
+}
+
 @media (max-width: 1439px) {
     .historyHeader {
         font-size: 36px;
@@ -995,6 +1017,7 @@
 
 @media (max-width: 999px) {
     .historyContent {
+        display: flex;
         flex-direction: column;
         gap: 0;
         padding-top: 90px;
@@ -1032,6 +1055,10 @@
 
     .historyCard {
         height: 340px;
+    }
+
+    .historyCardSwiper {
+        width: 300px !important;
     }
 }
 
@@ -1183,6 +1210,9 @@
     justify-content: space-between;
     align-items: start;
     justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .aboutQualityTitle {
@@ -1200,6 +1230,7 @@
 .aboutQualityLeft {
     max-width: 1194px;
     width: 100%;
+    grid-column: 2 / 4;
 }
 
 .aboutQualitySubtitle {
@@ -1268,18 +1299,13 @@
     color: #2C2C2C;
 }
 
-@media (max-width: 1920px) {
-    .aboutQualityContent {
-        gap: 254px;
-    }
-}
-
 @media (max-width: 1439px) {
     .aboutQualitySubtitle {
         max-width: 874px;
     }
 
     .aboutQualityContent {
+        display: flex;
         gap: 20px;
         flex-direction: column;
         padding-top: 90px;
@@ -1362,16 +1388,17 @@
     }
 
     .aboutQualityListItem {
-        max-width: 320px;
         flex-direction: column;
         display: flex;
     }
 
     .aboutQualityListItemContent {
         padding: 20px;
+        height: 346px;
     }
 
     .aboutQualityListItem img {
+        width: 100%;
         max-width: 100%;
         max-height: 300px;
         object-fit: cover;
@@ -1392,7 +1419,9 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
-    gap: 254px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .logisticsTitle {
@@ -1404,11 +1433,13 @@
     color: #2C2C2C;
     padding-bottom: 8px;
     border-bottom: 1px solid #2C2C2C;
+    max-width: fit-content;
 }
 
 .logisticsLeft {
     max-width: 1194px;
     width: 100%;
+    grid-column: 2 / 4;
 }
 
 .logisticsText {
@@ -1473,6 +1504,7 @@
 
 @media (max-width: 999px) {
     .logisticsContent {
+        display: flex;
         flex-direction: column;
         gap: 0;
         padding-top: 90px;
@@ -1538,7 +1570,13 @@
     display: flex;
     justify-content: start;
     align-items: start;
-    gap: 414px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.qualityRight {
+    grid-column: 2 / 4;
 }
 
 .qualityHeaderTitle {
@@ -1630,12 +1668,10 @@
 }
 
 @media (max-width: 1920px) {
-    .qualityHeaderBottomBlock {
-        gap: 254px;
-    }
 
     .qualityCardsContainer {
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 280px);
+
     }
 }
 
@@ -1658,6 +1694,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 0;
     }
@@ -1698,6 +1735,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
@@ -1718,6 +1756,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
@@ -1762,6 +1801,14 @@
         max-width: 30px;
     }
 
+    .qualitySwiper {
+        overflow: visible !important;
+    }
+
+    .qualityCardsContainer {
+        display: flex;
+        max-width: calc(100vw - 40px);
+    }
 }
 
 .preFooter {

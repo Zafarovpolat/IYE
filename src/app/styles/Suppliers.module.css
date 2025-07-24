@@ -200,6 +200,7 @@
     border-radius: 20px;
     color: white;
     position: relative;
+    overflow: hidden;
 }
 
 .contactFormTitle {
@@ -338,6 +339,8 @@
     padding: 60px;
     border-radius: 20px;
     position: relative;
+    overflow: hidden;
+
 }
 
 .successModalImage {

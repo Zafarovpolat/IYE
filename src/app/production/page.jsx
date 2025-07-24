@@ -31,6 +31,129 @@ export default function Production() {
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // New state for success modal
     const [deltaY, setDeltaY] = useState(30); // Default value
     const yOffset = useMotionValue(0);
+    const [focusedInputs, setFocusedInputs] = useState({});
+    const [phoneError, setPhoneError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [inputValues, setInputValues] = useState({
+        name: '',
+        company: '',
+        phone: '',
+        email: ''
+    });
+
+    const handleFocus = (inputName) => {
+        setFocusedInputs(prev => ({ ...prev, [inputName]: true }));
+    };
+
+    const handleBlur = (inputName) => {
+        if (!inputValues[inputName]) {
+            setFocusedInputs(prev => ({ ...prev, [inputName]: false }));
+        }
+
+        if (inputName === 'phone') {
+            validatePhone(inputValues.phone);
+        } else if (inputName === 'email') {
+            validateEmail(inputValues.email);
+        }
+    };
+
+    const formatPhoneNumber = (value) => {
+        // Удаляем все символы кроме цифр
+        const numbers = value.replace(/\D/g, '');
+
+        // Если начинается с 8, заменяем на 7
+        let formattedNumbers = numbers;
+        if (numbers.startsWith('8')) {
+            formattedNumbers = '7' + numbers.slice(1);
+        }
+
+        // Если не начинается с 7, добавляем 7 в начало
+        if (!formattedNumbers.startsWith('7') && formattedNumbers.length > 0) {
+            formattedNumbers = '7' + formattedNumbers;
+        }
+
+        // Ограничиваем до 11 цифр (7 + 10 цифр номера)
+        formattedNumbers = formattedNumbers.slice(0, 11);
+
+        // Применяем маску +7 xxx xxx-xx-xx
+        if (formattedNumbers.length >= 1) {
+            let formatted = '+7';
+
+            if (formattedNumbers.length > 1) {
+                formatted += ' ' + formattedNumbers.slice(1, 4);
+            }
+            if (formattedNumbers.length > 4) {
+                formatted += ' ' + formattedNumbers.slice(4, 7);
+            }
+            if (formattedNumbers.length > 7) {
+                formatted += '-' + formattedNumbers.slice(7, 9);
+            }
+            if (formattedNumbers.length > 9) {
+                formatted += '-' + formattedNumbers.slice(9, 11);
+            }
+
+            return formatted;
+        }
+
+        return value === '' ? '' : '+7 ';
+    };
+
+    const validateEmail = (email) => {
+        if (email === '') {
+            setEmailError('');
+            return true;
+        }
+
+        // Проверяем наличие @ и .
+        const hasAt = email.includes('@');
+        const hasDot = email.includes('.');
+
+        if (!hasAt || !hasDot) {
+            setEmailError('Введите корректный email адрес');
+            return false;
+        }
+
+        // Более точная проверка структуры email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setEmailError('Введите корректный email адрес');
+            return false;
+        }
+
+        setEmailError('');
+        return true;
+    };
+
+    const validatePhone = (phone) => {
+        const numbers = phone.replace(/\D/g, '');
+
+        if (phone === '') {
+            setPhoneError('');
+            return true;
+        }
+
+        if (numbers.length < 11) {
+            setPhoneError('Введите полный номер телефона');
+            return false;
+        }
+
+        setPhoneError('');
+        return true;
+    };
+
+    const handleChange = (inputName, value) => {
+        if (inputName === 'phone') {
+            const formattedPhone = formatPhoneNumber(value);
+            setInputValues(prev => ({ ...prev, [inputName]: formattedPhone }));
+
+            // Валидация в реальном времени
+            validatePhone(formattedPhone);
+        } else {
+            setInputValues(prev => ({ ...prev, [inputName]: value }));
+        }
+    };
+
+
 
     useEffect(() => {
         setIsClient(true);
@@ -167,6 +290,27 @@ export default function Production() {
         e.preventDefault();
         // Simulate form submission logic (e.g., API call)
         setIsSuccessModalOpen(true); // Open the success modal
+        setIsModalOpen(false); // Закрываем модальное окно формы
+        const isPhoneValid = validatePhone(inputValues.phone);
+        const isEmailValid = validateEmail(inputValues.email);
+
+        if (!isPhoneValid || !isEmailValid) {
+
+            return;
+        }
+
+        // Здесь ваша логика отправки формы
+        console.log('Form submitted:', inputValues);
+    };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     const closeSuccessModal = () => {
@@ -372,6 +516,129 @@ export default function Production() {
                     </div>
                 </div>
             </motion.section>
+
+            {isModalOpen && (
+                <div className={styles.modalOverlay} onClick={closeModal}>
+                    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                        <button className={styles.closeButton} onClick={closeModal}>
+                            ✕
+                        </button>
+                        <div className={styles.contactForm}>
+                            <div className={styles.contactFormLeft}>
+                                <Image className={styles.contactFormImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
+                                <h3 className={styles.contactFormTitle}>Хотите стать нашим партнёром?</h3>
+                                <p className={styles.contactFormInfo}>
+                                    Мы всегда открыты к новым партнёрствам и готовы предложить лучшие условия для вашего бизнеса. Заполните форму и мы свяжемся с вами в ближайшее время
+                                </p>
+                            </div>
+                            <div className={styles.contactFormRight}>
+                                <form onSubmit={handleFormSubmit}>
+                                    <div className={styles.contactFormRightUp}>
+                                        <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
+                                            <input
+                                                type="text"
+                                                className={styles.partnersInput}
+                                                value={inputValues.name}
+                                                onFocus={() => handleFocus('name')}
+                                                onBlur={() => handleBlur('name')}
+                                                onChange={(e) => handleChange('name', e.target.value)}
+                                            />
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
+                                                Имя и Фамилия
+                                            </label>
+                                        </div>
+
+                                        <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
+                                            <input
+                                                type="text"
+                                                className={styles.partnersInput}
+                                                value={inputValues.company}
+                                                onFocus={() => handleFocus('company')}
+                                                onBlur={() => handleBlur('company')}
+                                                onChange={(e) => handleChange('company', e.target.value)}
+                                            />
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''}`}>
+                                                Компания
+                                            </label>
+                                        </div>
+
+                                        <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
+                                            <input
+                                                type="tel"
+                                                className={`${styles.partnersInput} ${phoneError ? styles.inputError : ''}`}
+                                                value={inputValues.phone}
+                                                onFocus={() => handleFocus('phone')}
+                                                onBlur={() => handleBlur('phone')}
+                                                onChange={(e) => handleChange('phone', e.target.value)}
+                                                placeholder=""
+                                            />
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}>
+                                                Номер телефона
+                                            </label>
+                                            {phoneError && (
+                                                <div className={styles.errorMessage}>
+                                                    {phoneError}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
+                                            <input
+                                                type="email"
+                                                className={`${styles.partnersInput} ${emailError ? styles.inputError : ''}`}
+                                                value={inputValues.email}
+                                                onFocus={() => handleFocus('email')}
+                                                onBlur={() => handleBlur('email')}
+                                                onChange={(e) => handleChange('email', e.target.value)}
+                                            />
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}>
+                                                Электронная почта
+                                            </label>
+                                            {emailError && (
+                                                <div className={styles.errorMessage}>
+                                                    {emailError}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className={styles.contactFormRightBottom}>
+                                        <button type="submit" className={styles.contactFormSubmit}>
+                                            Отправить заявку
+                                        </button>
+                                        <p className={styles.partnersPolicy}>
+                                            Нажимая на кнопку, вы соглашаетесь с{' '}
+                                            <Link href={'/'}>политикой конфиденциальности</Link>
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isSuccessModalOpen && (
+                <div className={styles.modalOverlay} onClick={closeSuccessModal}>
+                    <div className={styles.successModalContent} onClick={(e) => e.stopPropagation()}>
+                        <button className={styles.closeButton} onClick={closeSuccessModal}>
+                            ✕
+                        </button>
+                        <div className={styles.successModal}>
+                            <Image className={styles.successModalImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
+                            <div className={styles.successModalInner}>
+                                <Image src={'/email.svg'} width={52} height={52}></Image>
+                                <h3 className={styles.successModalTitle}>Заявка отправлена</h3>
+                                <p className={styles.successModalInfo}>
+                                    Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
+                                </p>
+                                <p className={styles.successModalInfo}>
+                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="">+7 (000) 000–00–00</a></span> или написать на <span><a href="">stm@ideologia.ru</a></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <motion.div
                 className={styles.sections}
@@ -613,7 +880,7 @@ export default function Production() {
                                             </>
                                         ) : (
                                             <Swiper spaceBetween={10} slidesPerView={1.1} className={styles.qualitySwiper}>
-                                                <SwiperSlide>
+                                                <SwiperSlide className={styles.qualityCardSlide}>
                                                     <motion.div
                                                         className={styles.qualityCard}
 
@@ -843,7 +1110,7 @@ export default function Production() {
                             <h4 className={styles.stmBannerTitle}>
                                 Работа с нами по СТМ — это возможность создать уникальный продукт с сильным брендом без необходимости инвестировать в собственные производственные мощности
                             </h4>
-                            <button className={styles.stmBannerBtn}>Отправить заявку</button>
+                            <button className={styles.stmBannerBtn} onClick={toggleModal}>Отправить заявку</button>
                         </div>
                     </div>
                 </section>
@@ -867,20 +1134,90 @@ export default function Production() {
                             </div>
 
                             {!isSuccessModalOpen ? (
-                                <div className={styles.partnersFormRight}>
-                                    <form onSubmit={handleFormSubmit}>
-                                        <div className={styles.partnersFormRightUp}>
-                                            <input type="text" placeholder='Имя и Фамилия' className={styles.partnersInput} />
-                                            <input type="text" placeholder='Компания' className={styles.partnersInput} />
-                                            <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
-                                            <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
+                                <form onSubmit={handleFormSubmit} className={styles.partnersFormRight}>
+                                    <div className={styles.partnersFormRightUp}>
+                                        <div className={styles.inputContainer}>
+                                            <input
+                                                type="text"
+                                                className={styles.partnersInput}
+                                                value={inputValues.name}
+                                                onFocus={() => handleFocus('name')}
+                                                onBlur={() => handleBlur('name')}
+                                                onChange={(e) => handleChange('name', e.target.value)}
+                                            />
+                                            <label
+                                                className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''
+                                                    }`}
+                                            >
+                                                Имя и Фамилия
+                                            </label>
                                         </div>
-                                        <div className={styles.partnersFormRightBottom}>
-                                            <button className={styles.partnersFormSubmit} type='submit'>Отправить заявку</button>
-                                            <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>политикой конфиденциальности</Link></p>
+
+                                        <div className={styles.inputContainer}>
+                                            <input
+                                                type="text"
+                                                className={styles.partnersInput}
+                                                value={inputValues.company}
+                                                onFocus={() => handleFocus('company')}
+                                                onBlur={() => handleBlur('company')}
+                                                onChange={(e) => handleChange('company', e.target.value)}
+                                            />
+                                            <label
+                                                className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''
+                                                    }`}
+                                            >
+                                                Компания
+                                            </label>
                                         </div>
-                                    </form>
-                                </div>
+
+                                        <div className={styles.inputContainer}>
+                                            <input
+                                                type="tel"
+                                                className={`${styles.partnersInput} ${phoneError ? styles.inputError : ''}`}
+                                                value={inputValues.phone}
+                                                onFocus={() => handleFocus('phone')}
+                                                onBlur={() => handleBlur('phone')}
+                                                onChange={(e) => handleChange('phone', e.target.value)}
+                                                placeholder=""
+                                            />
+                                            <label
+                                                className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''
+                                                    }`}
+                                            >
+                                                Номер телефона
+                                            </label>
+                                            {phoneError && <div className={styles.errorMessage}>{phoneError}</div>}
+                                        </div>
+
+                                        <div className={styles.inputContainer}>
+                                            <input
+                                                type="email"
+                                                className={`${styles.partnersInput} ${emailError ? styles.inputError : ''}`}
+                                                value={inputValues.email}
+                                                onFocus={() => handleFocus('email')}
+                                                onBlur={() => handleBlur('email')}
+                                                onChange={(e) => handleChange('email', e.target.value)}
+                                            />
+                                            <label
+                                                className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''
+                                                    }`}
+                                            >
+                                                Электронная почта
+                                            </label>
+                                            {emailError && <div className={styles.errorMessage}>{emailError}</div>}
+                                        </div>
+                                    </div>
+
+                                    <div className={styles.partnersFormRightBottom}>
+                                        <button className={styles.partnersFormSubmit} type="submit">
+                                            Отправить заявку
+                                        </button>
+                                        <p className={styles.partnersPolicy}>
+                                            Нажимая на кнопку, вы соглашаетесь с{' '}
+                                            <Link href={'/'}>политикой конфиденциальности</Link>
+                                        </p>
+                                    </div>
+                                </form>
                             ) : (
                                 <div className={styles.modalOverlay} onClick={closeSuccessModal}>
                                     <div className={styles.successModalContent} onClick={(e) => e.stopPropagation()}>

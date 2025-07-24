@@ -22,6 +22,9 @@
     justify-content: space-between;
     align-items: start;
     margin-bottom: 70px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .technologyTitle {
@@ -38,6 +41,7 @@
 
 .technologyDescription {
     max-width: 1194px;
+    grid-column: 2 / 4;
 }
 
 .technologyDescriptionTitle {
@@ -159,12 +163,6 @@
     display: none;
 }
 
-@media (max-width: 1919px) {
-    .technologyTextBlock {
-        gap: 254px;
-    }
-}
-
 @media (max-width: 1439px) {
     .technologyHeader {
         font-size: 100px;
@@ -218,6 +216,7 @@
     }
 
     .technologyTextBlock {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
@@ -321,6 +320,14 @@
         border-left: none;
         justify-content: end;
     }
+
+    .technologyCard:nth-child(1) {
+        grid-column: 1 / 3;
+    }
+
+    .technologyCard:nth-child(2) {
+        display: none;
+    }
 }
 
 /* STEPS */
@@ -334,6 +341,9 @@
     justify-content: space-between;
     border-bottom: 1px solid #BBC5D6;
     margin-bottom: 130px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .stepsTitle {
@@ -351,6 +361,7 @@
 .stepsLeft {
     max-width: 1194px;
     width: 100%;
+    grid-column: 2 / 4;
 }
 
 .stepsSubtitle {
@@ -418,18 +429,13 @@
     color: #2C2C2C;
 }
 
-@media (max-width: 1920px) {
-    .stepsContent {
-        gap: 254px;
-    }
-}
-
 @media (max-width: 1439px) {
     .stepsSubtitle {
         max-width: 874px;
     }
 
     .stepsContent {
+        display: flex;
         gap: 20px;
         flex-direction: column;
         padding-top: 90px;
@@ -539,7 +545,13 @@
     display: flex;
     justify-content: start;
     align-items: start;
-    gap: 414px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.qualityRight {
+    grid-column: 2 / 4;
 }
 
 .qualityHeaderTitle {
@@ -631,12 +643,8 @@
 }
 
 @media (max-width: 1920px) {
-    .qualityHeaderBottomBlock {
-        gap: 254px;
-    }
-
     .qualityCardsContainer {
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 280px);
     }
 }
 
@@ -659,6 +667,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 0;
     }
@@ -699,6 +708,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
@@ -719,6 +729,7 @@
     }
 
     .qualityHeaderBottomBlock {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
@@ -761,6 +772,15 @@
 
     .qualityIcon {
         max-width: 30px;
+    }
+
+    .qualityCardsContainer {
+        width: calc(100vw - 40px);
+        display: flex;
+    }
+
+    .qualitySwiper {
+        overflow: visible !important;
     }
 
 }
@@ -1385,6 +1405,10 @@
     overflow: hidden;
 }
 
+.stmBannerLogo img {
+    border-radius: 100%;
+}
+
 .stmBannerLogo:last-child {
     display: flex;
     align-items: center;
@@ -1414,6 +1438,215 @@
     padding: 12px 24px 16px;
     border: none;
     border-radius: 8px;
+}
+
+.contactForm {
+    max-width: 1216px;
+    display: grid;
+    grid-template-columns: 608px 608px;
+}
+
+.contactFormLeft {
+    background: #084927;
+    padding: 60px;
+    border-radius: 20px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.contactFormImage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    user-select: none;
+}
+
+.contactFormTitle {
+    margin-bottom: 20px;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 44px;
+    letter-spacing: 0%;
+}
+
+.contactFormInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+}
+
+.contactFormRight {
+    border-radius: 20px;
+    background-color: white;
+    padding: 60px;
+}
+
+.contactFormRightUp {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.contactForm .inputContainer {
+    grid-column: 1 / 2;
+}
+
+.contactForm .inputContainer:nth-child(4),
+.contactForm .inputContainer:nth-child(1),
+.contactForm .inputContainer:nth-child(2) {
+    grid-column: 1 / 2;
+}
+
+.clientsInput {
+    grid-column: 1 / 2;
+    border: 1px solid #BBC5D6;
+    border-radius: 8px;
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    padding: 12px 16px 16px;
+}
+
+.clientsInput:nth-child(3) {
+    grid-column: 1 / 2;
+}
+
+.clientsInput:nth-child(4) {
+    grid-column: 1 / 2;
+}
+
+.contactFormSubmit {
+    background: #159F4A;
+    border-radius: 8px;
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: white;
+    padding: 12px 24px 16px;
+    border: none;
+    margin-bottom: 16px;
+}
+
+.partnersPolicy {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    text-decoration-style: solid;
+    text-decoration-offset: 0%;
+    text-decoration-thickness: 0%;
+    text-decoration-skip-ink: auto;
+}
+
+.partnersPolicy a {
+    color: #159F4A;
+    text-decoration: underline;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    position: relative;
+    max-width: 1216px;
+    width: 100%;
+    max-height: 90vh;
+    border-radius: 20px;
+}
+
+.closeButton {
+    position: absolute;
+    top: 0px;
+    width: 40px;
+    height: 40px;
+    right: -40px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.successModalContent {
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    text-align: center;
+}
+
+.successModal {
+    background-color: #084927;
+    padding: 60px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.successModalImage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    user-select: none;
+}
+
+.successModalInner {
+    border-radius: 20px;
+    background: white;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.successModalTitle {
+    font-family: Literata;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 44px;
+    color: #2C2C2C;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.successModalInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #2C2C2C;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.successModalInfo span a {
+    color: #159F4A;
+}
+
+.successModalInfo:last-child {
+    margin-bottom: 0;
 }
 
 @media (max-width: 1439px) {
@@ -1451,6 +1684,39 @@
         grid-column: 4 / 7;
     }
 
+    .contactForm {
+        grid-template-columns: 1fr 1fr;
+        max-width: 100%;
+    }
+
+    .modalContent,
+    .successModalContent {
+        max-width: 100%;
+        width: 100%;
+        padding: 0 60px;
+    }
+
+    .closeButton {
+        right: 15px;
+    }
+
+    .contactFormLeft {
+        padding: 40px;
+    }
+
+    .contactFormRight {
+        padding: 40px;
+    }
+
+    .contactFormTitle,
+    .successModalTitle {
+        font-size: 28px;
+        line-height: 34px;
+    }
+
+    .successModalTitle {
+        margin-bottom: 32px;
+    }
 }
 
 @media (max-width: 999px) {
@@ -1462,6 +1728,44 @@
     .stmSubTitle {
         font-size: 30px;
         line-height: 40px;
+    }
+
+    .productsBannerTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .productsBannerInfo {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .productsTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .contactForm {
+        grid-template-columns: 1fr;
+    }
+
+    .contactFormLeft {
+        border-radius: 20px 20px 0 0;
+        background-color: white;
+        padding-bottom: 0;
+    }
+
+    .contactFormRight {
+        border-radius: 0 0 20px 20px;
+    }
+
+    .contactFormTitle,
+    .contactFormInfo {
+        color: #2C2C2C;
+    }
+
+    .successModal {
+        padding: 0;
     }
 }
 
@@ -1499,6 +1803,58 @@
         padding: 0;
         padding-bottom: 70px;
     }
+
+    .stmSwiper {
+        overflow: visible !important;
+    }
+
+    .modalContent,
+    .successModalContent {
+        padding: 0;
+        max-height: fit-content;
+    }
+
+    .closeButton {
+        right: 0;
+        top: -50px;
+        right: 20px;
+    }
+
+    .contactFormLeft {
+        padding: 20px;
+        padding-bottom: 0;
+    }
+
+    .contactFormRight {
+        padding: 20px;
+    }
+
+    .contactFormTitle,
+    .successModalTitle {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .contactFormInfo,
+    .successModalInfo {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .clientsInput {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .contactFormSubmit {
+        font-size: 16px;
+        line-height: 22px;
+        width: 100%;
+    }
+
+    .successModalInner {
+        padding: 20px;
+    }
 }
 
 /* PARTNERS */
@@ -1512,6 +1868,9 @@
     justify-content: space-between;
     align-items: start;
     margin-bottom: 130px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
 .partnersTitle {
@@ -1529,6 +1888,7 @@
 
 .partnersRight {
     max-width: 1194px;
+    grid-column: 2 / 4;
 }
 
 .partnersSubtitle {
@@ -1600,8 +1960,12 @@
     margin-bottom: 32px;
 }
 
+.inputContainer {
+    position: relative;
+}
+
 .partnersInput {
-    grid-column: 1 / 3;
+    width: 100%;
     border: 1px solid #BBC5D6;
     border-radius: 8px;
     font-family: Literata;
@@ -1609,14 +1973,73 @@
     font-size: 18px;
     line-height: 24px;
     letter-spacing: 0%;
-    padding: 12px 16px 16px;
+    padding: 12px 16px 12px;
+    background: transparent;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
-.partnersInput:nth-child(3) {
+.customPlaceholder {
+    position: absolute;
+    left: 12px;
+    top: 25px;
+    transform: translateY(-50%);
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: #747B87;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: white;
+    /* фон для перекрытия рамки */
+    padding: 0 4px;
+}
+
+.customPlaceholder.active {
+    top: 0;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #2C2C2C;
+    /* цвет активного лейбла, замените на нужный */
+}
+
+/* Стили для инпута с ошибкой */
+.partnersInput.inputError {
+    border-color: #F13A3A;
+}
+
+.partnersInput.inputError:focus {
+    border-color: #F13A3A;
+}
+
+/* Сообщение об ошибке */
+.errorMessage {
+    margin-top: 4px;
+    left: 0px;
+    top: 100%;
+    margin-top: 4px;
+    font-family: Literata;
+    font-size: 14px;
+    line-height: 20px;
+    color: #F13A3A;
+    font-weight: 400;
+}
+
+.inputContainer:nth-child(1) {
+    grid-column: 1 / 3;
+}
+
+.inputContainer:nth-child(2) {
+    grid-column: 1 / 3;
+}
+
+.inputContainer:nth-child(3) {
     grid-column: 1 / 2;
 }
 
-.partnersInput:nth-child(4) {
+.inputContainer:nth-child(4) {
     grid-column: 2 / 3;
 }
 
@@ -1701,9 +2124,6 @@
 }
 
 @media (max-width: 1919px) {
-    .partnersHeading {
-        gap: 262px;
-    }
 
     .partnersTitle {
         white-space: nowrap;
@@ -1753,6 +2173,7 @@
 
 @media (max-width: 999px) {
     .partnersHeading {
+        display: flex;
         gap: 20px;
         flex-direction: column;
     }
@@ -1809,11 +2230,18 @@
 
     .partnersFormRightUp {
         grid-template-columns: 1fr;
+    }
 
+    .inputContainer:nth-child(1) {
+        grid-column: 1 / 2;
+    }
+
+    .inputContainer:nth-child(2) {
+        grid-column: 1 / 2;
     }
 
     .partnersInput,
-    .partnersInput:nth-child(4) {
+    .inputContainer:nth-child(4) {
         grid-column: 1 / 2;
     }
 

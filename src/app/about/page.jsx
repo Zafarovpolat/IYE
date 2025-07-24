@@ -295,31 +295,29 @@ export default function About() {
                             </div>
                             <Swiper
                                 spaceBetween={20}
-                                slidesPerView={3} // Показываем 2.5 карточки для эффекта частичной видимости
+                                slidesPerView={'auto'}
                                 className={styles.historySwiper}
                                 breakpoints={{
-                                    1440: { slidesPerView: 3 },
-                                    767: { slidesPerView: 2 },
-                                    300: { slidesPerView: 1 }
+                                    360: { spaceBetween: 10 },
+                                    768: { spaceBetween: 20 },
                                 }}
-                                style={{ overflow: 'visible' }} // Сохраняем видимый overflow
                             >
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.historyCardSwiper}>
                                     <div className={styles.historyCard}>
                                         <Image src="/history1.png" alt="История 1" width={300} height={200} className={styles.historyCardImage} />
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.historyCardSwiper}>
                                     <div className={styles.historyCard}>
                                         <Image src="/history2.png" alt="История 2" width={300} height={200} className={styles.historyCardImage} />
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.historyCardSwiper}>
                                     <div className={styles.historyCard}>
                                         <Image src="/history3.png" alt="История 3" width={300} height={200} className={styles.historyCardImage} />
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide>
+                                <SwiperSlide className={styles.historyCardSwiper}>
                                     <div className={styles.historyCard}>
                                         <Image src="/history4.png" alt="История 4" width={300} height={200} className={styles.historyCardImage} />
                                     </div>
@@ -451,7 +449,7 @@ export default function About() {
                                 </p>
                             </div>
                             <div className={styles.logisticsImgBox}>
-                                <Image className={styles.logisticsImg} src="/logistics.png" alt="Логистика" width={615} height={320} />
+                                <Image className={styles.logisticsImg} src="/van2.png" alt="Логистика" width={615} height={320} />
                             </div>
                         </div>
                     </div>
