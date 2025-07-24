@@ -1771,6 +1771,7 @@
 
 .sections {
     border-radius: 40px;
+    will-change: transform;
 }
 
 @media (max-width: 999px) {

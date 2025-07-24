@@ -154,19 +154,15 @@ export default function Terms() {
     };
     const rippleVariants2 = {
         initial: {
-            scale: 0,
-            transition: { duration: 0 }
+            opacity: 0,
+            transition: { duration: 0.3 }
         },
-        hover: (i) => {
-            const baseScale = 5;
-            const maxScale = (baseScale - (i * SCALE_REDUCTION)) * 2;
-            return {
-                scale: [2, 8, maxScale],
-                transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                }
-            };
+        hover: {
+            opacity: 1,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+            }
         }
     };
 
@@ -283,12 +279,14 @@ export default function Terms() {
                                     </motion.svg>
                                 </motion.div>
                             </Link>
-                            {isPreFooterHovered &&
-                                Array.from({ length: 3 }).map((_, i) => (
+                            {Array.from({ length: 3 }).map((_, i) => {
+                                const baseScale = 5;
+                                const finalScale = (baseScale - (i * SCALE_REDUCTION)) * 2;
+
+                                return (
                                     <motion.div
                                         key={`prefooter-ripple-${i}`}
                                         className={styles.ripple}
-                                        custom={i}
                                         initial='initial'
                                         animate={isPreFooterHovered ? 'hover' : 'initial'}
                                         variants={rippleVariants2}
@@ -297,9 +295,11 @@ export default function Terms() {
                                             bottom: `${isMobile ? '20px' : '30px'}`,
                                             transform: 'translate(50%, 50%)',
                                             backgroundColor: clientRippleColors[i],
+                                            scale: finalScale, // Set final scale directly via style
                                         }}
                                     />
-                                ))}
+                                );
+                            })}
                         </motion.div>
                     </div>
                 </div>

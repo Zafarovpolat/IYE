@@ -1,12 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation, useTransform } from 'framer-motion';
 import Footer from '../components/Footer/Footer';
 import styles from '../styles/Products.module.css';
 import Button from '../components/Button/Button';
 import Link from 'next/link';
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
@@ -24,10 +24,10 @@ export default function Production() {
     const heroRef = useRef(null);
     const currentSectionIndexRef = useRef(0);
     const swiperRef = useRef(null);
-    const [isOverflowAuto, setIsOverflowAuto] = useState(false); // Новое состояние для overflow
+    const [isOverflowAuto, setIsOverflowAuto] = useState(false);
     const targetOffsetRef = useRef(0);
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
-    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // New state for success modal
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
     const [focusedInputs, setFocusedInputs] = useState({});
     const [phoneError, setPhoneError] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -37,6 +37,12 @@ export default function Production() {
         phone: '',
         email: ''
     });
+    const productsHeaderRef = useRef(null);
+    const [animationStep, setAnimationStep] = useState(0); // Track animation progress
+    const [isAnimationComplete, setIsAnimationComplete] = useState(false); // Track if animation is done
+    const listItemRefs = useRef([]); // Refs for list items
+    const [isAnimating, setIsAnimating] = useState(false); // Track if an animation is in progress
+
 
     const handleFocus = (inputName) => {
         setFocusedInputs(prev => ({ ...prev, [inputName]: true }));
@@ -55,27 +61,17 @@ export default function Production() {
     };
 
     const formatPhoneNumber = (value) => {
-        // Удаляем все символы кроме цифр
         const numbers = value.replace(/\D/g, '');
-
-        // Если начинается с 8, заменяем на 7
         let formattedNumbers = numbers;
         if (numbers.startsWith('8')) {
             formattedNumbers = '7' + numbers.slice(1);
         }
-
-        // Если не начинается с 7, добавляем 7 в начало
         if (!formattedNumbers.startsWith('7') && formattedNumbers.length > 0) {
             formattedNumbers = '7' + formattedNumbers;
         }
-
-        // Ограничиваем до 11 цифр (7 + 10 цифр номера)
         formattedNumbers = formattedNumbers.slice(0, 11);
-
-        // Применяем маску +7 xxx xxx-xx-xx
         if (formattedNumbers.length >= 1) {
             let formatted = '+7';
-
             if (formattedNumbers.length > 1) {
                 formatted += ' ' + formattedNumbers.slice(1, 4);
             }
@@ -88,10 +84,8 @@ export default function Production() {
             if (formattedNumbers.length > 9) {
                 formatted += '-' + formattedNumbers.slice(9, 11);
             }
-
             return formatted;
         }
-
         return value === '' ? '' : '+7 ';
     };
 
@@ -100,40 +94,31 @@ export default function Production() {
             setEmailError('');
             return true;
         }
-
-        // Проверяем наличие @ и .
         const hasAt = email.includes('@');
         const hasDot = email.includes('.');
-
         if (!hasAt || !hasDot) {
             setEmailError('Введите корректный email адрес');
             return false;
         }
-
-        // Более точная проверка структуры email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             setEmailError('Введите корректный email адрес');
             return false;
         }
-
         setEmailError('');
         return true;
     };
 
     const validatePhone = (phone) => {
         const numbers = phone.replace(/\D/g, '');
-
         if (phone === '') {
             setPhoneError('');
             return true;
         }
-
         if (numbers.length < 11) {
             setPhoneError('Введите полный номер телефона');
             return false;
         }
-
         setPhoneError('');
         return true;
     };
@@ -142,8 +127,6 @@ export default function Production() {
         if (inputName === 'phone') {
             const formattedPhone = formatPhoneNumber(value);
             setInputValues(prev => ({ ...prev, [inputName]: formattedPhone }));
-
-            // Валидация в реальном времени
             validatePhone(formattedPhone);
         } else {
             setInputValues(prev => ({ ...prev, [inputName]: value }));
@@ -159,27 +142,79 @@ export default function Production() {
             const width = window.innerWidth;
             setIsMobile(width <= 767);
         };
-
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        // Disable scrolling initially
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
+
+    useEffect(() => {
+        // Enable scrolling after animation is complete
+        if (isAnimationComplete) {
+            document.body.style.overflow = 'auto';
+        }
+    }, [isAnimationComplete]);
+
+    const handleScroll = async (e) => {
+        if (isAnimationComplete || isMobile || isAnimating) return; // Skip if animation is done, on mobile, or animating
+        e.preventDefault();
+        if (animationStep < 2) {
+            setIsAnimating(true); // Lock animation
+            const nextStep = animationStep + 1;
+            const currentItem = listItemRefs.current[animationStep];
+            const nextItem = listItemRefs.current[animationStep + 1];
+            if (currentItem && nextItem) {
+                const currentRect = currentItem.getBoundingClientRect();
+                const nextRect = nextItem.getBoundingClientRect();
+                const distance = currentRect.top - nextRect.top;
+                await controls.start((i) => {
+                    if (i === animationStep + 1) {
+                        return {
+                            y: distance,
+                            transition: {
+                                duration: 2,
+                                ease: [0.25, 0.1, 0.25, 1],
+                                onComplete: () => {
+                                    setAnimationStep(nextStep);
+                                    setIsAnimating(false); // Unlock after completion
+                                    if (nextStep === 2) {
+                                        setIsAnimationComplete(true);
+                                    }
+                                }
+                            }
+                        };
+                    }
+                    return {};
+                });
+            } else {
+                setIsAnimating(false); // Unlock if no valid items
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('wheel', handleScroll, { passive: false });
+        return () => {
+            window.removeEventListener('wheel', handleScroll);
+        };
+    }, [animationStep, isAnimationComplete, isAnimating]);
+
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        // Simulate form submission logic (e.g., API call)
-        setIsSuccessModalOpen(true); // Open the success modal
-        setIsModalOpen(false); // Закрываем модальное окно формы
-
+        setIsSuccessModalOpen(true);
+        setIsModalOpen(false);
         const isPhoneValid = validatePhone(inputValues.phone);
         const isEmailValid = validateEmail(inputValues.email);
-
         if (!isPhoneValid || !isEmailValid) {
-
             return;
         }
-
-        // Здесь ваша логика отправки формы
         console.log('Form submitted:', inputValues);
     };
 
@@ -201,6 +236,14 @@ export default function Production() {
         x: '100%',
         y: '100%',
     };
+
+    useEffect(() => {
+        controls.start({
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5 }
+        });
+    }, [controls]);
 
     const clientCardBackgroundVariants = {
         initial: {
@@ -245,7 +288,6 @@ export default function Production() {
         },
     };
 
-    // Variants for preFooter section partnerCard
     const preFooterCardBackgroundVariants = {
         initial: {
             backgroundColor: '#159F4A',
@@ -309,19 +351,15 @@ export default function Production() {
     };
     const rippleVariants2 = {
         initial: {
-            scale: 0,
-            transition: { duration: 0 }
+            opacity: 0,
+            transition: { duration: 0.3 }
         },
-        hover: (i) => {
-            const baseScale = 5;
-            const maxScale = (baseScale - (i * SCALE_REDUCTION)) * 2;
-            return {
-                scale: [2, 8, maxScale],
-                transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                }
-            };
+        hover: {
+            opacity: 1,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+            }
         }
     };
 
@@ -333,42 +371,53 @@ export default function Production() {
 
     return (
         <>
-
-            <section id='productsHeader' className={styles.productsHeader}>
-                <div className={`${styles.container} container`}>
+            <section id='productsHeader' className={styles.productsHeader} >
+                <div
+                    className={`${styles.container} container`}
+                >
                     <h1 className={styles.productsHeaderHeading}>Продукция</h1>
                     <div className={styles.productsHeaderContent}>
                         <h5 className={styles.productsHeaderTitle}>преимущества</h5>
                         <div className={styles.productsHeaderLeft}>
-                            <h3 className={styles.productsHeaderSubtitle}>Почему выбирают нас?</h3>
+                            <h3 className={styles.productsHeaderSubtitle}>Почему выбирают нас?</h3>
                             <ul className={styles.productsHeaderList}>
-                                <li className={styles.productsHeaderListItem}>
-                                    <Image src="/productsHeader3.png" alt="Сертификация по ISO 9001" width={400} height={320} />
-                                    <div className={styles.productsHeaderListItemContent}>
-                                        <div className={styles.productsHeaderListItemUp}>
-                                            <h4 className={styles.productsHeaderListItemTitle}>Свежесть и натуральность</h4>
+                                {[
+                                    {
+                                        image: "/productsHeader3.png",
+                                        alt: "Сертификация по ISO 9001",
+                                        title: "Свежесть и натуральность",
+                                        description: "Мы производим вкусную и свежую готовую еду. Вся продукция изготавливается ежедневно на нашем современном производстве и доставляется в крупнейшие торговые сети Москвы, включая «Пятёрочку», «Перекрёсток», «Самокат» и «ВкусВилл»"
+                                    },
+                                    {
+                                        image: "/productsHeader2.png",
+                                        alt: "Сертификация по ISO 9001",
+                                        title: "Контроль качества на всех этапах",
+                                        description: "Мы придерживаемся строгих стандартов качества, включая HACCP и ГОСТ, а также проводим регулярный лабораторный контроль сырья и готовой продукции. Каждая партия проходит аудит, что гарантирует безопасность и высокое качество нашей еды"
+                                    },
+                                    {
+                                        image: "/productsHeader1.png",
+                                        alt: "Сертификация по ISO 9001",
+                                        title: "Развитие собственного бренда и производство под СТМ",
+                                        description: "Мы работаем как под собственным брендом, так и создаём продукцию для частных торговых марок (СТМ). Это позволяет нашим партнёрам предлагать покупателям уникальные товары с гарантированным качеством"
+                                    }
+                                ].map((item, index) => (
+                                    <motion.li
+                                        key={index}
+                                        className={styles.productsHeaderListItem}
+                                        ref={el => listItemRefs.current[index] = el}
+                                        custom={index}
+                                        animate={controls}
+                                        initial={{ y: 0 }}
+                                    >
+                                        <Image src={item.image} alt={item.alt} width={400} height={320} />
+                                        <div className={styles.productsHeaderListItemContent}>
+                                            <div className={styles.productsHeaderListItemUp}>
+                                                <h4 className={styles.productsHeaderListItemTitle}>{item.title}</h4>
+                                            </div>
+                                            <p className={styles.productsHeaderListItemDescription}>{item.description}</p>
                                         </div>
-                                        <p className={styles.productsHeaderListItemDescription}>Мы производим вкусную и свежую готовую еду. Вся продукция изготавливается ежедневно на нашем современном производстве и доставляется в крупнейшие торговые сети Москвы, включая «Пятёрочку», «Перекрёсток», «Самокат» и «ВкусВилл»</p>
-                                    </div>
-                                </li>
-                                <li className={styles.productsHeaderListItem}>
-                                    <Image src="/productsHeader2.png" alt="Сертификация по ISO 9001" width={400} height={320} />
-                                    <div className={styles.productsHeaderListItemContent}>
-                                        <div className={styles.productsHeaderListItemUp}>
-                                            <h4 className={styles.productsHeaderListItemTitle}>Контроль качества на всех этапах</h4>
-                                        </div>
-                                        <p className={styles.productsHeaderListItemDescription}>Мы придерживаемся строгих стандартов качества, включая HACCP и ГОСТ, а также проводим регулярный лабораторный контроль сырья и готовой продукции. Каждая партия проходит аудит, что гарантирует безопасность и высокое качество нашей еды</p>
-                                    </div>
-                                </li>
-                                <li className={styles.productsHeaderListItem}>
-                                    <Image src="/productsHeader1.png" alt="Сертификация по ISO 9001" width={400} height={320} />
-                                    <div className={styles.productsHeaderListItemContent}>
-                                        <div className={styles.productsHeaderListItemUp}>
-                                            <h4 className={styles.productsHeaderListItemTitle}>Развитие собственного бренда и производство под СТМ</h4>
-                                        </div>
-                                        <p className={styles.productsHeaderListItemDescription}>Мы работаем как под собственным брендом, так и создаём продукцию для частных торговых марок (СТМ). Это позволяет нашим партнёрам предлагать покупателям уникальные товары с гарантированным качеством</p>
-                                    </div>
-                                </li>
+                                    </motion.li>
+                                ))}
                             </ul>
                         </div>
                     </div>
@@ -946,12 +995,14 @@ export default function Production() {
                                     </motion.svg>
                                 </motion.div>
                             </Link>
-                            {isPreFooterHovered &&
-                                Array.from({ length: 3 }).map((_, i) => (
+                            {Array.from({ length: 3 }).map((_, i) => {
+                                const baseScale = 5;
+                                const finalScale = (baseScale - (i * SCALE_REDUCTION)) * 2;
+
+                                return (
                                     <motion.div
                                         key={`prefooter-ripple-${i}`}
                                         className={styles.ripple}
-                                        custom={i}
                                         initial='initial'
                                         animate={isPreFooterHovered ? 'hover' : 'initial'}
                                         variants={rippleVariants2}
@@ -960,9 +1011,11 @@ export default function Production() {
                                             bottom: `${isMobile ? '20px' : '30px'}`,
                                             transform: 'translate(50%, 50%)',
                                             backgroundColor: clientRippleColors[i],
+                                            scale: finalScale, // Set final scale directly via style
                                         }}
                                     />
-                                ))}
+                                );
+                            })}
                         </motion.div>
                     </div>
                 </div>

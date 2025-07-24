@@ -30,6 +30,7 @@ export default function Home() {
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
     const [deltaY, setDeltaY] = useState(30); // Default value
     const yOffset = useMotionValue(0);
+    const isAnimatingRef = useRef(false); // Флаг для отслеживания активной анимации
 
     useEffect(() => {
         setIsClient(true);
@@ -48,113 +49,146 @@ export default function Home() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const heroHeightRef = useRef(0);
+    const headerHeightRef = useRef(0);
+
+    const updateDimensions = () => {
+        const header = document.querySelector('header') || document.querySelector('.header');
+        const heroElement = document.getElementById('hero');
+        headerHeightRef.current = header ? header.offsetHeight - 2 : 0;
+        heroHeightRef.current = heroElement ? heroElement.offsetHeight : 0;
+    };
+
     useLayoutEffect(() => {
         if (!isClient) return;
 
-        const header = document.querySelector('header') || document.querySelector('.header');
-        const heroElement = document.getElementById('hero');
-        const headerHeight = header ? header.offsetHeight - 2 : 0;
-        const heroHeight = heroElement ? heroElement.offsetHeight : 0;
-        const calculatedTargetOffset = heroHeight - headerHeight;
+        updateDimensions();
+        const protrusionFactor = window.innerHeight > 1080 ? 0.15 : window.innerHeight > 768 ? 0.1 : 0.1;
+        const calculatedTargetOffset = heroHeightRef.current - headerHeightRef.current;
 
-        // Важно: Вызываем controls.set() только после того, как все размеры DOM вычислены
-        // и компонент гарантированно доступен для манипуляций framer-motion.
         if (window.scrollY > 0) {
             document.body.style.overflowY = 'auto';
             document.body.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
             document.documentElement.style.height = `calc(100% - ${calculatedTargetOffset}px)`;
-            setNegativeMarginBottom(calculatedTargetOffset);
             currentSectionIndexRef.current = 1;
             targetOffsetRef.current = calculatedTargetOffset;
-            controls.set({ y: -calculatedTargetOffset });
+            controls.set({
+                y: -calculatedTargetOffset,
+                '--negative-margin-bottom': `${calculatedTargetOffset}px`
+            });
         } else {
             document.body.style.overflowY = 'hidden';
             document.body.style.height = '100%';
             document.documentElement.style.height = '100%';
-            setNegativeMarginBottom(0);
             currentSectionIndexRef.current = 0;
-            targetOffsetRef.current = 0;
-            controls.set({ y: 0 });
+            targetOffsetRef.current = calculatedTargetOffset;
+            controls.set({
+                y: -heroHeightRef.current * protrusionFactor,
+                '--negative-margin-bottom': `${heroHeightRef.current * protrusionFactor}px`
+            });
         }
     }, [isClient, controls]);
 
     useEffect(() => {
         if (!isClient) return;
 
-        let isAnimating = false;
+        let accumulatedDelta = 0;
+        let rafId = null;
+        let curtainState = currentSectionIndexRef.current;
+        const protrusionFactor = window.innerHeight > 1080 ? 0.15 : window.innerHeight > 768 ? 0.1 : 0.1;
+        let currentY = curtainState === 1 ? -(heroHeightRef.current - headerHeightRef.current) : -heroHeightRef.current * protrusionFactor;
+        let lastWheelTime = 0;
+        const wheelDebounceTime = 16;
 
-        const sectionDurations = {
-            numbers: 1.2,
-        };
+        updateDimensions();
+        const maxOffset = -(heroHeightRef.current - headerHeightRef.current);
+        const minOffset = -heroHeightRef.current * protrusionFactor;
 
-        const debounce = (func, wait) => {
-            let timeout;
-            return (...args) => {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
-            };
-        };
+        const updatePosition = () => {
+            if (isAnimatingRef.current) return;
 
-        const handleWheel = (event) => {
-            if (isAnimating) return;
+            const targetY = Math.max(maxOffset, Math.min(minOffset, currentY + accumulatedDelta));
+            const newY = currentY + (targetY - currentY) * 0.2;
+            const progress = (newY - minOffset) / (maxOffset - minOffset);
+            const currentOffset = (heroHeightRef.current * protrusionFactor) + (progress * ((heroHeightRef.current - headerHeightRef.current) - (heroHeightRef.current * protrusionFactor)));
 
-            event.preventDefault();
+            controls.set({
+                y: newY,
+                '--negative-margin-bottom': `${currentOffset}px`
+            });
+            currentY = newY;
 
-            const delta = event.deltaY;
-            const direction = delta > 0 ? 1 : -1;
+            const isNearMax = Math.abs(newY - maxOffset) < 10;
+            const isNearMin = Math.abs(newY - minOffset) < 10;
 
-            if (currentSectionIndexRef.current === 0 && direction === 1) {
-                isAnimating = true;
-                const sectionElements = ['hero', 'numbers', 'clients', 'quality', 'products', 'production', 'news', 'preFooter', 'footer'].map(id => document.getElementById(id));
-                const header = document.querySelector('header') || document.querySelector('.header');
-                const headerHeight = header ? header.offsetHeight - 2 : 0;
-                const heroHeight = sectionElements[0] ? sectionElements[0].offsetHeight : 0;
-                const targetOffset = heroHeight - headerHeight;
+            if (isNearMax && curtainState !== 1) {
+                curtainState = 1;
+                currentSectionIndexRef.current = 1;
+                targetOffsetRef.current = heroHeightRef.current - headerHeightRef.current;
+                document.body.style.overflowY = 'auto';
+                document.body.style.height = `calc(100% - ${heroHeightRef.current - headerHeightRef.current}px)`;
+                document.documentElement.style.height = `calc(100% - ${heroHeightRef.current - headerHeightRef.current}px)`;
+                window.scrollTo(0, 0); // Сбрасываем scrollY для надежности
+            } else if (isNearMin && curtainState !== 0) {
+                curtainState = 0;
+                currentSectionIndexRef.current = 0;
+                document.body.style.overflowY = 'hidden';
+                document.body.style.height = '100%';
+                document.documentElement.style.height = '100%';
+            }
 
-                targetOffsetRef.current = targetOffset;
+            if (accumulatedDelta !== 0) {
+                accumulatedDelta *= 0.95;
+                if (Math.abs(accumulatedDelta) < 0.5) {
+                    accumulatedDelta = 0;
+                    const finalY = isNearMax ? maxOffset : isNearMin ? minOffset : newY;
+                    const finalOffset = isNearMax ? heroHeightRef.current - headerHeightRef.current : heroHeightRef.current * protrusionFactor;
 
-                controls.start({
-                    y: -targetOffset - deltaY,
-                    transition: {
-                        duration: sectionDurations['numbers'],
-                        ease: [0.4, 0, 0.2, 1],
-                    },
-                }).then(() => {
-                    currentSectionIndexRef.current = 1;
-                    isAnimating = false;
-                    setNegativeMarginBottom(targetOffset);
-                    document.body.style.height = `calc(100% - ${targetOffset}px)`;
-                    document.documentElement.style.height = `calc(100% - ${targetOffset}px)`;
-                    document.body.style.overflowY = 'auto';
-                });
-            } else if (currentSectionIndexRef.current === 1 && direction === -1 && window.scrollY <= 0) {
-                isAnimating = true;
-                controls.start({
-                    y: 0,
-                    transition: {
-                        duration: sectionDurations['numbers'],
-                        ease: [0.4, 0, 0.2, 1],
-                    },
-                }).then(() => {
-                    currentSectionIndexRef.current = 0;
-                    isAnimating = false;
-                    setNegativeMarginBottom(0);
-                    document.body.style.height = '100%';
-                    document.documentElement.style.height = '100%';
-                    document.body.style.overflowY = 'hidden';
-                });
+                    isAnimatingRef.current = true;
+                    controls.start({
+                        y: finalY,
+                        '--negative-margin-bottom': `${finalOffset}px`,
+                        transition: {
+                            type: 'spring',
+                            stiffness: 30,
+                            damping: 15,
+                            mass: 1.2,
+                            onComplete: () => {
+                                isAnimatingRef.current = false;
+                            }
+                        }
+                    });
+                } else {
+                    rafId = requestAnimationFrame(updatePosition);
+                }
             }
         };
 
-        const debouncedHandleWheel = debounce(handleWheel, 300);
-        window.addEventListener('wheel', debouncedHandleWheel, { passive: false });
+        const handleWheel = (event) => {
+            const now = performance.now();
+            if (now - lastWheelTime < wheelDebounceTime) return;
+            lastWheelTime = now;
+
+            if (curtainState === 0 || (curtainState === 1 && event.deltaY < 0 && window.scrollY <= 50)) {
+                event.preventDefault();
+                accumulatedDelta -= event.deltaY * 0.4; // Увеличена чувствительность
+                if (!rafId && !isAnimatingRef.current) {
+                    rafId = requestAnimationFrame(updatePosition);
+                }
+            }
+        };
+
+        window.addEventListener('wheel', handleWheel, { passive: false });
+        window.addEventListener('resize', updateDimensions);
 
         return () => {
-            window.removeEventListener('wheel', debouncedHandleWheel);
+            window.removeEventListener('wheel', handleWheel);
+            window.removeEventListener('resize', updateDimensions);
+            if (rafId) cancelAnimationFrame(rafId);
             document.body.style.overflow = 'auto';
             document.body.style.height = 'auto';
             document.documentElement.style.height = 'auto';
-            setNegativeMarginBottom(0);
+            controls.set({ '--negative-margin-bottom': '0px' });
         };
     }, [isClient, controls]);
 
@@ -276,21 +310,18 @@ export default function Home() {
             };
         }
     };
+
     const rippleVariants2 = {
         initial: {
-            scale: 0,
-            transition: { duration: 0 }
+            opacity: 0,
+            transition: { duration: 0.3 }
         },
-        hover: (i) => {
-            const baseScale = 5;
-            const maxScale = (baseScale - (i * SCALE_REDUCTION)) * 2;
-            return {
-                scale: [2, 8, maxScale],
-                transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                }
-            };
+        hover: {
+            opacity: 1,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+            }
         }
     };
 
@@ -1273,12 +1304,15 @@ export default function Home() {
                                         </motion.svg>
                                     </motion.div>
                                 </Link>
-                                {isPreFooterHovered &&
-                                    Array.from({ length: 3 }).map((_, i) => (
+                                {/* Рипплы теперь всегда рендерятся, а не только при ховере */}
+                                {Array.from({ length: 3 }).map((_, i) => {
+                                    const baseScale = 5;
+                                    const finalScale = (baseScale - (i * SCALE_REDUCTION)) * 2;
+
+                                    return (
                                         <motion.div
                                             key={`prefooter-ripple-${i}`}
                                             className={styles.ripple}
-                                            custom={i}
                                             initial='initial'
                                             animate={isPreFooterHovered ? 'hover' : 'initial'}
                                             variants={rippleVariants2}
@@ -1287,9 +1321,11 @@ export default function Home() {
                                                 bottom: `${isMobile ? '20px' : '30px'}`,
                                                 transform: 'translate(50%, 50%)',
                                                 backgroundColor: clientRippleColors[i],
+                                                scale: finalScale, // устанавливаем финальный размер сразу через стиль
                                             }}
                                         />
-                                    ))}
+                                    );
+                                })}
                             </motion.div>
                         </div>
                     </div>
