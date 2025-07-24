@@ -43,7 +43,6 @@ export default function Production() {
     const listItemRefs = useRef([]); // Refs for list items
     const [isAnimating, setIsAnimating] = useState(false); // Track if an animation is in progress
 
-
     const handleFocus = (inputName) => {
         setFocusedInputs(prev => ({ ...prev, [inputName]: true }));
     };
@@ -147,6 +146,10 @@ export default function Production() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const sectionRef = useRef(null);
+    const [sectionHeight, setSectionHeight] = useState('auto');
+    const sectionControls = useAnimation();
+
     useEffect(() => {
         // Disable scrolling initially
         document.body.style.overflow = 'hidden';
@@ -163,38 +166,64 @@ export default function Production() {
     }, [isAnimationComplete]);
 
     const handleScroll = async (e) => {
-        if (isAnimationComplete || isMobile || isAnimating) return; // Skip if animation is done, on mobile, or animating
+        // Only proceed if section is visible, not complete, not mobile, and not animating
+        if (!isSectionVisible || isAnimationComplete || isMobile || isAnimating) return;
         e.preventDefault();
-        if (animationStep < 2) {
-            setIsAnimating(true); // Lock animation
+        if (animationStep < 2) { // 3 cards, so 2 steps
+            setIsAnimating(true);
             const nextStep = animationStep + 1;
+
+            // Get elements for animation
             const currentItem = listItemRefs.current[animationStep];
             const nextItem = listItemRefs.current[animationStep + 1];
+
             if (currentItem && nextItem) {
                 const currentRect = currentItem.getBoundingClientRect();
-                const nextRect = nextItem.getBoundingClientRect();
-                const distance = currentRect.top - nextRect.top;
-                await controls.start((i) => {
-                    if (i === animationStep + 1) {
+                const cardHeight = currentRect.height;
+                const gap = 40; // Match your CSS gap
+                const fixedDistance = cardHeight + gap; // Consistent distance for card movement
+
+                // Calculate new section height
+                const currentSectionHeight = sectionRef.current.offsetHeight;
+                const heightReduction = cardHeight + (animationStep === 0 ? gap : 0); // Include gap for first step
+                const newSectionHeight = currentSectionHeight - heightReduction;
+
+                const cardAnimation = controls.start((i) => {
+                    // Animate all cards from animationStep + 1 to the end
+                    if (i >= animationStep + 1 && listItemRefs.current[i]) {
                         return {
-                            y: distance,
+                            y: fixedDistance * (i - animationStep), // Each card moves up by fixed distance
                             transition: {
                                 duration: 2,
                                 ease: [0.25, 0.1, 0.25, 1],
-                                onComplete: () => {
-                                    setAnimationStep(nextStep);
-                                    setIsAnimating(false); // Unlock after completion
-                                    if (nextStep === 2) {
-                                        setIsAnimationComplete(true);
-                                    }
-                                }
-                            }
+                                ...(i === animationStep + 1 && {
+                                    onComplete: () => {
+                                        setAnimationStep(nextStep);
+                                        setIsAnimating(false);
+                                        if (nextStep === 2) {
+                                            setIsAnimationComplete(true);
+                                        }
+                                    },
+                                }),
+                            },
                         };
                     }
                     return {};
                 });
+
+                // Animate section height
+                const sectionAnimation = sectionControls.start({
+                    height: newSectionHeight,
+                    transition: {
+                        duration: 2,
+                        ease: [0.25, 0.1, 0.25, 1],
+                    },
+                });
+
+                // Wait for both animations to complete
+                await Promise.all([cardAnimation, sectionAnimation]);
             } else {
-                setIsAnimating(false); // Unlock if no valid items
+                setIsAnimating(false);
             }
         }
     };
@@ -245,49 +274,6 @@ export default function Production() {
         });
     }, [controls]);
 
-    const clientCardBackgroundVariants = {
-        initial: {
-            backgroundColor: '#fff',
-            backgroundImage: `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, transparent 0%, transparent 0%)`,
-        },
-        hover: {
-            backgroundColor: '#159F4A',
-            backgroundImage: [
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 0%, transparent 0%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 50%, transparent 50%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 100%, transparent 100%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 150%, transparent 150%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 200%, transparent 200%)`,
-            ],
-            transition: {
-                backgroundImage: { duration: 0.4, ease: 'easeOut' },
-                backgroundColor: { duration: 0.4, ease: 'easeOut' }
-            }
-        },
-    };
-
-    const clientPartnerTextVariants = {
-        initial: {
-            color: '#2C2C2C',
-        },
-        hover: {
-            color: '#fff',
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
-    };
-
-    const clientArrowVariants = {
-        initial: {
-            stroke: '#2C2C2C',
-            rotate: 0
-        },
-        hover: {
-            stroke: '#fff',
-            rotate: 45,
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
-    };
-
     const preFooterCardBackgroundVariants = {
         initial: {
             backgroundColor: '#159F4A',
@@ -332,23 +318,6 @@ export default function Production() {
     };
 
     const SCALE_REDUCTION = 1.5;
-    const rippleVariants = {
-        initial: {
-            scale: 0,
-            transition: { duration: 0 }
-        },
-        hover: (i) => {
-            const baseScale = 5;
-            const maxScale = baseScale - (i * SCALE_REDUCTION);
-            return {
-                scale: [1, 4, maxScale],
-                transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                }
-            };
-        }
-    };
     const rippleVariants2 = {
         initial: {
             opacity: 0,
@@ -371,10 +340,14 @@ export default function Production() {
 
     return (
         <>
-            <section id='productsHeader' className={styles.productsHeader} >
-                <div
-                    className={`${styles.container} container`}
-                >
+            <motion.section
+                id='productsHeader'
+                className={styles.productsHeader}
+                ref={sectionRef}
+                animate={sectionControls}
+                initial={{ height: 'auto' }}
+            >
+                <div className={`${styles.container} container`}>
                     <h1 className={styles.productsHeaderHeading}>Продукция</h1>
                     <div className={styles.productsHeaderContent}>
                         <h5 className={styles.productsHeaderTitle}>преимущества</h5>
@@ -422,7 +395,7 @@ export default function Production() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
             <section id="products" className={styles.productsBlock}>
                 <div className={`${styles.container} container`}>

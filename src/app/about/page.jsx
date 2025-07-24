@@ -17,6 +17,130 @@ export default function About() {
     const [isMobile, setIsMobile] = useState(false);
     const [isDoubleCards, setIsDoubleCards] = useState(false)
     const [isTripleCards, setIsTripleCards] = useState(false)
+    const controls = useAnimation();
+    const [animationStep, setAnimationStep] = useState(0); // Track animation progress
+    const [isAnimationComplete, setIsAnimationComplete] = useState(false); // Track if animation is done
+    const [isAnimating, setIsAnimating] = useState(false); // Track if an animation is in progress
+    const sectionControls = useAnimation();
+    const sectionRef = useRef(null);
+    const listItemRefs = useRef([]);
+    const [isSectionVisible, setIsSectionVisible] = useState(false); // New state to track visibility
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !isAnimationComplete && !isMobile) {
+                    setIsSectionVisible(true); // Set section as visible
+                    document.body.style.overflow = 'hidden'; // Lock scroll
+                    observer.disconnect(); // Disconnect observer after first trigger
+                } else {
+                    setIsSectionVisible(false); // Set section as not visible
+                    document.body.style.overflow = 'auto'; // Unlock scroll
+                }
+            },
+            {
+                root: null,
+                threshold: 0.4, // Trigger when 30% of section is visible
+            }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => {
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current);
+            }
+        };
+    }, [isAnimationComplete, isMobile]);
+
+    useEffect(() => {
+        // Disable scrolling initially
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
+
+    useEffect(() => {
+        // Enable scrolling after animation is complete
+        if (isAnimationComplete) {
+            document.body.style.overflow = 'auto';
+        }
+    }, [isAnimationComplete]);
+
+    const handleScroll = async (e) => {
+        if (!isSectionVisible || isAnimationComplete || isMobile || isAnimating) return;
+        e.preventDefault();
+
+        if (animationStep < 4) { // 5 cards, so 4 steps
+            setIsAnimating(true);
+            const nextStep = animationStep + 1;
+
+            // Get elements for animation
+            const currentItem = listItemRefs.current[animationStep];
+            const nextItem = listItemRefs.current[animationStep + 1];
+
+            if (currentItem && nextItem) {
+                const currentRect = currentItem.getBoundingClientRect();
+                const cardHeight = currentRect.height;
+                const gap = 40; // Adjust to match your CSS gap
+                const fixedDistance = cardHeight + gap; // Consistent distance for card movement
+
+                // Calculate new section height, accounting for gap
+                const currentSectionHeight = sectionRef.current.offsetHeight;
+                const heightReduction = cardHeight + (animationStep === 0 ? gap : 40); // Include gap only for first step if needed
+                const newSectionHeight = currentSectionHeight - heightReduction;
+
+                const cardAnimation = controls.start((i) => {
+                    // Все карты после текущего шага сдвигаются на ОДНУ позицию вверх
+                    if (i > animationStep) {
+                        // Накапливаем смещение: на каждом шаге карта сдвигается еще на fixedDistance
+                        const totalSteps = nextStep; // Общее количество шагов, которые прошла карта
+                        return {
+                            y: -fixedDistance * totalSteps, // Накопленное смещение
+                            transition: {
+                                duration: 2,
+                                ease: [0.25, 0.1, 0.25, 1],
+                                ...(i === animationStep + 1 && {
+                                    onComplete: () => {
+                                        setAnimationStep(nextStep);
+                                        setIsAnimating(false);
+                                        if (nextStep === 4) {
+                                            setIsAnimationComplete(true);
+                                        }
+                                    },
+                                }),
+                            },
+                        };
+                    }
+                    return {};
+                });
+
+                // Animate section height
+                const sectionAnimation = sectionControls.start({
+                    height: newSectionHeight,
+                    transition: {
+                        duration: 2,
+                        ease: [0.25, 0.1, 0.25, 1],
+                    },
+                });
+
+                // Wait for both animations to complete
+                await Promise.all([cardAnimation, sectionAnimation]);
+            } else {
+                setIsAnimating(false);
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('wheel', handleScroll, { passive: false });
+        return () => {
+            window.removeEventListener('wheel', handleScroll);
+        };
+    }, [isSectionVisible, isAnimationComplete, isMobile, isAnimating, animationStep]);
 
     useEffect(() => {
         setIsClient(true);
@@ -68,15 +192,13 @@ export default function About() {
         },
     };
 
-    const clientPartnerTextVariants = {
-        initial: { color: '#2C2C2C' },
-        hover: { color: '#fff', transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] } }
-    };
-
-    const clientArrowVariants = {
-        initial: { stroke: '#2C2C2C', rotate: 0 },
-        hover: { stroke: '#fff', rotate: 45, transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] } }
-    };
+    useEffect(() => {
+        controls.start({
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5 }
+        });
+    }, [controls]);
 
     const preFooterCardBackgroundVariants = {
         initial: {
@@ -328,6 +450,103 @@ export default function About() {
                 </div>
             </section>
 
+            <section id='faces' className={styles.faces}>
+                <div className={`${styles.container} container`}>
+                    <h2 className={styles.facesHeading}>Основные лица компании</h2>
+                    {isMobile ? (
+                        <Swiper
+                            spaceBetween={10}
+                            slidesPerView={'auto'}
+                            className={styles.facesList}
+                        >
+                            <SwiperSlide className={styles.facesListItemSlide}>
+                                <li className={styles.facesListItem}>
+                                    <div className={styles.facesListItemUp}>
+                                        <Image className={styles.facesListItemImg} src={'/face1.png'} width={435} height={580} alt="Светлана Шмыгля" />
+                                    </div>
+                                    <div className={styles.facesListItemDown}>
+                                        <h4 className={styles.facesListItemTitle}>Светлана Шмыгля</h4>
+                                        <p className={styles.facesListItemInfo}>Директор производства</p>
+                                    </div>
+                                </li>
+                            </SwiperSlide>
+                            <SwiperSlide className={styles.facesListItemSlide}>
+                                <li className={styles.facesListItem}>
+                                    <div className={styles.facesListItemUp}>
+                                        <Image className={styles.facesListItemImg} src={'/face2.png'} width={435} height={580} alt="Андрей Мандрейчук" />
+                                    </div>
+                                    <div className={styles.facesListItemDown}>
+                                        <h4 className={styles.facesListItemTitle}>Андрей Мандрейчук</h4>
+                                        <p className={styles.facesListItemInfo}>Директор отдела качества и пищевой безопасности</p>
+                                    </div>
+                                </li>
+                            </SwiperSlide>
+                            <SwiperSlide className={styles.facesListItemSlide}>
+                                <li className={styles.facesListItem}>
+                                    <div className={styles.facesListItemUp}>
+                                        <Image className={styles.facesListItemImg} src={'/face1.png'} width={435} height={580} alt="Анжела Звягина" />
+                                    </div>
+                                    <div className={styles.facesListItemDown}>
+                                        <h4 className={styles.facesListItemTitle}>Анжела Звягина</h4>
+                                        <p className={styles.facesListItemInfo}>HR-директор</p>
+                                    </div>
+                                </li>
+                            </SwiperSlide>
+                            <SwiperSlide className={styles.facesListItemSlide}>
+                                <li className={styles.facesListItem}>
+                                    <div className={styles.facesListItemUp}>
+                                        <Image className={styles.facesListItemImg} src={'/face2.png'} width={435} height={580} alt="Олег Стойко" />
+                                    </div>
+                                    <div className={styles.facesListItemDown}>
+                                        <h4 className={styles.facesListItemTitle}>Олег Стойко</h4>
+                                        <p className={styles.facesListItemInfo}>Директор технического отдела</p>
+                                    </div>
+                                </li>
+                            </SwiperSlide>
+                        </Swiper>
+                    ) : (
+                        <ul className={styles.facesList}>
+                            <li className={styles.facesListItem}>
+                                <div className={styles.facesListItemUp}>
+                                    <Image className={styles.facesListItemImg} src={'/face1.png'} width={435} height={580}></Image>
+                                </div>
+                                <div className={styles.facesListItemDown}>
+                                    <h4 className={styles.facesListItemTitle}>Светлана Шмыгля</h4>
+                                    <p className={styles.facesListItemInfo}>Директор производства</p>
+                                </div>
+                            </li>
+                            <li className={styles.facesListItem}>
+                                <div className={styles.facesListItemUp}>
+                                    <Image className={styles.facesListItemImg} src={'/face2.png'} width={435} height={580}></Image>
+                                </div>
+                                <div className={styles.facesListItemDown}>
+                                    <h4 className={styles.facesListItemTitle}>Андрей Мандрейчук </h4>
+                                    <p className={styles.facesListItemInfo}>Директор отдела качества и пищевой безопасности</p>
+                                </div>
+                            </li>
+                            <li className={styles.facesListItem}>
+                                <div className={styles.facesListItemUp}>
+                                    <Image className={styles.facesListItemImg} src={'/face1.png'} width={435} height={580}></Image>
+                                </div>
+                                <div className={styles.facesListItemDown}>
+                                    <h4 className={styles.facesListItemTitle}>Анжела Звягина</h4>
+                                    <p className={styles.facesListItemInfo}>HR-директор</p>
+                                </div>
+                            </li>
+                            <li className={styles.facesListItem}>
+                                <div className={styles.facesListItemUp}>
+                                    <Image className={styles.facesListItemImg} src={'/face2.png'} width={435} height={580}></Image>
+                                </div>
+                                <div className={styles.facesListItemDown}>
+                                    <h4 className={styles.facesListItemTitle}>Олег Стойко</h4>
+                                    <p className={styles.facesListItemInfo}>Директор технического отдела</p>
+                                </div>
+                            </li>
+                        </ul>
+                    )}
+                </div>
+            </section>
+
             <section id="achievements" className={styles.achievements}>
                 <div className={`${styles.container} container`}>
                     <h3 className={styles.achievementsTitle}>Мы гордимся тем, что</h3>
@@ -376,64 +595,69 @@ export default function About() {
 
             <section id="aboutQuality" className={styles.aboutQuality}>
                 <div className={`${styles.container} container`}>
-                    <div className={styles.aboutQualityContent}>
+                    <motion.div className={styles.aboutQualityContent} ref={sectionRef} animate={sectionControls} initial={{ height: 'auto' }}>
                         <h5 className={styles.aboutQualityTitle}>качество</h5>
                         <div className={styles.aboutQualityLeft}>
-                            <h3 className={styles.aboutQualitySubtitle}>На нашем производстве действует система контроля качества, соответствующая международным стандартам</h3>
+                            <h3 className={styles.aboutQualitySubtitle}>На нашем производстве действует система контроля качества, соответствующая международным стандартам</h3>
                             <ul className={styles.aboutQualityList}>
-                                <li className={styles.aboutQualityListItem}>
-                                    <Image src="/about-quality1.png" alt="Сертификация по ISO 9001" width={400} height={320} />
-                                    <div className={styles.aboutQualityListItemContent}>
-                                        <div className={styles.aboutQualityListItemUp}>
-                                            <h4 className={styles.aboutQualityListItemNumber}>1</h4>
-                                            <h4 className={styles.aboutQualityListItemTitle}>НАССР</h4>
+                                {[
+                                    {
+                                        image: "/about-quality1.png",
+                                        alt: "Сертификация по ISO 9001",
+                                        number: "1",
+                                        title: "НАССР",
+                                        description: "Система управления безопасностью пищевой продукции, охватывающая каждый этап производства — от проверки сырья до упаковки готовой продукции. Предотвращает риски и гарантирует соответствие строгим нормам"
+                                    },
+                                    {
+                                        image: "/about-quality2.png",
+                                        alt: "Сертификация по ISO 9001",
+                                        number: "2",
+                                        title: "Лабораторный контроль",
+                                        description: "Каждая партия сырья и готовой продукции проходит тестирование на соответствие требованиям безопасности и качества, включая состав, чистоту, вкус и свежесть"
+                                    },
+                                    {
+                                        image: "/about-quality3.png",
+                                        alt: "Сертификация по ISO 9001",
+                                        number: "3",
+                                        title: "Гигиенические нормы",
+                                        description: "Соблюдаем строгие санитарные требования: регулярная дезинфекция оборудования, контроль личной гигиены сотрудников, аудит чистоты на производстве"
+                                    },
+                                    {
+                                        image: "/about-quality4.png",
+                                        alt: "Сертификация по ISO 9001",
+                                        number: "4",
+                                        title: "Температурный контроль",
+                                        description: "Поддерживаем оптимальные условия хранения на всех этапах: от поступления сырья до доставки продукции клиентам. Используем систему мониторинга температуры в реальном времени"
+                                    },
+                                    {
+                                        image: "/about-quality5.png",
+                                        alt: "Сертификация по ISO 9001",
+                                        number: "5",
+                                        title: "Система машинного зрения",
+                                        description: "Используем уникальную систему удалённого мониторинга температурных зон и машинного зрения для отслеживания процессов, выявления отклонений и поддержания стабильного качества продукции"
+                                    }
+                                ].map((item, index) => (
+                                    <motion.li
+                                        key={index}
+                                        className={styles.aboutQualityListItem}
+                                        ref={el => listItemRefs.current[index] = el}
+                                        custom={index}
+                                        animate={controls}
+                                        initial={{ y: 0 }}
+                                    >
+                                        <Image src={item.image} alt={item.alt} width={400} height={320} />
+                                        <div className={styles.aboutQualityListItemContent}>
+                                            <div className={styles.aboutQualityListItemUp}>
+                                                <h4 className={styles.aboutQualityListItemNumber}>{item.number}</h4>
+                                                <h4 className={styles.aboutQualityListItemTitle}>{item.title}</h4>
+                                            </div>
+                                            <p className={styles.aboutQualityListItemDescription}>{item.description}</p>
                                         </div>
-                                        <p className={styles.aboutQualityListItemDescription}>Система управления безопасностью пищевой продукции, охватывающая каждый этап производства — от проверки сырья до упаковки готовой продукции. Предотвращает риски и гарантирует соответствие строгим нормам</p>
-                                    </div>
-                                </li>
-                                <li className={styles.aboutQualityListItem}>
-                                    <Image src="/about-quality2.png" alt="Сертификация по ISO 9001" width={400} height={320} />
-                                    <div className={styles.aboutQualityListItemContent}>
-                                        <div className={styles.aboutQualityListItemUp}>
-                                            <h4 className={styles.aboutQualityListItemNumber}>2</h4>
-                                            <h4 className={styles.aboutQualityListItemTitle}>Лабораторный контроль</h4>
-                                        </div>
-                                        <p className={styles.aboutQualityListItemDescription}>Каждая партия сырья и готовой продукции проходит тестирование на соответствие требованиям безопасности и качества, включая состав, чистоту, вкус и свежесть</p>
-                                    </div>
-                                </li>
-                                <li className={styles.aboutQualityListItem}>
-                                    <Image src="/about-quality3.png" alt="Сертификация по ISO 9001" width={400} height={320} />
-                                    <div className={styles.aboutQualityListItemContent}>
-                                        <div className={styles.aboutQualityListItemUp}>
-                                            <h4 className={styles.aboutQualityListItemNumber}>3</h4>
-                                            <h4 className={styles.aboutQualityListItemTitle}>Гигиенические нормы</h4>
-                                        </div>
-                                        <p className={styles.aboutQualityListItemDescription}>Соблюдаем строгие санитарные требования: регулярная дезинфекция оборудования, контроль личной гигиены сотрудников, аудит чистоты на производстве</p>
-                                    </div>
-                                </li>
-                                <li className={styles.aboutQualityListItem}>
-                                    <Image src="/about-quality4.png" alt="Сертификация по ISO 9001" width={400} height={320} />
-                                    <div className={styles.aboutQualityListItemContent}>
-                                        <div className={styles.aboutQualityListItemUp}>
-                                            <h4 className={styles.aboutQualityListItemNumber}>4</h4>
-                                            <h4 className={styles.aboutQualityListItemTitle}>Температурный контроль</h4>
-                                        </div>
-                                        <p className={styles.aboutQualityListItemDescription}>Поддерживаем оптимальные условия хранения на всех этапах: от поступления сырья до доставки продукции клиентам. Используем систему мониторинга температуры в реальном времени</p>
-                                    </div>
-                                </li>
-                                <li className={styles.aboutQualityListItem}>
-                                    <Image src="/about-quality5.png" alt="Сертификация по ISO 9001" width={400} height={320} />
-                                    <div className={styles.aboutQualityListItemContent}>
-                                        <div className={styles.aboutQualityListItemUp}>
-                                            <h4 className={styles.aboutQualityListItemNumber}>5</h4>
-                                            <h4 className={styles.aboutQualityListItemTitle}>Система машинного зрения</h4>
-                                        </div>
-                                        <p className={styles.aboutQualityListItemDescription}>Используем уникальную систему удалённого мониторинга температурных зон и машинного зрения для отслеживания процессов, выявления отклонений и поддержания стабильного качества продукции</p>
-                                    </div>
-                                </li>
+                                    </motion.li>
+                                ))}
                             </ul>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
