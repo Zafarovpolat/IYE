@@ -154,8 +154,6 @@ export default function Production() {
         }
     };
 
-
-
     useEffect(() => {
         setIsClient(true);
         setDeltaY(window.innerWidth < 1000 ? 15 : 30);
@@ -201,7 +199,7 @@ export default function Production() {
                 '--negative-margin-bottom': `${calculatedTargetOffset}px`
             });
         } else {
-            document.body.style.overflowY = 'hidden';
+            document.body.style.overflowY = (window.innerWidth > 1000) ? 'hidden' : 'auto';
             document.body.style.height = '100%';
             document.documentElement.style.height = '100%';
             currentSectionIndexRef.current = 0;
@@ -256,7 +254,7 @@ export default function Production() {
             } else if (isNearMin && curtainState !== 0) {
                 curtainState = 0;
                 currentSectionIndexRef.current = 0;
-                document.body.style.overflowY = 'hidden';
+                document.body.style.overflowY = (window.innerWidth > 1000) ? 'hidden' : 'auto';
                 document.body.style.height = '100%';
                 document.documentElement.style.height = '100%';
             }
