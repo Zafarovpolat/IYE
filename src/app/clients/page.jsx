@@ -883,7 +883,7 @@ export default function Clients() {
                                     Готовы произвести то, что нужно именно вам
                                 </h4>
                                 <p className={styles.productsBannerInfo}>В каталоге — лишь часть наших возможностей. Мы можем разработать и запустить в производство продукцию по вашему техническому заданию, от рецептуры до упаковки</p>
-                                <button className={styles.productsBannerBtn}>Отправить заявку</button>
+                                <button className={styles.productsBannerBtn} onClick={toggleModal}>Отправить заявку</button>
                             </div>
                         </div>
                     </div>

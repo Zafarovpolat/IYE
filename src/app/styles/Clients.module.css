@@ -1827,6 +1827,10 @@
     .successModalInner2 {
         padding: 20px;
     }
+
+    .partnersTitle {
+        text-wrap: wrap;
+    }
 }
 
 /* QUESTIONS */
