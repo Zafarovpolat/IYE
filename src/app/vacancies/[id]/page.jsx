@@ -192,7 +192,7 @@ export default function VacanciesDetail() {
                     <div className={styles.vacancyDetailBottom}>
                         <div className={styles.vacancyDetailContact}>
                             <h4 className={styles.vacancyDetailContactTitle}>контакты по вопросам трудоустройства</h4>
-                            <a href="/" className={styles.vacancyDetailContactSubTitle}>{vacancy.contacts}</a>
+                            <Link href={`mailto:${vacancy.contacts}`} className={styles.vacancyDetailContactSubTitle}>{vacancy.contacts}</Link>
                         </div>
                     </div>
 
@@ -204,6 +204,7 @@ export default function VacanciesDetail() {
                                 </button>
                                 <form onSubmit={handleFormSubmit} className={styles.contactForm}>
                                     <div className={styles.contactFormLeft}>
+                                        <Image className={styles.contactFormImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
                                         <h4 className={styles.contactFormSubTitle}>отклик на вакансию</h4>
                                         <h3 className={styles.contactFormTitle}>{vacancy.title}</h3>
                                         <p className={styles.contactFormInfo}>
@@ -246,6 +247,7 @@ export default function VacanciesDetail() {
                                     ✕
                                 </button>
                                 <div className={styles.successModal}>
+                                    <Image className={styles.successModalImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
                                     <div className={styles.successModalInner}>
                                         <Image src={'/email.svg'} width={52} height={52}></Image>
                                         <h3 className={styles.successModalTitle}>Заявка отправлена</h3>

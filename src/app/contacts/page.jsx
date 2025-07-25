@@ -373,24 +373,24 @@ export default function Contacts() {
                             <li className={styles.technologyCard}>
                                 <h4 className={styles.technologyCardTitle}>Партнёры и СТМ-сотрудничество</h4>
                                 <div className={styles.technologyCardLinks}>
-                                    <a href={'/'} className={styles.technologyCardLink}>+7 (000) 000–00–00</a>
-                                    <a href={'/'} className={styles.technologyCardLink}>stm@ideologia.ru</a>
+                                    <a href={'tel:+70000000000'} className={styles.technologyCardLink}>+7 (000) 000–00–00</a>
+                                    <a href={'mailto:stm@ideologia.ru'} className={styles.technologyCardLink}>stm@ideologia.ru</a>
                                 </div>
                                 <p className={styles.technologyCardInfo}>Московская область, город Балашиха, улица Западная, дом 7А</p>
                             </li>
                             <li className={styles.technologyCard}>
                                 <h4 className={styles.technologyCardTitle}>Поставщики</h4>
                                 <div className={styles.technologyCardLinks}>
-                                    <a href={'/'} className={styles.technologyCardLink}>+7 (000) 000–00–00</a>
-                                    <a href={'/'} className={styles.technologyCardLink}>providers@ideologia.ru</a>
+                                    <a href={'tel:+70000000000'} className={styles.technologyCardLink}>+7 (000) 000–00–00</a>
+                                    <a href={'mailto:providers@ideologia.ru'} className={styles.technologyCardLink}>providers@ideologia.ru</a>
                                 </div>
                                 <p className={styles.technologyCardInfo}>Московская область, город Балашиха, улица Западная, дом 7А</p>
                             </li>
                             <li className={styles.technologyCard}>
                                 <h4 className={styles.technologyCardTitle}>Отзывы, жалобы, обратная связь</h4>
                                 <div className={styles.technologyCardLinks}>
-                                    <a href={'/'} className={styles.technologyCardLink}>+7 (000) 000–00–00</a>
-                                    <a href={'/'} className={styles.technologyCardLink}>customers@ideologia.ru</a>
+                                    <a href={'tel:+70000000000'} className={styles.technologyCardLink}>+7 (000) 000–00–00</a>
+                                    <a href={'mailto:providers@ideologia.ru'} className={styles.technologyCardLink}>customers@ideologia.ru</a>
                                 </div>
                                 <p className={styles.technologyCardInfo}>Московская область, город Балашиха, улица Западная, дом 7А</p>
                             </li>
@@ -518,7 +518,7 @@ export default function Contacts() {
                                         </button>
                                         <p className={styles.partnersPolicy}>
                                             Нажимая на кнопку, вы соглашаетесь с{' '}
-                                            <Link href={'/'}>политикой конфиденциальности</Link>
+                                            <Link href={'/privacy'}>политикой конфиденциальности</Link>
                                         </p>
                                     </div>
                                 </form>

@@ -155,6 +155,15 @@
     padding: 60px;
     border-radius: 20px;
     color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.contactFormImage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    user-select: none;
 }
 
 .contactFormSubTitle {
@@ -358,6 +367,15 @@
     background-color: #084927;
     padding: 60px;
     border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.successModalImage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    user-select: none;
 }
 
 .successModalInner {

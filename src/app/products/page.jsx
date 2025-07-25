@@ -602,7 +602,7 @@ export default function Production() {
                                                             </button>
                                                             <p className={styles.partnersPolicy}>
                                                                 Нажимая на кнопку, вы соглашаетесь с{' '}
-                                                                <Link href={'/'}>политикой конфиденциальности</Link>
+                                                                <Link href={'/privacy'}>политикой конфиденциальности</Link>
                                                             </p>
                                                         </div>
                                                     </form>
@@ -736,7 +736,7 @@ export default function Production() {
                                     Готовы произвести то, что нужно именно вам
                                 </h4>
                                 <p className={styles.productsBannerInfo}>В каталоге — лишь часть наших возможностей. Мы можем разработать и запустить в производство продукцию по вашему техническому заданию, от рецептуры до упаковки</p>
-                                <button className={styles.productsBannerBtn}>Отправить заявку</button>
+                                <button className={styles.productsBannerBtn} onClick={toggleModal}>Отправить заявку</button>
                             </div>
                         </div>
                     </div>
@@ -938,7 +938,7 @@ export default function Production() {
                                     </button>
                                     <p className={styles.partnersPolicy}>
                                         Нажимая на кнопку, вы соглашаетесь с{' '}
-                                        <Link href={'/'}>политикой конфиденциальности</Link>
+                                        <Link href={'/privacy'}>политикой конфиденциальности</Link>
                                     </p>
                                 </div>
                             </form>

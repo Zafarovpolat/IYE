@@ -598,7 +598,7 @@ export default function Clients() {
                                             </button>
                                             <p className={styles.partnersPolicy}>
                                                 Нажимая на кнопку, вы соглашаетесь с{' '}
-                                                <Link href={'/'}>политикой конфиденциальности</Link>
+                                                <Link href={'/privacy'}>политикой конфиденциальности</Link>
                                             </p>
                                         </div>
                                     </form>
@@ -1013,7 +1013,7 @@ export default function Clients() {
                                     </button>
                                     <p className={styles.partnersPolicy}>
                                         Нажимая на кнопку, вы соглашаетесь с{' '}
-                                        <Link href={'/'}>политикой конфиденциальности</Link>
+                                        <Link href={'/privacy'}>политикой конфиденциальности</Link>
                                     </p>
                                 </div>
                             </form>

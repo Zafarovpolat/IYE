@@ -334,6 +334,13 @@ export default function Vacancies() {
         isVacanciesVisible // Добавьте это в зависимости
     ]);
 
+    const scrollToVacancies = () => {
+        const vacanciesSection = document.getElementById('vacancies');
+        if (vacanciesSection) {
+            vacanciesSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <>
 
@@ -350,7 +357,7 @@ export default function Vacancies() {
                                 <p className={styles.clientsHeaderTextDescription}>
                                     Мы производим и доставляем сэндвичи, блины, пироги, десерты, торты и другую продукцию в крупнейшие сети: Пятёрочка, Перекрёсток, Самокат, ВкусВилл. У нас современное производство, строгий контроль качества и профессиональная команда. Развивайте карьеру вместе с нами!
                                 </p>
-                                <button className={styles.clientsHeaderButton} >
+                                <button className={styles.clientsHeaderButton} onClick={scrollToVacancies}>
                                     Смотреть вакансии
                                 </button>
                                 <div className={styles.cardsContainerBlock} ref={cardsContainerRef}>
@@ -827,8 +834,7 @@ export default function Vacancies() {
                                         </button>
                                         <p className={styles.partnersPolicy}>
                                             Нажимая на кнопку, вы соглашаетесь с{' '}
-                                            <Link href={'/'}>политикой конфиденциальности</Link>
-                                        </p>
+                                            <Link href={'/privacy'}>политикой конфиденциальности</Link>                                        </p>
                                     </div>
                                 </form>
                             ) : (
