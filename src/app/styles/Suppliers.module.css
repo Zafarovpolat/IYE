@@ -686,6 +686,10 @@
 
 /* FOOD */
 
+.food {
+    overflow: hidden;
+}
+
 .foodUp {
     padding-top: 110px;
     border-top: 1px solid #BBC5D6;
@@ -857,6 +861,7 @@
     color: #FFFFFF;
     padding-bottom: 130px;
     margin-bottom: 130px;
+    overflow: hidden;
 }
 
 .qualityHeaderBlock {

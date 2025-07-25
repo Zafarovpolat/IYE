@@ -900,6 +900,10 @@
     }
 }
 
+.history {
+    overflow: hidden;
+}
+
 .historyContent {
     overflow-x: hidden;
     padding-top: 110px;
@@ -1066,6 +1070,8 @@
 
 .faces {
     padding-bottom: 130px;
+    overflow: hidden;
+
 }
 
 .facesHeading {
@@ -1674,6 +1680,7 @@
     color: #FFFFFF;
     padding-bottom: 130px;
     margin-bottom: 130px;
+    overflow: hidden;
 }
 
 .qualityHeaderBlock {

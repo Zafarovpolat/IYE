@@ -533,6 +533,7 @@
     color: #FFFFFF;
     padding-bottom: 130px;
     margin-bottom: 130px;
+    overflow: hidden;
 }
 
 .qualityHeaderBlock {
@@ -1311,7 +1312,9 @@
 
 /* STM */
 
-.stm {}
+.stm {
+    overflow: hidden;
+}
 
 .stmHeading {
     padding-top: 110px;
