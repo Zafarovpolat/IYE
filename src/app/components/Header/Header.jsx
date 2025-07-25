@@ -1,12 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Добавляем useEffect
+import { usePathname } from 'next/navigation'; // Добавляем usePathname
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Header.module.css';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const pathname = usePathname(); // Получаем текущий маршрут
+
+    useEffect(() => {
+        setIsMenuOpen(false); // Закрываем меню
+    }, [pathname]);
 
     return (
         <>
