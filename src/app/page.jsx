@@ -1136,7 +1136,7 @@ export default function Home() {
                                             transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
                                             viewport={{ once: true }}
                                         >
-                                            <Link href={"/news"} className={styles.newsCard}>
+                                            <Link href={"/news/1"} className={styles.newsCard}>
                                                 <Image
                                                     src="/news1.png"
                                                     alt="Пирожные"
@@ -1158,7 +1158,7 @@ export default function Home() {
                                             transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
                                             viewport={{ once: true }}
                                         >
-                                            <Link href={"/news"} className={styles.newsCard}>
+                                            <Link href={"/news/2"} className={styles.newsCard}>
                                                 <Image
                                                     src="/news2.png"
                                                     alt="Пирожные"
@@ -1180,7 +1180,7 @@ export default function Home() {
                                             transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
                                             viewport={{ once: true }}
                                         >
-                                            <Link href={"/news"} className={styles.newsCard}>
+                                            <Link href={"/news/3"} className={styles.newsCard}>
                                                 <Image
                                                     src="/news3.png"
                                                     alt="Пирожные"
@@ -1204,7 +1204,7 @@ export default function Home() {
                                         transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
                                         viewport={{ once: true }}
                                     >
-                                        <Link href={"/news"} className={styles.newsCard}>
+                                        <Link href={"/news/1"} className={styles.newsCard}>
                                             <Image
                                                 src="/news1.png"
                                                 alt="Пирожные"
@@ -1224,7 +1224,7 @@ export default function Home() {
                                         transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
                                         viewport={{ once: true }}
                                     >
-                                        <Link href={"/news"} className={styles.newsCard}>
+                                        <Link href={"/news/2"} className={styles.newsCard}>
                                             <Image
                                                 src="/news2.png"
                                                 alt="Пирожные"
@@ -1244,7 +1244,7 @@ export default function Home() {
                                         transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
                                         viewport={{ once: true }}
                                     >
-                                        <Link href={"/news"} className={styles.newsCard}>
+                                        <Link href={"/news/3"} className={styles.newsCard}>
                                             <Image
                                                 src="/news3.png"
                                                 alt="Пирожные"
@@ -1283,7 +1283,7 @@ export default function Home() {
                                 <motion.span className={styles.preFooterTopText} variants={preFooterPartnerTextVariants}>
                                     смотреть далее
                                 </motion.span>
-                                <Link href='/' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
+                                <Link href='/about' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
                                     <motion.span className={`${styles.partnerText} ${styles.preFooterTitle}`} variants={preFooterPartnerTextVariants}>
                                         О компании
                                     </motion.span>

@@ -6,15 +6,12 @@ import Footer from '../components/Footer/Footer';
 import styles from '../styles/News.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/free-mode';
 
 
 export default function News() {
     const [isPreFooterHovered, setIsPreFooterHovered] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [selectedTag, setSelectedTag] = useState('Все новости');
 
     useEffect(() => {
         const handleResize = () => {
@@ -102,121 +99,153 @@ export default function News() {
             image: '/news1.png',
             title: 'Наши сэндвичи теперь в «Самокате» — свежий продукт с доставкой за 15 минут!',
             description: '22 апреля 2025 • Партнёрство'
+            , category: 'Партнёрство',
         },
         {
             id: 2,
             image: '/news2.png',
             title: 'Инновационная упаковка — теперь наша продукция остаётся свежей ещё дольше',
             description: '21 апреля 2025 • Продукция'
+            , category: 'Продукция',
         },
         {
             id: 3,
             image: '/news3.png',
             title: 'СТМ растёт: мы начали выпуск блинов для сети «Пятёрочка»',
             description: '18 апреля 2025 • Партнёрство'
+            , category: 'Партнёрство',
         },
         {
             id: 4,
             image: '/news4.png',
             title: 'Обновили линейку сэндвичей — новые рецепты и улучшенный вкус',
             description: '16 апреля 2025 • Продукция'
+            , category: 'Продукция',
         },
         {
             id: 5,
             image: '/news5.png',
             title: 'Наши пироги теперь с новыми начинками — ещё вкуснее и разнообразнее',
             description: '15 апреля 2025 • Продукция'
+            , category: 'Продукция',
         },
         {
             id: 6,
             image: '/news6.png',
             title: 'Внедрили систему машинного зрения — контроль качества на новом уровне',
             description: '14 апреля 2025 • Производство'
+            , category: 'Производство',
         },
         {
             id: 7,
             image: '/news7.png',
             title: 'Запустили собственную систему мониторинга температуры в реальном времени',
             description: '11 апреля 2025 • Производство'
+            , category: 'Производство',
         },
         {
             id: 8,
             image: '/news8.png',
             title: 'Добавили систему обратной связи на производстве — реагируем ещё быстрее',
             description: '10 апреля 2025 • Производство'
+            , category: 'Производство',
         },
         {
             id: 9,
             image: '/news9.png',
             title: 'Провели аудит качества — без единого замечания',
             description: '9 апреля 2025 • Производство'
+            , category: 'Производство',
         },
         {
             id: 10,
             image: '/news10.png',
             title: 'Запустили линейку мини-десертов — удобный формат для перекуса в пути',
             description: '7 апреля 2025 • Продукция'
+            , category: 'Продукция',
         },
         {
             id: 11,
             image: '/news11.png',
             title: 'Открыли вакансию для молодых специалистов с возможностью обучения',
             description: '6 апреля 2025 • Команда'
+            , category: 'Команда',
         },
         {
             id: 12,
             image: '/news12.png',
             title: 'Представили продукцию на выставке METRO EXPO 2025',
             description: '5 апреля 2025 • Продукция'
+            , category: 'Продукция',
         },
         {
             id: 13,
             image: '/news13.png',
             title: 'Наши продукция — теперь и в отелях Москвы: старт сотрудничества с крупной гостиничной сетью',
             description: '31 марта 2025 • Партнёрство'
+            , category: 'Партнёрство',
         },
         {
             id: 14,
             image: '/news14.png',
             title: 'Установили новые линии фасовки — теперь ещё быстрее и точнее',
             description: '30 марта 2025 • Производство'
+            , category: 'Производство',
         },
         {
             id: 15,
             image: '/news15.png',
             title: 'Стартовали пилотное производство на новой площадке в Подмосковье',
             description: '29 марта 2025 • Производство'
+            , category: 'Производство',
         },
         {
             id: 16,
             image: '/news16.png',
             title: 'Провели тренинг по пищевой безопасности для всех смен',
             description: '27 марта 2025 • Команда'
+            , category: 'Команда',
         },
         {
             id: 17,
             image: '/news17.png',
             title: 'Расширили ассортимент завтраков — быстрые и сытные блюда на каждый день',
             description: '25 марта 2025 • Продукция'
+            , category: 'Продукция',
         },
         {
             id: 18,
             image: '/news18.png',
             title: 'Провели дегустации в московских офисах крупных компаний',
             description: '24 марта 2025 • Продукция'
+            , category: 'Продукция',
         },
     ];
 
-    // Limit to 12 cards on mobile
-    const displayedNews = isMobile ? newsItems.slice(0, 12) : newsItems;
+    const [filteredItems, setFilteredItems] = useState(newsItems);
+    const [loadedItems, setLoadedItems] = useState([]); // Для хранения дублированных новостей
 
-    // Calculate the middle index for the banner
-    const middleIndex = Math.floor(displayedNews.length / 2);
+    const handleFilterClick = (tag) => {
+        setSelectedTag(tag);
+        setLoadedItems([]); // Сбрасываем загруженные новости при смене фильтра
 
-    // Split news items into two parts
-    const firstHalf = displayedNews.slice(0, middleIndex);
-    const secondHalf = displayedNews.slice(middleIndex);
+        if (tag === 'Все новости') {
+            setFilteredItems(newsItems);
+        } else {
+            const filtered = newsItems.filter((item) =>
+                item.category.includes(tag)
+            );
+            setFilteredItems(filtered);
+        }
+    };
 
+    const handleLoadMore = () => {
+        const newItems = newsItems.slice(0, 3); // Берем первые 3 новости для дублирования
+        setLoadedItems((prev) => [...prev, ...newItems]);
+    };
+
+    const firstHalf = filteredItems.slice(0, Math.min(9, filteredItems.length));
+    const secondHalf = filteredItems.length > 9 ? filteredItems.slice(9) : [];
 
     return (
         <>
@@ -234,21 +263,21 @@ export default function News() {
                                 Мы открыты и честны: рассказываем обо всем важном, что происходит в компании
                             </h3>
                             <ul className={styles.newsTags}>
-                                <li className={`${styles.newsTag} ${styles.newsTagActive}`}>
-                                    <button className={`${styles.newsTagBtn} ${styles.newsTagBtnActive}`}>Все новости</button>
-                                </li>
-                                <li className={styles.newsTag}>
-                                    <button className={styles.newsTagBtn}>Продукция</button>
-                                </li>
-                                <li className={styles.newsTag}>
-                                    <button className={styles.newsTagBtn}>Партнёрство</button>
-                                </li>
-                                <li className={styles.newsTag}>
-                                    <button className={styles.newsTagBtn}>Производство</button>
-                                </li>
-                                <li className={styles.newsTag}>
-                                    <button className={styles.newsTagBtn}>Команда</button>
-                                </li>
+                                {['Все новости', 'Продукция', 'Партнёрство', 'Производство', 'Команда'].map((tag) => (
+                                    <li
+                                        key={tag}
+                                        className={`${styles.newsTag} ${selectedTag === tag ? styles.newsTagActive : ''
+                                            }`}
+                                    >
+                                        <button
+                                            className={`${styles.newsTagBtn} ${selectedTag === tag ? styles.newsTagBtnActive : ''
+                                                }`}
+                                            onClick={() => handleFilterClick(tag)}
+                                        >
+                                            {tag}
+                                        </button>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
@@ -334,8 +363,35 @@ export default function News() {
                                 </Link>
                             </motion.div>
                         ))}
+                        {loadedItems.map((item, index) => (
+                            <motion.div
+                                key={`loaded-${item.id}-${index}`} // Уникальный ключ для дублированных новостей
+                                initial={{ y: 197 }}
+                                whileInView={{ y: 0 }}
+                                transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+                                viewport={{ once: true }}
+                            >
+                                <Link href={`/news/${item.id}`} className={styles.newsCard}>
+                                    <Image
+                                        src={item.image}
+                                        alt="Пирожные"
+                                        width={587}
+                                        height={374}
+                                        className={styles.newsImage}
+                                    />
+                                    <h4 className={styles.newsCardTitle}>{item.title}</h4>
+                                    <p className={styles.newsCardDescription}>
+                                        {item.description}
+                                    </p>
+                                </Link>
+                            </motion.div>
+                        ))}
                     </div>
-                    <button className={styles.newsBtnMore}>Загрузить ещё</button>
+                    {selectedTag === 'Все новости' && (
+                        <button className={styles.newsBtnMore} onClick={handleLoadMore}>
+                            Загрузить ещё
+                        </button>
+                    )}
                 </div>
             </section>
 
@@ -355,7 +411,7 @@ export default function News() {
                             <motion.span className={styles.preFooterTopText} variants={preFooterPartnerTextVariants}>
                                 смотреть далее
                             </motion.span>
-                            <Link href='/' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
+                            <Link href='/vacancies' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
                                 <motion.span className={`${styles.partnerText} ${styles.preFooterTitle}`} variants={preFooterPartnerTextVariants}>
                                     Вакансии
                                 </motion.span>

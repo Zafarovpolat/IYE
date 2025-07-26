@@ -1104,7 +1104,7 @@ export default function Clients() {
                             <motion.span className={styles.preFooterTopText} variants={preFooterPartnerTextVariants}>
                                 смотреть далее
                             </motion.span>
-                            <Link href='/' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
+                            <Link href='/suppliers' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
                                 <motion.span className={`${styles.partnerText} ${styles.preFooterTitle}`} variants={preFooterPartnerTextVariants}>
                                     Поставщикам
                                 </motion.span>

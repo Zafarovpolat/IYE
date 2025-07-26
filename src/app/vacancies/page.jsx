@@ -876,7 +876,7 @@ export default function Vacancies() {
                             <motion.span className={styles.preFooterTopText} variants={preFooterPartnerTextVariants}>
                                 смотреть далее
                             </motion.span>
-                            <Link href='/' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
+                            <Link href='/contacts' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
                                 <motion.span className={`${styles.partnerText} ${styles.preFooterTitle}`} variants={preFooterPartnerTextVariants}>
                                     Контакты
                                 </motion.span>

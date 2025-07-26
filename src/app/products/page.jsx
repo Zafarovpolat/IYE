@@ -373,6 +373,130 @@ export default function Production() {
 
     return (
         <>
+
+            {isModalOpen && (
+                <div className={styles.modalOverlay} onClick={closeModal}>
+                    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                        <button className={styles.closeButton} onClick={closeModal}>
+                            ✕
+                        </button>
+                        <div className={styles.contactForm}>
+                            <div className={styles.contactFormLeft}>
+                                <Image className={styles.contactFormImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
+                                <h3 className={styles.contactFormTitle}>Хотите стать нашим партнёром?</h3>
+                                <p className={styles.contactFormInfo}>
+                                    Мы всегда открыты к новым партнёрствам и готовы предложить лучшие условия для вашего бизнеса. Заполните форму и мы свяжемся с вами в ближайшее время
+                                </p>
+                            </div>
+                            <div className={styles.contactFormRight}>
+                                <form onSubmit={handleFormSubmit}>
+                                    <div className={styles.contactFormRightUp}>
+                                        <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
+                                            <input
+                                                type="text"
+                                                className={styles.partnersInput}
+                                                value={inputValues.name}
+                                                onFocus={() => handleFocus('name')}
+                                                onBlur={() => handleBlur('name')}
+                                                onChange={(e) => handleChange('name', e.target.value)}
+                                            />
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
+                                                Имя и Фамилия
+                                            </label>
+                                        </div>
+
+                                        <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
+                                            <input
+                                                type="text"
+                                                className={styles.partnersInput}
+                                                value={inputValues.company}
+                                                onFocus={() => handleFocus('company')}
+                                                onBlur={() => handleBlur('company')}
+                                                onChange={(e) => handleChange('company', e.target.value)}
+                                            />
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''}`}>
+                                                Компания
+                                            </label>
+                                        </div>
+
+                                        <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
+                                            <input
+                                                type="tel"
+                                                className={`${styles.partnersInput} ${phoneError ? styles.inputError : ''}`}
+                                                value={inputValues.phone}
+                                                onFocus={() => handleFocus('phone')}
+                                                onBlur={() => handleBlur('phone')}
+                                                onChange={(e) => handleChange('phone', e.target.value)}
+                                                placeholder=""
+                                            />
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}>
+                                                Номер телефона
+                                            </label>
+                                            {phoneError && (
+                                                <div className={styles.errorMessage}>
+                                                    {phoneError}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
+                                            <input
+                                                type="email"
+                                                className={`${styles.partnersInput} ${emailError ? styles.inputError : ''}`}
+                                                value={inputValues.email}
+                                                onFocus={() => handleFocus('email')}
+                                                onBlur={() => handleBlur('email')}
+                                                onChange={(e) => handleChange('email', e.target.value)}
+                                            />
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}>
+                                                Электронная почта
+                                            </label>
+                                            {emailError && (
+                                                <div className={styles.errorMessage}>
+                                                    {emailError}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className={styles.contactFormRightBottom}>
+                                        <button type="submit" className={styles.contactFormSubmit}>
+                                            Отправить заявку
+                                        </button>
+                                        <p className={styles.partnersPolicy}>
+                                            Нажимая на кнопку, вы соглашаетесь с{' '}
+                                            <Link href={'/privacy'}>политикой конфиденциальности</Link>
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isSuccessModalOpen && (
+                <div className={styles.modalOverlay} onClick={closeSuccessModal}>
+                    <div className={styles.successModalContent} onClick={(e) => e.stopPropagation()}>
+                        <button className={styles.closeButton} onClick={closeSuccessModal}>
+                            ✕
+                        </button>
+                        <div className={styles.successModal}>
+                            <Image className={styles.successModalImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
+                            <div className={styles.successModalInner}>
+                                <Image src={'/email.svg'} width={52} height={52}></Image>
+                                <h3 className={styles.successModalTitle}>Заявка отправлена</h3>
+                                <p className={styles.successModalInfo}>
+                                    Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
+                                </p>
+                                <p className={styles.successModalInfo}>
+                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="">+7 (000) 000–00–00</a></span> или написать на <span><a href="">stm@ideologia.ru</a></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <motion.section
                 id='productsHeader'
                 className={styles.productsHeader}
@@ -512,128 +636,6 @@ export default function Production() {
                                 </h4>
                                 <p className={styles.productsBannerInfo}>В каталоге — лишь часть наших возможностей. Мы можем разработать и запустить в производство продукцию по вашему техническому заданию, от рецептуры до упаковки</p>
                                 <button className={styles.productsBannerBtn} onClick={toggleModal}>Отправить заявку</button>
-                                {isModalOpen && (
-                                    <div className={styles.modalOverlay} onClick={closeModal}>
-                                        <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-                                            <button className={styles.closeButton} onClick={closeModal}>
-                                                ✕
-                                            </button>
-                                            <div className={styles.contactForm}>
-                                                <div className={styles.contactFormLeft}>
-                                                    <Image className={styles.contactFormImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
-                                                    <h3 className={styles.contactFormTitle}>Хотите стать нашим партнёром?</h3>
-                                                    <p className={styles.contactFormInfo}>
-                                                        Мы всегда открыты к новым партнёрствам и готовы предложить лучшие условия для вашего бизнеса. Заполните форму и мы свяжемся с вами в ближайшее время
-                                                    </p>
-                                                </div>
-                                                <div className={styles.contactFormRight}>
-                                                    <form onSubmit={handleFormSubmit}>
-                                                        <div className={styles.contactFormRightUp}>
-                                                            <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
-                                                                <input
-                                                                    type="text"
-                                                                    className={styles.partnersInput}
-                                                                    value={inputValues.name}
-                                                                    onFocus={() => handleFocus('name')}
-                                                                    onBlur={() => handleBlur('name')}
-                                                                    onChange={(e) => handleChange('name', e.target.value)}
-                                                                />
-                                                                <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
-                                                                    Имя и Фамилия
-                                                                </label>
-                                                            </div>
-
-                                                            <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
-                                                                <input
-                                                                    type="text"
-                                                                    className={styles.partnersInput}
-                                                                    value={inputValues.company}
-                                                                    onFocus={() => handleFocus('company')}
-                                                                    onBlur={() => handleBlur('company')}
-                                                                    onChange={(e) => handleChange('company', e.target.value)}
-                                                                />
-                                                                <label className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''}`}>
-                                                                    Компания
-                                                                </label>
-                                                            </div>
-
-                                                            <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
-                                                                <input
-                                                                    type="tel"
-                                                                    className={`${styles.partnersInput} ${phoneError ? styles.inputError : ''}`}
-                                                                    value={inputValues.phone}
-                                                                    onFocus={() => handleFocus('phone')}
-                                                                    onBlur={() => handleBlur('phone')}
-                                                                    onChange={(e) => handleChange('phone', e.target.value)}
-                                                                    placeholder=""
-                                                                />
-                                                                <label className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}>
-                                                                    Номер телефона
-                                                                </label>
-                                                                {phoneError && (
-                                                                    <div className={styles.errorMessage}>
-                                                                        {phoneError}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-
-                                                            <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
-                                                                <input
-                                                                    type="email"
-                                                                    className={`${styles.partnersInput} ${emailError ? styles.inputError : ''}`}
-                                                                    value={inputValues.email}
-                                                                    onFocus={() => handleFocus('email')}
-                                                                    onBlur={() => handleBlur('email')}
-                                                                    onChange={(e) => handleChange('email', e.target.value)}
-                                                                />
-                                                                <label className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}>
-                                                                    Электронная почта
-                                                                </label>
-                                                                {emailError && (
-                                                                    <div className={styles.errorMessage}>
-                                                                        {emailError}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                        <div className={styles.contactFormRightBottom}>
-                                                            <button type="submit" className={styles.contactFormSubmit}>
-                                                                Отправить заявку
-                                                            </button>
-                                                            <p className={styles.partnersPolicy}>
-                                                                Нажимая на кнопку, вы соглашаетесь с{' '}
-                                                                <Link href={'/privacy'}>политикой конфиденциальности</Link>
-                                                            </p>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {isSuccessModalOpen && (
-                                    <div className={styles.modalOverlay} onClick={closeSuccessModal}>
-                                        <div className={styles.successModalContent} onClick={(e) => e.stopPropagation()}>
-                                            <button className={styles.closeButton} onClick={closeSuccessModal}>
-                                                ✕
-                                            </button>
-                                            <div className={styles.successModal}>
-                                                <Image className={styles.successModalImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
-                                                <div className={styles.successModalInner}>
-                                                    <Image src={'/email.svg'} width={52} height={52}></Image>
-                                                    <h3 className={styles.successModalTitle}>Заявка отправлена</h3>
-                                                    <p className={styles.successModalInfo}>
-                                                        Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
-                                                    </p>
-                                                    <p className={styles.successModalInfo}>
-                                                        Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="">+7 (000) 000–00–00</a></span> или написать на <span><a href="">stm@ideologia.ru</a></span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>
@@ -643,7 +645,7 @@ export default function Production() {
                         <div className={`${styles.productsCardMobile} ${styles.productsCardMobileInner}`}>
                             <Swiper
                                 spaceBetween={10}
-                                slidesPerView={1}
+                                slidesPerView={1.1}
                                 className={styles.productsSwiper}
                                 ref={swiperRef}
                                 onSlideChange={(swiper) => setSwiperIndex(swiper.activeIndex)}
@@ -980,7 +982,7 @@ export default function Production() {
                             <motion.span className={styles.preFooterTopText} variants={preFooterPartnerTextVariants}>
                                 смотреть далее
                             </motion.span>
-                            <Link href='/' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
+                            <Link href='/clients' className={`${styles.partnerLink} ${styles.preFooterLink}`}>
                                 <motion.span className={`${styles.partnerText} ${styles.preFooterTitle}`} variants={preFooterPartnerTextVariants}>
                                     Клиентам
                                 </motion.span>
