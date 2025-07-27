@@ -1,42 +1,31 @@
 'use client';
 
 import Image from 'next/image';
-import { motion, useAnimation, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Footer from '../components/Footer/Footer';
 import styles from '../styles/Contacts.module.css';
-import Button from '../components/Button/Button';
 import Link from 'next/link';
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useState, useEffect, useRef } from 'react';
 import 'swiper/css';
 
 export default function Contacts() {
-    const videoRef = useRef(null);
-    const [playing, setPlaying] = useState(false);
     const [isClient, setIsClient] = useState(false);
-    const [isClientHovered, setIsClientHovered] = useState(false);
     const [isPreFooterHovered, setIsPreFooterHovered] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-    const [isNewsMobile, setIsNewsMobile] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
-    const hasAnimatedRef = useRef(false);
-    const controls = useAnimation();
-    const heroRef = useRef(null);
-    const currentSectionIndexRef = useRef(0);
-    const swiperRef = useRef(null);
-    const [isOverflowAuto, setIsOverflowAuto] = useState(false);
-    const targetOffsetRef = useRef(0);
-    const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
     const mapRef = useRef(null);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // New state for success modal
-    const [focusedInputs, setFocusedInputs] = useState({});
+    const [nameError, setNameError] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [textAreaError, setTextAreaError] = useState('');
+    const [fileError, setFileError] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [focusedInputs, setFocusedInputs] = useState({});
     const [inputValues, setInputValues] = useState({
         name: '',
-        company: '',
         phone: '',
-        email: ''
+        email: '',
+        textArea: ''
     });
 
     const handleFocus = (inputName) => {
@@ -48,11 +37,10 @@ export default function Contacts() {
             setFocusedInputs(prev => ({ ...prev, [inputName]: false }));
         }
 
-        if (inputName === 'phone') {
-            validatePhone(inputValues.phone);
-        } else if (inputName === 'email') {
-            validateEmail(inputValues.email);
-        }
+        if (inputName === 'name') validateName(inputValues.name);
+        else if (inputName === 'phone') validatePhone(inputValues.phone);
+        else if (inputName === 'email') validateEmail(inputValues.email);
+        else if (inputName === 'textArea') validateTextArea(inputValues.textArea);
     };
 
     const formatPhoneNumber = (value) => {
@@ -96,46 +84,76 @@ export default function Contacts() {
         return value === '' ? '' : '+7 ';
     };
 
-    const validateEmail = (email) => {
-        if (email === '') {
-            setEmailError('');
-            return true;
-        }
-
-        // Проверяем наличие @ и .
-        const hasAt = email.includes('@');
-        const hasDot = email.includes('.');
-
-        if (!hasAt || !hasDot) {
-            setEmailError('Введите корректный email адрес');
+    const validateName = (name) => {
+        if (!name.trim()) {
+            setNameError('Пожалуйста, введите имя');
             return false;
         }
-
-        // Более точная проверка структуры email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            setEmailError('Введите корректный email адрес');
+        if (name.trim().length < 2) {
+            setNameError('Имя должно содержать не менее 2 символов');
             return false;
         }
-
-        setEmailError('');
+        setNameError('');
         return true;
     };
 
     const validatePhone = (phone) => {
         const numbers = phone.replace(/\D/g, '');
-
-        if (phone === '') {
-            setPhoneError('');
-            return true;
+        if (!phone.trim()) {
+            setPhoneError('Пожалуйста, введите номер телефона');
+            return false;
         }
-
         if (numbers.length < 11) {
             setPhoneError('Введите полный номер телефона');
             return false;
         }
-
         setPhoneError('');
+        return true;
+    };
+
+    const validateEmail = (email) => {
+        if (!email.trim()) {
+            setEmailError('Пожалуйста, введите email');
+            return false;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setEmailError('Введите корректный email адрес');
+            return false;
+        }
+        setEmailError('');
+        return true;
+    };
+
+    const validateTextArea = (text) => {
+        if (!text.trim()) {
+            setTextAreaError('Пожалуйста, опишите вашу ситуацию');
+            return false;
+        }
+        if (text.trim().length < 10) {
+            setTextAreaError('Описание должно содержать не менее 10 символов');
+            return false;
+        }
+        setTextAreaError('');
+        return true;
+    };
+
+    const validateFile = (file) => {
+        if (!file) {
+            setFileError('Пожалуйста, прикрепите файл');
+            return false;
+        }
+        const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        if (!allowedTypes.includes(file.type)) {
+            setFileError('Файл должен быть в формате PDF или DOC');
+            return false;
+        }
+        const maxSize = 10 * 1024 * 1024; // 10 MB
+        if (file.size > maxSize) {
+            setFileError('Файл не должен превышать 10 МБ');
+            return false;
+        }
+        setFileError('');
         return true;
     };
 
@@ -143,14 +161,53 @@ export default function Contacts() {
         if (inputName === 'phone') {
             const formattedPhone = formatPhoneNumber(value);
             setInputValues(prev => ({ ...prev, [inputName]: formattedPhone }));
-
-            // Валидация в реальном времени
             validatePhone(formattedPhone);
+        } else if (inputName === 'file') {
+            const file = value;
+            setSelectedFile(file);
+            validateFile(file);
         } else {
             setInputValues(prev => ({ ...prev, [inputName]: value }));
+            if (inputName === 'name') validateName(value);
+            else if (inputName === 'email') validateEmail(value);
+            else if (inputName === 'textArea') validateTextArea(value);
         }
     };
 
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+
+        const isNameValid = validateName(inputValues.name);
+        const isPhoneValid = validatePhone(inputValues.phone);
+        const isEmailValid = validateEmail(inputValues.email);
+        const isTextAreaValid = validateTextArea(inputValues.textArea);
+        const isFileValid = validateFile(selectedFile);
+
+        if (!isNameValid || !isPhoneValid || !isEmailValid || !isTextAreaValid || !isFileValid) {
+            return;
+        }
+
+        console.log('Form submitted:', { ...inputValues, file: selectedFile });
+        setIsSuccessModalOpen(true);
+        setInputValues({
+            name: '',
+            phone: '',
+            email: '',
+            textArea: ''
+        });
+        setSelectedFile(null);
+        setFocusedInputs({
+            name: false,
+            phone: false,
+            email: false,
+            textArea: false
+        });
+        setNameError('');
+        setPhoneError('');
+        setEmailError('');
+        setTextAreaError('');
+        setFileError('');
+    };
     useEffect(() => {
         setIsClient(true);
     }, []);
@@ -203,22 +260,6 @@ export default function Contacts() {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // Simulate form submission logic (e.g., API call)
-        setIsSuccessModalOpen(true); // Open the success modal
-        const isPhoneValid = validatePhone(inputValues.phone);
-        const isEmailValid = validateEmail(inputValues.email);
-
-        if (!isPhoneValid || !isEmailValid) {
-
-            return;
-        }
-
-        // Здесь ваша логика отправки формы
-        console.log('Form submitted:', inputValues);
-    };
 
     const closeSuccessModal = () => {
         setIsSuccessModalOpen(false);
@@ -432,18 +473,20 @@ export default function Contacts() {
                                         <div className={styles.inputContainer}>
                                             <input
                                                 type="text"
-                                                className={styles.partnersInput}
+                                                className={`${styles.partnersInput} ${nameError ? styles.inputError : ''}`}
                                                 value={inputValues.name}
                                                 onFocus={() => handleFocus('name')}
                                                 onBlur={() => handleBlur('name')}
                                                 onChange={(e) => handleChange('name', e.target.value)}
                                             />
-                                            <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''
-                                                    }`}
-                                            >
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
                                                 Имя
                                             </label>
+                                            {nameError && (
+                                                <div className={styles.errorMessage}>
+                                                    {nameError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={styles.inputContainer}>
@@ -456,13 +499,14 @@ export default function Contacts() {
                                                 onChange={(e) => handleChange('phone', e.target.value)}
                                                 placeholder=""
                                             />
-                                            <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''
-                                                    }`}
-                                            >
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}>
                                                 Номер телефона
                                             </label>
-                                            {phoneError && <div className={styles.errorMessage}>{phoneError}</div>}
+                                            {phoneError && (
+                                                <div className={styles.errorMessage}>
+                                                    {phoneError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={styles.inputContainer}>
@@ -474,42 +518,55 @@ export default function Contacts() {
                                                 onBlur={() => handleBlur('email')}
                                                 onChange={(e) => handleChange('email', e.target.value)}
                                             />
-                                            <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''
-                                                    }`}
-                                            >
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}>
                                                 Электронная почта
                                             </label>
-                                            {emailError && <div className={styles.errorMessage}>{emailError}</div>}
+                                            {emailError && (
+                                                <div className={styles.errorMessage}>
+                                                    {emailError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={styles.inputContainer}>
                                             <textarea
-                                                className={styles.partnersTextArea}
+                                                className={`${styles.partnersTextArea} ${textAreaError ? styles.inputError : ''}`}
                                                 name="textArea"
                                                 value={inputValues.textArea}
                                                 onFocus={() => handleFocus('textArea')}
                                                 onBlur={() => handleBlur('textArea')}
                                                 onChange={(e) => handleChange('textArea', e.target.value)}
                                             />
-                                            <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.textArea || inputValues.textArea ? styles.active : ''
-                                                    }`}
-                                            >
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.textArea || inputValues.textArea ? styles.active : ''}`}>
                                                 Опишите вашу ситуацию
                                             </label>
+                                            {textAreaError && (
+                                                <div className={styles.errorMessage}>
+                                                    {textAreaError}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
                                     <div className={styles.partnersFileBox}>
-                                        <input className={styles.partnersFileInput} type="file" id="partnersFile" />
+                                        <input
+                                            className={`${styles.partnersFileInput} ${fileError ? styles.inputError : ''}`}
+                                            type="file"
+                                            id="partnersFile"
+                                            onChange={(e) => handleChange('file', e.target.files[0])}
+                                        />
                                         <label className={styles.partnersFileLabel} htmlFor="partnersFile">
                                             <Image src={'/paperclip.svg'} width={24} height={24} alt="attach" />
                                             <div className={styles.partnersFiletext}>
-                                                <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
+                                                <h5 className={styles.partnersFileInputTitle}>Прикрепить файл</h5>
                                                 <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
                                             </div>
                                         </label>
+                                        {fileError && (
+                                            <div className={styles.errorMessage}>
+                                                {fileError}
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className={styles.partnersFormRightBottom}>
@@ -530,10 +587,10 @@ export default function Contacts() {
                                                 <Image src={'/email.svg'} width={52} height={52} alt="Email icon" />
                                                 <h3 className={styles.successModalTitle}>Заявка отправлена</h3>
                                                 <p className={styles.successModalInfo}>
-                                                    Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
+                                                    Спасибо за ваш отзыв! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
                                                 </p>
                                                 <p className={styles.successModalInfo}>
-                                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:stm@ideologia.ru">stm@ideologia.ru</a></span>
+                                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:customers@ideologia.ru">customers@ideologia.ru</a></span>
                                                 </p>
                                             </div>
                                         </div>

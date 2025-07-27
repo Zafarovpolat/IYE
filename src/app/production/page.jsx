@@ -33,8 +33,12 @@ export default function Production() {
     const yOffset = useMotionValue(0);
     const isAnimatingRef = useRef(false); // Флаг для отслеживания активной анимации
     const [focusedInputs, setFocusedInputs] = useState({});
+    const [nameError, setNameError] = useState('');
+    const [companyError, setCompanyError] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [isBannerSuccessModalOpen, setIsBannerSuccessModalOpen] = useState(false); // Для модального окна успеха из баннера
+    const [isPartnersSuccessModalOpen, setIsPartnersSuccessModalOpen] = useState(false); // Для встроенного успеха в partners
     const [inputValues, setInputValues] = useState({
         name: '',
         company: '',
@@ -55,6 +59,10 @@ export default function Production() {
             validatePhone(inputValues.phone);
         } else if (inputName === 'email') {
             validateEmail(inputValues.email);
+        } else if (inputName === 'name') {
+            validateName(inputValues.name);
+        } else if (inputName === 'company') {
+            validateCompany(inputValues.company);
         }
     };
 
@@ -99,45 +107,56 @@ export default function Production() {
         return value === '' ? '' : '+7 ';
     };
 
-    const validateEmail = (email) => {
-        if (email === '') {
-            setEmailError('');
-            return true;
-        }
-
-        // Проверяем наличие @ и .
-        const hasAt = email.includes('@');
-        const hasDot = email.includes('.');
-
-        if (!hasAt || !hasDot) {
-            setEmailError('Введите корректный email адрес');
+    const validateName = (name) => {
+        if (!name.trim()) {
+            setNameError('Пожалуйста, введите имя и фамилию');
             return false;
         }
+        if (name.trim().length < 2) {
+            setNameError('Имя должно содержать не менее 2 символов');
+            return false;
+        }
+        setNameError('');
+        return true;
+    };
 
-        // Более точная проверка структуры email
+    const validateCompany = (company) => {
+        if (!company.trim()) {
+            setCompanyError('Пожалуйста, введите название компании');
+            return false;
+        }
+        if (company.trim().length < 2) {
+            setCompanyError('Название компании должно содержать не менее 2 символов');
+            return false;
+        }
+        setCompanyError('');
+        return true;
+    };
+
+    const validateEmail = (email) => {
+        if (!email.trim()) {
+            setEmailError('Пожалуйста, введите email');
+            return false;
+        }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             setEmailError('Введите корректный email адрес');
             return false;
         }
-
         setEmailError('');
         return true;
     };
 
     const validatePhone = (phone) => {
         const numbers = phone.replace(/\D/g, '');
-
-        if (phone === '') {
-            setPhoneError('');
-            return true;
+        if (!phone.trim()) {
+            setPhoneError('Пожалуйста, введите номер телефона');
+            return false;
         }
-
         if (numbers.length < 11) {
             setPhoneError('Введите полный номер телефона');
             return false;
         }
-
         setPhoneError('');
         return true;
     };
@@ -146,11 +165,12 @@ export default function Production() {
         if (inputName === 'phone') {
             const formattedPhone = formatPhoneNumber(value);
             setInputValues(prev => ({ ...prev, [inputName]: formattedPhone }));
-
-            // Валидация в реальном времени
             validatePhone(formattedPhone);
         } else {
             setInputValues(prev => ({ ...prev, [inputName]: value }));
+            if (inputName === 'name') validateName(value);
+            else if (inputName === 'company') validateCompany(value);
+            else if (inputName === 'email') validateEmail(value);
         }
     };
 
@@ -320,34 +340,82 @@ export default function Production() {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        // Simulate form submission logic (e.g., API call)
-        setIsSuccessModalOpen(true); // Open the success modal
-        setIsModalOpen(false); // Закрываем модальное окно формы
+
+        const isNameValid = validateName(inputValues.name);
+        const isCompanyValid = validateCompany(inputValues.company);
         const isPhoneValid = validatePhone(inputValues.phone);
         const isEmailValid = validateEmail(inputValues.email);
 
-        if (!isPhoneValid || !isEmailValid) {
-
+        if (!isNameValid || !isCompanyValid || !isPhoneValid || !isEmailValid) {
             return;
         }
 
-        // Здесь ваша логика отправки формы
         console.log('Form submitted:', inputValues);
+        if (isModalOpen) {
+            setIsBannerSuccessModalOpen(true);
+            setIsModalOpen(false);
+            document.body.style.overflowY = 'hidden';
+        } else {
+            setIsPartnersSuccessModalOpen(true);
+        }
+
+        setInputValues({
+            name: '',
+            company: '',
+            phone: '',
+            email: ''
+        });
+        setFocusedInputs({
+            name: false,
+            company: false,
+            phone: false,
+            email: false
+        });
     };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
+        document.body.style.overflowY = !isModalOpen ? 'hidden' : 'scroll';
     };
 
+    // Обновлённый closeModal
     const closeModal = () => {
         setIsModalOpen(false);
+        document.body.style.overflowY = 'scroll';
     };
 
     const closeSuccessModal = () => {
         setIsSuccessModalOpen(false);
     };
+
+    const closeBannerSuccessModal = () => {
+        setIsBannerSuccessModalOpen(false);
+        if (!isModalOpen) {
+            document.body.style.overflowY = 'scroll';
+        }
+    };
+
+    const closePartnersSuccessModal = () => {
+        setIsPartnersSuccessModalOpen(false);
+    };
+
+    useEffect(() => {
+        // Устанавливаем overflow-y: hidden, если открыто любое модальное окно
+        if (isModalOpen || isBannerSuccessModalOpen) {
+            document.body.style.overflowY = 'hidden';
+        } else {
+            // Восстанавливаем overflow-y: scroll, только если все модальные окна закрыты
+            document.body.style.overflowY = 'scroll';
+        }
+
+        // Очистка при размонтировании
+        return () => {
+            document.body.style.overflowY = 'scroll';
+        };
+    }, [isModalOpen, isBannerSuccessModalOpen]);
+
 
     if (!isClient) {
         return null;
@@ -402,23 +470,7 @@ export default function Production() {
     };
 
     const SCALE_REDUCTION = 1.5;
-    const rippleVariants = {
-        initial: {
-            scale: 0,
-            transition: { duration: 0 }
-        },
-        hover: (i) => {
-            const baseScale = 5;
-            const maxScale = baseScale - (i * SCALE_REDUCTION);
-            return {
-                scale: [1, 4, maxScale],
-                transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                }
-            };
-        }
-    };
+
     const rippleVariants2 = {
         initial: {
             opacity: 0,
@@ -521,7 +573,7 @@ export default function Production() {
                                         <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
                                             <input
                                                 type="text"
-                                                className={styles.partnersInput}
+                                                className={`${styles.partnersInput} ${nameError ? styles.inputError : ''}`}
                                                 value={inputValues.name}
                                                 onFocus={() => handleFocus('name')}
                                                 onBlur={() => handleBlur('name')}
@@ -530,12 +582,17 @@ export default function Production() {
                                             <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
                                                 Имя и Фамилия
                                             </label>
+                                            {nameError && (
+                                                <div className={styles.errorMessage}>
+                                                    {nameError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
                                             <input
                                                 type="text"
-                                                className={styles.partnersInput}
+                                                className={`${styles.partnersInput} ${companyError ? styles.inputError : ''}`}
                                                 value={inputValues.company}
                                                 onFocus={() => handleFocus('company')}
                                                 onBlur={() => handleBlur('company')}
@@ -544,6 +601,11 @@ export default function Production() {
                                             <label className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''}`}>
                                                 Компания
                                             </label>
+                                            {companyError && (
+                                                <div className={styles.errorMessage}>
+                                                    {companyError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={`${styles.inputContainer} ${styles.inputContainer2}`}>
@@ -555,6 +617,7 @@ export default function Production() {
                                                 onBlur={() => handleBlur('phone')}
                                                 onChange={(e) => handleChange('phone', e.target.value)}
                                                 placeholder=""
+
                                             />
                                             <label className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}>
                                                 Номер телефона
@@ -574,6 +637,7 @@ export default function Production() {
                                                 onFocus={() => handleFocus('email')}
                                                 onBlur={() => handleBlur('email')}
                                                 onChange={(e) => handleChange('email', e.target.value)}
+
                                             />
                                             <label className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}>
                                                 Электронная почта
@@ -601,10 +665,10 @@ export default function Production() {
                 </div>
             )}
 
-            {isSuccessModalOpen && (
-                <div className={styles.modalOverlay} onClick={closeSuccessModal}>
+            {isBannerSuccessModalOpen && (
+                <div className={`${styles.modalOverlay} ${styles.modalOverlaySuccess}`} onClick={closeBannerSuccessModal}>
                     <div className={styles.successModalContent} onClick={(e) => e.stopPropagation()}>
-                        <button className={styles.closeButton} onClick={closeSuccessModal}>
+                        <button className={styles.closeButton} onClick={closeBannerSuccessModal}>
                             ✕
                         </button>
                         <div className={styles.successModal}>
@@ -613,10 +677,10 @@ export default function Production() {
                                 <Image src={'/email.svg'} width={52} height={52}></Image>
                                 <h3 className={styles.successModalTitle}>Заявка отправлена</h3>
                                 <p className={styles.successModalInfo}>
-                                    Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
+                                    Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
                                 </p>
                                 <p className={styles.successModalInfo}>
-                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="">+7 (000) 000–00–00</a></span> или написать на <span><a href="">stm@ideologia.ru</a></span>
+                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:stm@ideologia.ru">stm@ideologia.ru</a></span>
                                 </p>
                             </div>
                         </div>
@@ -1117,41 +1181,49 @@ export default function Production() {
                                 <p className={styles.partnersFormInfo}>Мы всегда открыты к новым партнёрствам и готовы предложить лучшие условия для вашего бизнеса. Заполните форму и мы свяжемся с вами в ближайшее время</p>
                             </div>
 
-                            {!isSuccessModalOpen ? (
+                            {!isPartnersSuccessModalOpen ? (
                                 <form onSubmit={handleFormSubmit} className={styles.partnersFormRight}>
                                     <div className={styles.partnersFormRightUp}>
                                         <div className={styles.inputContainer}>
                                             <input
                                                 type="text"
-                                                className={styles.partnersInput}
+                                                className={`${styles.partnersInput} ${nameError ? styles.inputError : ''}`}
                                                 value={inputValues.name}
                                                 onFocus={() => handleFocus('name')}
                                                 onBlur={() => handleBlur('name')}
                                                 onChange={(e) => handleChange('name', e.target.value)}
                                             />
                                             <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''
-                                                    }`}
+                                                className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}
                                             >
                                                 Имя и Фамилия
                                             </label>
+                                            {nameError && (
+                                                <div className={styles.errorMessage}>
+                                                    {nameError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={styles.inputContainer}>
                                             <input
                                                 type="text"
-                                                className={styles.partnersInput}
+                                                className={`${styles.partnersInput} ${companyError ? styles.inputError : ''}`}
                                                 value={inputValues.company}
                                                 onFocus={() => handleFocus('company')}
                                                 onBlur={() => handleBlur('company')}
                                                 onChange={(e) => handleChange('company', e.target.value)}
                                             />
                                             <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''
-                                                    }`}
+                                                className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''}`}
                                             >
                                                 Компания
                                             </label>
+                                            {companyError && (
+                                                <div className={styles.errorMessage}>
+                                                    {companyError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={styles.inputContainer}>
@@ -1163,10 +1235,10 @@ export default function Production() {
                                                 onBlur={() => handleBlur('phone')}
                                                 onChange={(e) => handleChange('phone', e.target.value)}
                                                 placeholder=""
+
                                             />
                                             <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''
-                                                    }`}
+                                                className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}
                                             >
                                                 Номер телефона
                                             </label>
@@ -1181,10 +1253,10 @@ export default function Production() {
                                                 onFocus={() => handleFocus('email')}
                                                 onBlur={() => handleBlur('email')}
                                                 onChange={(e) => handleChange('email', e.target.value)}
+
                                             />
                                             <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''
-                                                    }`}
+                                                className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}
                                             >
                                                 Электронная почта
                                             </label>
@@ -1203,9 +1275,9 @@ export default function Production() {
                                     </div>
                                 </form>
                             ) : (
-                                <div className={styles.modalOverlay} onClick={closeSuccessModal}>
+                                <div className={styles.modalOverlay2} onClick={closePartnersSuccessModal}>
                                     <div className={styles.successModalContent} onClick={(e) => e.stopPropagation()}>
-                                        <div className={styles.successModal}>
+                                        <div className={styles.successModal2}>
                                             <div className={styles.successModalInner}>
                                                 <Image src={'/email.svg'} width={52} height={52} alt="Email icon" />
                                                 <h3 className={styles.successModalTitle}>Заявка отправлена</h3>

@@ -29,14 +29,16 @@ export default function Clients() {
     const [negativeMarginBottom, setNegativeMarginBottom] = useState(0);
     const [isSuccessModalOpen2, setIsSuccessModalOpen2] = useState(false); // New state for success modal
     const [focusedInputs, setFocusedInputs] = useState({});
-    const [phoneError, setPhoneError] = useState('');
-    const [emailError, setEmailError] = useState('');
     const [inputValues, setInputValues] = useState({
         name: '',
         company: '',
         phone: '',
         email: ''
     });
+    const [nameError, setNameError] = useState('');
+    const [companyError, setCompanyError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [emailError, setEmailError] = useState('');
 
     const handleFocus = (inputName) => {
         setFocusedInputs(prev => ({ ...prev, [inputName]: true }));
@@ -95,45 +97,56 @@ export default function Clients() {
         return value === '' ? '' : '+7 ';
     };
 
-    const validateEmail = (email) => {
-        if (email === '') {
-            setEmailError('');
-            return true;
-        }
-
-        // Проверяем наличие @ и .
-        const hasAt = email.includes('@');
-        const hasDot = email.includes('.');
-
-        if (!hasAt || !hasDot) {
-            setEmailError('Введите корректный email адрес');
+    const validateName = (name) => {
+        if (!name.trim()) {
+            setNameError('Пожалуйста, введите имя и фамилию');
             return false;
         }
+        if (name.trim().length < 2) {
+            setNameError('Имя должно содержать не менее 2 символов');
+            return false;
+        }
+        setNameError('');
+        return true;
+    };
 
-        // Более точная проверка структуры email
+    const validateCompany = (company) => {
+        if (!company.trim()) {
+            setCompanyError('Пожалуйста, введите название компании');
+            return false;
+        }
+        if (company.trim().length < 2) {
+            setCompanyError('Название компании должно содержать не менее 2 символов');
+            return false;
+        }
+        setCompanyError('');
+        return true;
+    };
+
+    const validateEmail = (email) => {
+        if (!email.trim()) {
+            setEmailError('Пожалуйста, введите email');
+            return false;
+        }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             setEmailError('Введите корректный email адрес');
             return false;
         }
-
         setEmailError('');
         return true;
     };
 
     const validatePhone = (phone) => {
         const numbers = phone.replace(/\D/g, '');
-
-        if (phone === '') {
-            setPhoneError('');
-            return true;
+        if (!phone.trim()) {
+            setPhoneError('Пожалуйста, введите номер телефона');
+            return false;
         }
-
         if (numbers.length < 11) {
             setPhoneError('Введите полный номер телефона');
             return false;
         }
-
         setPhoneError('');
         return true;
     };
@@ -142,12 +155,78 @@ export default function Clients() {
         if (inputName === 'phone') {
             const formattedPhone = formatPhoneNumber(value);
             setInputValues(prev => ({ ...prev, [inputName]: formattedPhone }));
-
-            // Валидация в реальном времени
             validatePhone(formattedPhone);
         } else {
             setInputValues(prev => ({ ...prev, [inputName]: value }));
+            if (inputName === 'name') validateName(value);
+            else if (inputName === 'company') validateCompany(value);
+            else if (inputName === 'email') validateEmail(value);
         }
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+
+        const isNameValid = validateName(inputValues.name);
+        const isCompanyValid = validateCompany(inputValues.company);
+        const isPhoneValid = validatePhone(inputValues.phone);
+        const isEmailValid = validateEmail(inputValues.email);
+
+        if (!isNameValid || !isCompanyValid || !isPhoneValid || !isEmailValid) {
+            return;
+        }
+
+        console.log('Form submitted:', inputValues);
+        setIsModalOpen(false);
+        setIsSuccessModalOpen(true);
+        setInputValues({
+            name: '',
+            company: '',
+            phone: '',
+            email: ''
+        });
+        setFocusedInputs({
+            name: false,
+            company: false,
+            phone: false,
+            email: false
+        });
+        setNameError('');
+        setCompanyError('');
+        setPhoneError('');
+        setEmailError('');
+    };
+
+    const handleFormSubmit2 = (e) => {
+        e.preventDefault();
+
+        const isNameValid = validateName(inputValues.name);
+        const isCompanyValid = validateCompany(inputValues.company);
+        const isPhoneValid = validatePhone(inputValues.phone);
+        const isEmailValid = validateEmail(inputValues.email);
+
+        if (!isNameValid || !isCompanyValid || !isPhoneValid || !isEmailValid) {
+            return;
+        }
+
+        console.log('Form submitted:', inputValues);
+        setIsSuccessModalOpen2(true);
+        setInputValues({
+            name: '',
+            company: '',
+            phone: '',
+            email: ''
+        });
+        setFocusedInputs({
+            name: false,
+            company: false,
+            phone: false,
+            email: false
+        });
+        setNameError('');
+        setCompanyError('');
+        setPhoneError('');
+        setEmailError('');
     };
 
     useEffect(() => {
@@ -180,42 +259,25 @@ export default function Clients() {
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
+        document.body.style.overflowY = !isModalOpen ? 'hidden' : 'scroll';
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
-    };
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // Simulate form submission logic (e.g., API call)
-        setIsModalOpen(false); // Close the first modal
-        setIsSuccessModalOpen(true); // Open the success modal
+        if (!isSuccessModalOpen) {
+            document.body.style.overflowY = 'scroll';
+        }
     };
 
     const closeSuccessModal = () => {
         setIsSuccessModalOpen(false);
-    };
-
-    const handleFormSubmit2 = (e) => {
-        e.preventDefault();
-        // Simulate form submission logic (e.g., API call)
-        setIsSuccessModalOpen2(true); // Open the success modal
-        const isPhoneValid = validatePhone(inputValues.phone);
-        const isEmailValid = validateEmail(inputValues.email);
-
-        if (!isPhoneValid || !isEmailValid) {
-
-            return;
-        }
-
-        // Здесь ваша логика отправки формы
-        console.log('Form submitted:', inputValues);
+        document.body.style.overflowY = 'scroll';
     };
 
     const closeSuccessModal2 = () => {
         setIsSuccessModalOpen2(false);
     };
+
 
     const faqItems = [
         {
@@ -272,49 +334,6 @@ export default function Clients() {
         y: '100%',
     };
 
-    const clientCardBackgroundVariants = {
-        initial: {
-            backgroundColor: '#fff',
-            backgroundImage: `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, transparent 0%, transparent 0%)`,
-        },
-        hover: {
-            backgroundColor: '#159F4A',
-            backgroundImage: [
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 0%, transparent 0%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 50%, transparent 50%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 100%, transparent 100%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 150%, transparent 150%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 200%, transparent 200%)`,
-            ],
-            transition: {
-                backgroundImage: { duration: 0.4, ease: 'easeOut' },
-                backgroundColor: { duration: 0.4, ease: 'easeOut' }
-            }
-        },
-    };
-
-    const clientPartnerTextVariants = {
-        initial: {
-            color: '#2C2C2C',
-        },
-        hover: {
-            color: '#fff',
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
-    };
-
-    const clientArrowVariants = {
-        initial: {
-            stroke: '#2C2C2C',
-            rotate: 0
-        },
-        hover: {
-            stroke: '#fff',
-            rotate: 45,
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
-    };
-
     // Variants for preFooter section partnerCard
     const preFooterCardBackgroundVariants = {
         initial: {
@@ -360,23 +379,7 @@ export default function Clients() {
     };
 
     const SCALE_REDUCTION = 1.5;
-    const rippleVariants = {
-        initial: {
-            scale: 0,
-            transition: { duration: 0 }
-        },
-        hover: (i) => {
-            const baseScale = 5;
-            const maxScale = baseScale - (i * SCALE_REDUCTION);
-            return {
-                scale: [1, 4, maxScale],
-                transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                }
-            };
-        }
-    };
+
     const rippleVariants2 = {
         initial: {
             opacity: 0,
@@ -516,7 +519,7 @@ export default function Clients() {
                             </button>
                             <div className={styles.contactForm}>
                                 <div className={styles.contactFormLeft}>
-                                    <Image className={styles.contactFormImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
+                                    <Image className={styles.contactFormImage} src={'/Ellipse.svg'} width={449} height={449} alt="Ellipse" />
                                     <h3 className={styles.contactFormTitle}>Хотите стать нашим партнёром?</h3>
                                     <p className={styles.contactFormInfo}>
                                         Мы всегда открыты к новым партнёрствам и готовы предложить лучшие условия для вашего бизнеса. Заполните форму и мы свяжемся с вами в ближайшее время
@@ -528,7 +531,7 @@ export default function Clients() {
                                             <div className={styles.inputContainer}>
                                                 <input
                                                     type="text"
-                                                    className={styles.partnersInput}
+                                                    className={`${styles.partnersInput} ${nameError ? styles.inputError : ''}`}
                                                     value={inputValues.name}
                                                     onFocus={() => handleFocus('name')}
                                                     onBlur={() => handleBlur('name')}
@@ -537,12 +540,17 @@ export default function Clients() {
                                                 <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
                                                     Имя и Фамилия
                                                 </label>
+                                                {nameError && (
+                                                    <div className={styles.errorMessage}>
+                                                        {nameError}
+                                                    </div>
+                                                )}
                                             </div>
 
                                             <div className={styles.inputContainer}>
                                                 <input
                                                     type="text"
-                                                    className={styles.partnersInput}
+                                                    className={`${styles.partnersInput} ${companyError ? styles.inputError : ''}`}
                                                     value={inputValues.company}
                                                     onFocus={() => handleFocus('company')}
                                                     onBlur={() => handleBlur('company')}
@@ -551,6 +559,11 @@ export default function Clients() {
                                                 <label className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''}`}>
                                                     Компания
                                                 </label>
+                                                {companyError && (
+                                                    <div className={styles.errorMessage}>
+                                                        {companyError}
+                                                    </div>
+                                                )}
                                             </div>
 
                                             <div className={styles.inputContainer}>
@@ -609,7 +622,7 @@ export default function Clients() {
                 )}
 
                 {isSuccessModalOpen && (
-                    <div className={styles.modalOverlay} onClick={closeSuccessModal}>
+                    <div className={`${styles.modalOverlay} ${styles.modalOverlaySuccess}`} onClick={closeSuccessModal}>
                         <div className={styles.successModalContent} onClick={(e) => e.stopPropagation()}>
                             <button className={styles.closeButton} onClick={closeSuccessModal}>
                                 ✕
@@ -623,7 +636,7 @@ export default function Clients() {
                                         Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
                                     </p>
                                     <p className={styles.successModalInfo}>
-                                        Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="">+7 (000) 000–00–00</a></span> или написать на <span><a href="">stm@ideologia.ru</a></span>
+                                        Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:stm@ideologia.ru">stm@ideologia.ru</a></span>
                                     </p>
                                 </div>
                             </div>
@@ -938,35 +951,35 @@ export default function Clients() {
                                     <div className={styles.inputContainer}>
                                         <input
                                             type="text"
-                                            className={styles.partnersInput}
+                                            className={`${styles.partnersInput} ${nameError ? styles.inputError : ''}`}
                                             value={inputValues.name}
                                             onFocus={() => handleFocus('name')}
                                             onBlur={() => handleBlur('name')}
                                             onChange={(e) => handleChange('name', e.target.value)}
                                         />
                                         <label
-                                            className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''
-                                                }`}
+                                            className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}
                                         >
                                             Имя и Фамилия
                                         </label>
+                                        {nameError && <div className={styles.errorMessage}>{nameError}</div>}
                                     </div>
 
                                     <div className={styles.inputContainer}>
                                         <input
                                             type="text"
-                                            className={styles.partnersInput}
+                                            className={`${styles.partnersInput} ${companyError ? styles.inputError : ''}`}
                                             value={inputValues.company}
                                             onFocus={() => handleFocus('company')}
                                             onBlur={() => handleBlur('company')}
                                             onChange={(e) => handleChange('company', e.target.value)}
                                         />
                                         <label
-                                            className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''
-                                                }`}
+                                            className={`${styles.customPlaceholder} ${focusedInputs.company || inputValues.company ? styles.active : ''}`}
                                         >
                                             Компания
                                         </label>
+                                        {companyError && <div className={styles.errorMessage}>{companyError}</div>}
                                     </div>
 
                                     <div className={styles.inputContainer}>
@@ -980,8 +993,7 @@ export default function Clients() {
                                             placeholder=""
                                         />
                                         <label
-                                            className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''
-                                                }`}
+                                            className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}
                                         >
                                             Номер телефона
                                         </label>
@@ -998,8 +1010,7 @@ export default function Clients() {
                                             onChange={(e) => handleChange('email', e.target.value)}
                                         />
                                         <label
-                                            className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''
-                                                }`}
+                                            className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}
                                         >
                                             Электронная почта
                                         </label>

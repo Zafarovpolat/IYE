@@ -345,17 +345,7 @@ export default function About() {
     };
 
     const SCALE_REDUCTION = 1.5;
-    const rippleVariants = {
-        initial: { scale: 0, transition: { duration: 0 } },
-        hover: (i) => {
-            const baseScale = 5;
-            const maxScale = baseScale - (i * SCALE_REDUCTION);
-            return {
-                scale: [1, 4, maxScale],
-                transition: { duration: 0.3, ease: "easeInOut" }
-            };
-        }
-    };
+
     const rippleVariants2 = {
         initial: { scale: 0, transition: { duration: 0 } },
         hover: (i) => {
@@ -995,12 +985,8 @@ export default function About() {
                                 <div className={styles.qualityCardsContainer}>
                                     {!isMobile ? (
                                         <>
-                                            <motion.div
+                                            <div
                                                 className={styles.qualityCard}
-                                                initial={{ y: 170 }}
-                                                whileInView={{ y: 0 }}
-                                                transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                                viewport={{ once: true }}
                                             >
                                                 <div className={styles.qualityCardUp}>
                                                     <p className={styles.qualityText}>Широкий ассортимент</p>
@@ -1015,13 +1001,9 @@ export default function About() {
                                                 <p className={styles.qualityDescription}>
                                                     От свежей выпечки до кулинарных изделий и десертов
                                                 </p>
-                                            </motion.div>
-                                            <motion.div
+                                            </div>
+                                            <div
                                                 className={styles.qualityCard}
-                                                initial={{ y: 170 }}
-                                                whileInView={{ y: 0 }}
-                                                transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                                viewport={{ once: true }}
                                             >
                                                 <div className={styles.qualityCardUp}>
                                                     <p className={styles.qualityText}>Гибкие условия сотрудничества</p>
@@ -1036,13 +1018,9 @@ export default function About() {
                                                 <p className={styles.qualityDescription}>
                                                     Индивидуальные решения для бизнеса
                                                 </p>
-                                            </motion.div>
-                                            <motion.div
+                                            </div>
+                                            <div
                                                 className={styles.qualityCard}
-                                                initial={{ y: 170 }}
-                                                whileInView={{ y: 0 }}
-                                                transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                                viewport={{ once: true }}
                                             >
                                                 <div className={styles.qualityCardUp}>
                                                     <p className={styles.qualityText}>Гарантию качества</p>
@@ -1057,13 +1035,9 @@ export default function About() {
                                                 <p className={styles.qualityDescription}>
                                                     Контроль на каждом этапе производства
                                                 </p>
-                                            </motion.div>
-                                            <motion.div
+                                            </div>
+                                            <div
                                                 className={styles.qualityCard}
-                                                initial={{ y: 170 }}
-                                                whileInView={{ y: 0 }}
-                                                transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                                                viewport={{ once: true }}
                                             >
                                                 <div className={styles.qualityCardUp}>
                                                     <p className={styles.qualityText}>Надёжность поставок</p>
@@ -1078,7 +1052,7 @@ export default function About() {
                                                 <p className={styles.qualityDescription}>
                                                     Собственный автопарк и строгий контроль логистики
                                                 </p>
-                                            </motion.div>
+                                            </div>
                                         </>
                                     ) : (
                                         <Swiper spaceBetween={10} slidesPerView={1.1} className={styles.qualitySwiper}>

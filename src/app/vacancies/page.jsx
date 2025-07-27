@@ -15,13 +15,17 @@ export default function Vacancies() {
     const [isMobile, setIsMobile] = useState(false);
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // New state for success modal
     const [focusedInputs, setFocusedInputs] = useState({});
+    const [nameError, setNameError] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [textAreaError, setTextAreaError] = useState('');
+    const [fileError, setFileError] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
     const [inputValues, setInputValues] = useState({
         name: '',
-        company: '',
         phone: '',
-        email: ''
+        email: '',
+        textArea: ''
     });
 
     const handleFocus = (inputName) => {
@@ -81,46 +85,76 @@ export default function Vacancies() {
         return value === '' ? '' : '+7 ';
     };
 
-    const validateEmail = (email) => {
-        if (email === '') {
-            setEmailError('');
-            return true;
-        }
-
-        // Проверяем наличие @ и .
-        const hasAt = email.includes('@');
-        const hasDot = email.includes('.');
-
-        if (!hasAt || !hasDot) {
-            setEmailError('Введите корректный email адрес');
+    const validateName = (name) => {
+        if (!name.trim()) {
+            setNameError('Пожалуйста, введите имя и фамилию');
             return false;
         }
+        if (name.trim().length < 2) {
+            setNameError('Имя должно содержать не менее 2 символов');
+            return false;
+        }
+        setNameError('');
+        return true;
+    };
 
-        // Более точная проверка структуры email
+    const validateEmail = (email) => {
+        if (!email.trim()) {
+            setEmailError('Пожалуйста, введите email');
+            return false;
+        }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             setEmailError('Введите корректный email адрес');
             return false;
         }
-
         setEmailError('');
         return true;
     };
 
     const validatePhone = (phone) => {
         const numbers = phone.replace(/\D/g, '');
-
-        if (phone === '') {
-            setPhoneError('');
-            return true;
+        if (!phone.trim()) {
+            setPhoneError('Пожалуйста, введите номер телефона');
+            return false;
         }
-
         if (numbers.length < 11) {
             setPhoneError('Введите полный номер телефона');
             return false;
         }
-
         setPhoneError('');
+        return true;
+    };
+
+    const validateTextArea = (text) => {
+        if (!text.trim()) {
+            setTextAreaError('Пожалуйста, расскажите о себе');
+            return false;
+        }
+        if (text.trim().length < 10) {
+            setTextAreaError('Описание должно содержать не менее 10 символов');
+            return false;
+        }
+        setTextAreaError('');
+        return true;
+    };
+
+    const validateFile = (file) => {
+        if (!file) {
+            setFileError('Пожалуйста, прикрепите резюме');
+            return false;
+        }
+        const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        if (!allowedTypes.includes(file.type)) {
+            setFileError('Файл должен быть в формате PDF или DOC');
+            return false;
+        }
+        const maxSize = 10 * 1024 * 1024; // 10 MB
+        if (file.size > maxSize) {
+            setFileError('Файл не должен превышать 10 МБ');
+            return false;
+        }
+        setFileError('');
         return true;
     };
 
@@ -128,12 +162,52 @@ export default function Vacancies() {
         if (inputName === 'phone') {
             const formattedPhone = formatPhoneNumber(value);
             setInputValues(prev => ({ ...prev, [inputName]: formattedPhone }));
-
-            // Валидация в реальном времени
             validatePhone(formattedPhone);
+        } else if (inputName === 'file') {
+            const file = value;
+            setSelectedFile(file);
+            validateFile(file);
         } else {
             setInputValues(prev => ({ ...prev, [inputName]: value }));
+            if (inputName === 'name') validateName(value);
+            else if (inputName === 'email') validateEmail(value);
+            else if (inputName === 'textArea') validateTextArea(value);
         }
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+
+        const isNameValid = validateName(inputValues.name);
+        const isPhoneValid = validatePhone(inputValues.phone);
+        const isEmailValid = validateEmail(inputValues.email);
+        const isTextAreaValid = validateTextArea(inputValues.textArea);
+        const isFileValid = validateFile(selectedFile);
+
+        if (!isNameValid || !isPhoneValid || !isEmailValid || !isTextAreaValid || !isFileValid) {
+            return;
+        }
+
+        console.log('Form submitted:', { ...inputValues, file: selectedFile });
+        setIsSuccessModalOpen(true);
+        setInputValues({
+            name: '',
+            phone: '',
+            email: '',
+            textArea: ''
+        });
+        setSelectedFile(null);
+        setFocusedInputs({
+            name: false,
+            phone: false,
+            email: false,
+            textArea: false
+        });
+        setNameError('');
+        setPhoneError('');
+        setEmailError('');
+        setTextAreaError('');
+        setFileError('');
     };
 
     const vacanciesData = [
@@ -149,6 +223,28 @@ export default function Vacancies() {
         { id: '10', title: 'HR-специалист', category: 'Офис', schedule: 'Полный день', location: 'Москва' },
     ];
 
+    const [activeTag, setActiveTag] = useState('Все вакансии');
+    const [displayedVacancies, setDisplayedVacancies] = useState(vacanciesData);
+
+    const handleTagClick = (tag) => {
+        setActiveTag(tag);
+        if (tag === 'Все вакансии') {
+            setDisplayedVacancies(vacanciesData);
+        } else {
+            setDisplayedVacancies(vacanciesData.filter(vacancy =>
+                vacancy.category.includes(tag)
+            ));
+        }
+    };
+
+    const handleLoadMore = () => {
+        const lastThree = displayedVacancies.slice(-3).map((vacancy, index) => ({
+            ...vacancy,
+            id: `${vacancy.id}-${Date.now()}-${index}` // Create unique ID for duplicates
+        }));
+        setDisplayedVacancies([...displayedVacancies, ...lastThree]);
+    };
+
     useEffect(() => {
         setIsClient(true);
     }, []);
@@ -163,22 +259,6 @@ export default function Vacancies() {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // Simulate form submission logic (e.g., API call)
-        setIsSuccessModalOpen(true); // Open the success modal
-        const isPhoneValid = validatePhone(inputValues.phone);
-        const isEmailValid = validateEmail(inputValues.email);
-
-        if (!isPhoneValid || !isEmailValid) {
-
-            return;
-        }
-
-        // Здесь ваша логика отправки формы
-        console.log('Form submitted:', inputValues);
-    };
 
     const closeSuccessModal = () => {
         setIsSuccessModalOpen(false);
@@ -694,21 +774,19 @@ export default function Vacancies() {
                         <h4 className={styles.vacanciesTitle}>актуальные вакансии</h4>
                         <h3 className={styles.vacanciesSubTitle}>Вакансии в Москве и Московской области</h3>
                         <ul className={styles.vacanciesTags}>
-                            <li className={styles.vacanciesTag}>
-                                <button className={`${styles.vacanciesTagBtn} ${styles.vacanciesTagBtnActive}`}>Все вакансии</button>
-                            </li>
-                            <li className={styles.vacanciesTag}>
-                                <button className={styles.vacanciesTagBtn}>Производство</button>
-                            </li>
-                            <li className={styles.vacanciesTag}>
-                                <button className={styles.vacanciesTagBtn}>Поставки</button>
-                            </li>
-                            <li className={styles.vacanciesTag}>
-                                <button className={styles.vacanciesTagBtn}>Офис</button>
-                            </li>
+                            {['Все вакансии', 'Производство', 'Поставка', 'Офис'].map((tag) => (
+                                <li key={tag} className={styles.vacanciesTag}>
+                                    <button
+                                        className={`${styles.vacanciesTagBtn} ${activeTag === tag ? styles.vacanciesTagBtnActive : ''}`}
+                                        onClick={() => handleTagClick(tag)}
+                                    >
+                                        {tag}
+                                    </button>
+                                </li>
+                            ))}
                         </ul>
                         <ul className={styles.vacanciesList}>
-                            {vacanciesData.map((vacancy) => (
+                            {displayedVacancies.map((vacancy) => (
                                 <li key={vacancy.id} className={styles.vacanciesItem}>
                                     <Link href={`/vacancies/${vacancy.id}`} className={styles.vacanciesItemLink}>
                                         <h4 className={styles.vacanciesItemTitle}>{vacancy.title}</h4>
@@ -726,7 +804,9 @@ export default function Vacancies() {
                                 </li>
                             ))}
                         </ul>
-                        <button className={styles.vacanciesMoreBtn}>Загрузить ещё</button>
+                        <button className={styles.vacanciesMoreBtn} onClick={handleLoadMore}>
+                            Загрузить ещё
+                        </button>
                     </div>
                 </div>
             </section>
@@ -748,18 +828,20 @@ export default function Vacancies() {
                                         <div className={styles.inputContainer}>
                                             <input
                                                 type="text"
-                                                className={styles.partnersInput}
+                                                className={`${styles.partnersInput} ${nameError ? styles.inputError : ''}`}
                                                 value={inputValues.name}
                                                 onFocus={() => handleFocus('name')}
                                                 onBlur={() => handleBlur('name')}
                                                 onChange={(e) => handleChange('name', e.target.value)}
                                             />
-                                            <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''
-                                                    }`}
-                                            >
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
                                                 Имя и Фамилия
                                             </label>
+                                            {nameError && (
+                                                <div className={styles.errorMessage}>
+                                                    {nameError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={styles.inputContainer}>
@@ -772,13 +854,14 @@ export default function Vacancies() {
                                                 onChange={(e) => handleChange('phone', e.target.value)}
                                                 placeholder=""
                                             />
-                                            <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''
-                                                    }`}
-                                            >
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}>
                                                 Номер телефона
                                             </label>
-                                            {phoneError && <div className={styles.errorMessage}>{phoneError}</div>}
+                                            {phoneError && (
+                                                <div className={styles.errorMessage}>
+                                                    {phoneError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={styles.inputContainer}>
@@ -790,35 +873,43 @@ export default function Vacancies() {
                                                 onBlur={() => handleBlur('email')}
                                                 onChange={(e) => handleChange('email', e.target.value)}
                                             />
-                                            <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''
-                                                    }`}
-                                            >
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}>
                                                 Электронная почта
                                             </label>
-                                            {emailError && <div className={styles.errorMessage}>{emailError}</div>}
+                                            {emailError && (
+                                                <div className={styles.errorMessage}>
+                                                    {emailError}
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className={styles.inputContainer}>
                                             <textarea
-                                                className={styles.partnersTextArea}
+                                                className={`${styles.partnersTextArea} ${textAreaError ? styles.inputError : ''}`}
                                                 name="textArea"
                                                 value={inputValues.textArea}
                                                 onFocus={() => handleFocus('textArea')}
                                                 onBlur={() => handleBlur('textArea')}
                                                 onChange={(e) => handleChange('textArea', e.target.value)}
                                             />
-                                            <label
-                                                className={`${styles.customPlaceholder} ${focusedInputs.textArea || inputValues.textArea ? styles.active : ''
-                                                    }`}
-                                            >
+                                            <label className={`${styles.customPlaceholder} ${focusedInputs.textArea || inputValues.textArea ? styles.active : ''}`}>
                                                 Расскажите о себе
                                             </label>
+                                            {textAreaError && (
+                                                <div className={styles.errorMessage}>
+                                                    {textAreaError}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
                                     <div className={styles.partnersFileBox}>
-                                        <input className={styles.partnersFileInput} type="file" id="partnersFile" />
+                                        <input
+                                            className={`${styles.partnersFileInput} ${fileError ? styles.inputError : ''}`}
+                                            type="file"
+                                            id="partnersFile"
+                                            onChange={(e) => handleChange('file', e.target.files[0])}
+                                        />
                                         <label className={styles.partnersFileLabel} htmlFor="partnersFile">
                                             <Image src={'/paperclip.svg'} width={24} height={24} alt="attach" />
                                             <div className={styles.partnersFiletext}>
@@ -826,6 +917,11 @@ export default function Vacancies() {
                                                 <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
                                             </div>
                                         </label>
+                                        {fileError && (
+                                            <div className={styles.errorMessage}>
+                                                {fileError}
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className={styles.partnersFormRightBottom}>
@@ -834,7 +930,8 @@ export default function Vacancies() {
                                         </button>
                                         <p className={styles.partnersPolicy}>
                                             Нажимая на кнопку, вы соглашаетесь с{' '}
-                                            <Link href={'/privacy'}>политикой конфиденциальности</Link>                                        </p>
+                                            <Link href={'/privacy'}>политикой конфиденциальности</Link>
+                                        </p>
                                     </div>
                                 </form>
                             ) : (
@@ -845,10 +942,10 @@ export default function Vacancies() {
                                                 <Image src={'/email.svg'} width={52} height={52} alt="Email icon" />
                                                 <h3 className={styles.successModalTitle}>Заявка отправлена</h3>
                                                 <p className={styles.successModalInfo}>
-                                                    Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
+                                                    Спасибо за интерес к работе в нашей компании! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
                                                 </p>
                                                 <p className={styles.successModalInfo}>
-                                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:stm@ideologia.ru">stm@ideologia.ru</a></span>
+                                                    Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:hr@ideologia.ru">hr@ideologia.ru</a></span>
                                                 </p>
                                             </div>
                                         </div>

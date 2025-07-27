@@ -210,6 +210,8 @@
     font-size: 36px;
     line-height: 44px;
     letter-spacing: 0%;
+    position: relative;
+    z-index: 2;
 }
 
 .contactFormImage {
@@ -225,6 +227,8 @@
     font-size: 18px;
     line-height: 28px;
     letter-spacing: 0%;
+    position: relative;
+    z-index: 2;
 }
 
 .contactFormRight {
@@ -357,6 +361,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    z-index: 2;
 }
 
 .successModalTitle {
@@ -681,6 +687,20 @@
 
     .successModalInner {
         padding: 20px;
+    }
+
+    .modalOverlay {
+        max-height: 100vh;
+        overflow-y: scroll;
+        display: block;
+    }
+
+    .modalOverlaySuccess {
+        display: flex;
+    }
+
+    .contactForm {
+        margin: 50px 0;
     }
 }
 
@@ -1271,7 +1291,7 @@
 .customPlaceholder {
     position: absolute;
     left: 12px;
-    top: 50%;
+    top: 25px;
     transform: translateY(-50%);
     font-family: Literata;
     font-weight: 400;

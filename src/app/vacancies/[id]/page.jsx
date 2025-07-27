@@ -54,6 +54,21 @@ export default function VacanciesDetail() {
     const [vacancy, setVacancy] = useState(null);
     const vacancyDetailWrapperRef = useRef(null); // Ссылка на .vacancyDetailWrapper
     const vacancyDetailRightRef = useRef(null);
+    const [nameError, setNameError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [cityError, setCityError] = useState('');
+    const [textAreaError, setTextAreaError] = useState('');
+    const [fileError, setFileError] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [focusedInputs, setFocusedInputs] = useState({});
+    const [inputValues, setInputValues] = useState({
+        name: '',
+        phone: '',
+        email: '',
+        city: '',
+        textArea: ''
+    });
 
     useEffect(() => {
         const foundVacancy = vacanciesDataActive.find((v) => v.id === id);
@@ -110,21 +125,206 @@ export default function VacanciesDetail() {
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
+        document.body.style.overflowY = !isModalOpen ? 'hidden' : 'scroll';
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
+        document.body.style.overflowY = !isModalOpen ? 'hidden' : 'scroll';
+    };
+
+    const handleFocus = (inputName) => {
+        setFocusedInputs(prev => ({ ...prev, [inputName]: true }));
+    };
+
+    const handleBlur = (inputName) => {
+        if (!inputValues[inputName]) {
+            setFocusedInputs(prev => ({ ...prev, [inputName]: false }));
+        }
+
+        if (inputName === 'name') validateName(inputValues.name);
+        else if (inputName === 'phone') validatePhone(inputValues.phone);
+        else if (inputName === 'email') validateEmail(inputValues.email);
+        else if (inputName === 'city') validateCity(inputValues.city);
+        else if (inputName === 'textArea') validateTextArea(inputValues.textArea);
+    };
+
+    const formatPhoneNumber = (value) => {
+        const numbers = value.replace(/\D/g, '');
+        let formattedNumbers = numbers;
+        if (numbers.startsWith('8')) {
+            formattedNumbers = '7' + numbers.slice(1);
+        }
+        if (!formattedNumbers.startsWith('7') && formattedNumbers.length > 0) {
+            formattedNumbers = '7' + formattedNumbers;
+        }
+        formattedNumbers = formattedNumbers.slice(0, 11);
+        if (formattedNumbers.length >= 1) {
+            let formatted = '+7';
+            if (formattedNumbers.length > 1) {
+                formatted += ' ' + formattedNumbers.slice(1, 4);
+            }
+            if (formattedNumbers.length > 4) {
+                formatted += ' ' + formattedNumbers.slice(4, 7);
+            }
+            if (formattedNumbers.length > 7) {
+                formatted += '-' + formattedNumbers.slice(7, 9);
+            }
+            if (formattedNumbers.length > 9) {
+                formatted += '-' + formattedNumbers.slice(9, 11);
+            }
+            return formatted;
+        }
+        return value === '' ? '' : '+7 ';
+    };
+
+    const validateName = (name) => {
+        if (!name.trim()) {
+            setNameError('Пожалуйста, введите имя и фамилию');
+            return false;
+        }
+        if (name.trim().length < 2) {
+            setNameError('Имя должно содержать не менее 2 символов');
+            return false;
+        }
+        setNameError('');
+        return true;
+    };
+
+    const validatePhone = (phone) => {
+        const numbers = phone.replace(/\D/g, '');
+        if (!phone.trim()) {
+            setPhoneError('Пожалуйста, введите номер телефона');
+            return false;
+        }
+        if (numbers.length < 11) {
+            setPhoneError('Введите полный номер телефона');
+            return false;
+        }
+        setPhoneError('');
+        return true;
+    };
+
+    const validateEmail = (email) => {
+        if (!email.trim()) {
+            setEmailError('Пожалуйста, введите email');
+            return false;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setEmailError('Введите корректный email адрес');
+            return false;
+        }
+        setEmailError('');
+        return true;
+    };
+
+    const validateCity = (city) => {
+        if (!city.trim()) {
+            setCityError('Пожалуйста, введите город');
+            return false;
+        }
+        if (city.trim().length < 2) {
+            setCityError('Название города должно содержать не менее 2 символов');
+            return false;
+        }
+        setCityError('');
+        return true;
+    };
+
+    const validateTextArea = (text) => {
+        if (!text.trim()) {
+            setTextAreaError('Пожалуйста, расскажите о себе');
+            return false;
+        }
+        if (text.trim().length < 10) {
+            setTextAreaError('Описание должно содержать не менее 10 символов');
+            return false;
+        }
+        setTextAreaError('');
+        return true;
+    };
+
+    const validateFile = (file) => {
+        if (!file) {
+            setFileError('Пожалуйста, прикрепите резюме');
+            return false;
+        }
+        const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        if (!allowedTypes.includes(file.type)) {
+            setFileError('Файл должен быть в формате PDF или DOC');
+            return false;
+        }
+        const maxSize = 10 * 1024 * 1024; // 10 MB
+        if (file.size > maxSize) {
+            setFileError('Файл не должен превышать 10 МБ');
+            return false;
+        }
+        setFileError('');
+        return true;
+    };
+
+    const handleChange = (inputName, value) => {
+        if (inputName === 'phone') {
+            const formattedPhone = formatPhoneNumber(value);
+            setInputValues(prev => ({ ...prev, [inputName]: formattedPhone }));
+            validatePhone(formattedPhone);
+        } else if (inputName === 'file') {
+            const file = value;
+            setSelectedFile(file);
+            validateFile(file);
+        } else {
+            setInputValues(prev => ({ ...prev, [inputName]: value }));
+            if (inputName === 'name') validateName(value);
+            else if (inputName === 'email') validateEmail(value);
+            else if (inputName === 'city') validateCity(value);
+            else if (inputName === 'textArea') validateTextArea(value);
+        }
     };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        // Simulate form submission logic (e.g., API call)
-        setIsModalOpen(false); // Close the first modal
-        setIsSuccessModalOpen(true); // Open the success modal
+
+        const isNameValid = validateName(inputValues.name);
+        const isPhoneValid = validatePhone(inputValues.phone);
+        const isEmailValid = validateEmail(inputValues.email);
+        const isCityValid = validateCity(inputValues.city);
+        const isTextAreaValid = validateTextArea(inputValues.textArea);
+        const isFileValid = validateFile(selectedFile);
+
+        if (!isNameValid || !isPhoneValid || !isEmailValid || !isCityValid || !isTextAreaValid || !isFileValid) {
+            return;
+        }
+
+        console.log('Form submitted:', { ...inputValues, file: selectedFile });
+        setIsModalOpen(false);
+        setIsSuccessModalOpen(true);
+        setInputValues({
+            name: '',
+            phone: '',
+            email: '',
+            city: '',
+            textArea: ''
+        });
+        setSelectedFile(null);
+        setFocusedInputs({
+            name: false,
+            phone: false,
+            email: false,
+            city: false,
+            textArea: false
+        });
+        setNameError('');
+        setPhoneError('');
+        setEmailError('');
+        setCityError('');
+        setTextAreaError('');
+        setFileError('');
     };
 
     const closeSuccessModal = () => {
         setIsSuccessModalOpen(false);
+        document.body.style.overflowY = 'scroll';
     };
 
     if (!vacancy) {
@@ -204,7 +404,7 @@ export default function VacanciesDetail() {
                                 </button>
                                 <form onSubmit={handleFormSubmit} className={styles.contactForm}>
                                     <div className={styles.contactFormLeft}>
-                                        <Image className={styles.contactFormImage} src={'/Ellipse.svg'} width={449} height={449}></Image>
+                                        <Image className={styles.contactFormImage} src={'/Ellipse.svg'} width={449} height={449} alt="Ellipse" />
                                         <h4 className={styles.contactFormSubTitle}>отклик на вакансию</h4>
                                         <h3 className={styles.contactFormTitle}>{vacancy.title}</h3>
                                         <p className={styles.contactFormInfo}>
@@ -213,26 +413,123 @@ export default function VacanciesDetail() {
                                     </div>
                                     <div className={styles.partnersFormRight}>
                                         <div className={styles.partnersFormRightUp}>
-                                            <input type="text" placeholder='Имя и Фамилия' className={styles.partnersInput} />
-                                            <input type="email" placeholder='Электронная почта' className={styles.partnersInput} />
-                                            <input type="tel" placeholder='Номер телефона' className={styles.partnersInput} />
-                                            <input type="text" placeholder='Город' className={styles.partnersInput} />
-                                            <textarea className={styles.partnersTextArea} name="textArea" id="" placeholder='Расскажите о себе'></textarea>
+                                            <div className={styles.inputContainer}>
+                                                <input
+                                                    type="text"
+                                                    className={`${styles.partnersInput} ${nameError ? styles.inputError : ''}`}
+                                                    value={inputValues.name}
+                                                    onFocus={() => handleFocus('name')}
+                                                    onBlur={() => handleBlur('name')}
+                                                    onChange={(e) => handleChange('name', e.target.value)}
+                                                />
+                                                <label className={`${styles.customPlaceholder} ${focusedInputs.name || inputValues.name ? styles.active : ''}`}>
+                                                    Имя и Фамилия
+                                                </label>
+                                                {nameError && (
+                                                    <div className={styles.errorMessage}>
+                                                        {nameError}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className={styles.inputContainer}>
+                                                <input
+                                                    type="email"
+                                                    className={`${styles.partnersInput} ${emailError ? styles.inputError : ''}`}
+                                                    value={inputValues.email}
+                                                    onFocus={() => handleFocus('email')}
+                                                    onBlur={() => handleBlur('email')}
+                                                    onChange={(e) => handleChange('email', e.target.value)}
+                                                />
+                                                <label className={`${styles.customPlaceholder} ${focusedInputs.email || inputValues.email ? styles.active : ''}`}>
+                                                    Электронная почта
+                                                </label>
+                                                {emailError && (
+                                                    <div className={styles.errorMessage}>
+                                                        {emailError}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className={styles.inputContainer}>
+                                                <input
+                                                    type="tel"
+                                                    className={`${styles.partnersInput} ${phoneError ? styles.inputError : ''}`}
+                                                    value={inputValues.phone}
+                                                    onFocus={() => handleFocus('phone')}
+                                                    onBlur={() => handleBlur('phone')}
+                                                    onChange={(e) => handleChange('phone', e.target.value)}
+                                                    placeholder=""
+                                                />
+                                                <label className={`${styles.customPlaceholder} ${focusedInputs.phone || inputValues.phone ? styles.active : ''}`}>
+                                                    Номер телефона
+                                                </label>
+                                                {phoneError && (
+                                                    <div className={styles.errorMessage}>
+                                                        {phoneError}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className={styles.inputContainer}>
+                                                <input
+                                                    type="text"
+                                                    className={`${styles.partnersInput} ${cityError ? styles.inputError : ''}`}
+                                                    value={inputValues.city}
+                                                    onFocus={() => handleFocus('city')}
+                                                    onBlur={() => handleBlur('city')}
+                                                    onChange={(e) => handleChange('city', e.target.value)}
+                                                />
+                                                <label className={`${styles.customPlaceholder} ${focusedInputs.city || inputValues.city ? styles.active : ''}`}>
+                                                    Город
+                                                </label>
+                                                {cityError && (
+                                                    <div className={styles.errorMessage}>
+                                                        {cityError}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className={styles.inputContainer}>
+                                                <textarea
+                                                    className={`${styles.partnersTextArea} ${textAreaError ? styles.inputError : ''}`}
+                                                    name="textArea"
+                                                    value={inputValues.textArea}
+                                                    onFocus={() => handleFocus('textArea')}
+                                                    onBlur={() => handleBlur('textArea')}
+                                                    onChange={(e) => handleChange('textArea', e.target.value)}
+                                                />
+                                                <label className={`${styles.customPlaceholder} ${focusedInputs.textArea || inputValues.textArea ? styles.active : ''}`}>
+                                                    Расскажите о себе
+                                                </label>
+                                                {textAreaError && (
+                                                    <div className={styles.errorMessage}>
+                                                        {textAreaError}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                         <div className={styles.partnersFileBox}>
-                                            <input className={styles.partnersFileInput} type="file" id='partnersFile' />
+                                            <input
+                                                className={`${styles.partnersFileInput} ${fileError ? styles.inputError : ''}`}
+                                                type="file"
+                                                id="partnersFile"
+                                                onChange={(e) => handleChange('file', e.target.files[0])}
+                                            />
                                             <label className={styles.partnersFileLabel} htmlFor="partnersFile">
-                                                <Image src={'/paperclip.svg'} width={24} height={24}></Image>
+                                                <Image src={'/paperclip.svg'} width={24} height={24} alt="attach" />
                                                 <div className={styles.partnersFiletext}>
-                                                    <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
+                                                    <h5 className={styles.partnersFileInputTitle}>Прикрепить резюме</h5>
                                                     <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
                                                 </div>
                                             </label>
+                                            {fileError && (
+                                                <div className={styles.errorMessage}>
+                                                    {fileError}
+                                                </div>
+                                            )}
                                         </div>
                                         <div className={styles.partnersFormRightBottom}>
-                                            <button className={styles.partnersFormSubmit} type='submit'>Отправить заявку</button>
-                                            <p className={styles.partnersPolicy}>Нажимая на кнопку, вы соглашаетесь с <Link href={'/'}>
-                                                политикой конфиденциальности</Link></p>
+                                            <button className={styles.partnersFormSubmit} type="submit">Отправить заявку</button>
+                                            <p className={styles.partnersPolicy}>
+                                                Нажимая на кнопку, вы соглашаетесь с <Link href={'/privacy'}>политикой конфиденциальности</Link>
+                                            </p>
                                         </div>
                                     </div>
                                 </form>
@@ -255,7 +552,7 @@ export default function VacanciesDetail() {
                                             Спасибо за интерес к партнёрству! Мы получили вашу заявку и свяжемся с вами в ближайшее время.
                                         </p>
                                         <p className={styles.successModalInfo}>
-                                            Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="">+7 (000) 000–00–00</a></span> или написать на <span><a href="">stm@ideologia.ru</a></span>
+                                            Если у вас остались вопросы, вы всегда можете позвонить нам по телефону <span><a href="tel:+70000000000">+7 (000) 000–00–00</a></span> или написать на <span><a href="mailto:stm@ideologia.ru">stm@ideologia.ru</a></span>
                                         </p>
                                     </div>
                                 </div>
