@@ -653,7 +653,9 @@ export default function Clients() {
                             <h3 className={styles.advantagesSubtitle}>Почему выбирают нас?</h3>
                             <ul className={styles.advantagesList}>
                                 <li className={styles.advantagesListItem}>
-                                    <Image src="/about-quality2.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    <div className={styles.advantagesListItemImg}>
+                                        <Image src="/about-quality2.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    </div>
                                     <div className={styles.advantagesListItemContent}>
                                         <div className={styles.advantagesListItemUp}>
                                             <h4 className={styles.advantagesListItemTitle}>Гарантия качества и безопасности</h4>
@@ -662,7 +664,9 @@ export default function Clients() {
                                     </div>
                                 </li>
                                 <li className={styles.advantagesListItem}>
-                                    <Image src="/about-quality1.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    <div className={styles.advantagesListItemImg}>
+                                        <Image src="/about-quality1.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    </div>
                                     <div className={styles.advantagesListItemContent}>
                                         <div className={styles.advantagesListItemUp}>
                                             <h4 className={styles.advantagesListItemTitle}>Сертификация и контроль</h4>
@@ -671,7 +675,9 @@ export default function Clients() {
                                     </div>
                                 </li>
                                 <li className={styles.advantagesListItem}>
-                                    <Image src="/about-prefooter.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    <div className={styles.advantagesListItemImg}>
+                                        <Image src="/about-prefooter.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    </div>
                                     <div className={styles.advantagesListItemContent}>
                                         <div className={styles.advantagesListItemUp}>
                                             <h4 className={styles.advantagesListItemTitle}>Современное производство</h4>
@@ -680,7 +686,9 @@ export default function Clients() {
                                     </div>
                                 </li>
                                 <li className={styles.advantagesListItem}>
-                                    <Image src="/productsHeader1.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    <div className={styles.advantagesListItemImg}>
+                                        <Image src="/productsHeader1.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    </div>
                                     <div className={styles.advantagesListItemContent}>
                                         <div className={styles.advantagesListItemUp}>
                                             <h4 className={styles.advantagesListItemTitle}>Производство под СТМ</h4>
@@ -689,7 +697,9 @@ export default function Clients() {
                                     </div>
                                 </li>
                                 <li className={styles.advantagesListItem}>
-                                    <Image src="/productsHeader3.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    <div className={styles.advantagesListItemImg}>
+                                        <Image src="/productsHeader3.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    </div>
                                     <div className={styles.advantagesListItemContent}>
                                         <div className={styles.advantagesListItemUp}>
                                             <h4 className={styles.advantagesListItemTitle}>Экспертный подход</h4>
@@ -698,7 +708,9 @@ export default function Clients() {
                                     </div>
                                 </li>
                                 <li className={styles.advantagesListItem}>
-                                    <Image src="/logistics.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    <div className={styles.advantagesListItemImg}>
+                                        <Image src="/van2.png" alt="Сертификация по ISO 9001" width={400} height={320} />
+                                    </div>
                                     <div className={styles.advantagesListItemContent}>
                                         <div className={styles.advantagesListItemUp}>
                                             <h4 className={styles.advantagesListItemTitle}>Собственная логистика</h4>

@@ -661,9 +661,9 @@
     }
 
     .closeButton {
-        right: 0;
-        top: -50px;
-        right: 20px;
+        top: 10px;
+        right: 4px;
+        color: #2C2C2C;
     }
 
     .contactFormLeft {
@@ -774,6 +774,22 @@
     height: 100%;
 }
 
+.advantagesListItemImg {
+    min-width: 400px;
+}
+
+.advantagesListItem:last-of-type .advantagesListItemImg {
+    overflow: hidden;
+    border-radius: 20px;
+    background: #F1F3F5;
+
+}
+
+.advantagesListItem:last-of-type .advantagesListItemImg img {
+    transform: translateX(10%);
+    width: 600px;
+}
+
 .advantagesListItem img {
     object-fit: cover;
     border-radius: 20px;
@@ -864,6 +880,15 @@
         border-radius: 12px;
     }
 
+    .advantagesListItemImg {
+        min-width: 320px;
+    }
+
+    .advantagesListItem:last-of-type .advantagesListItemImg img {
+        transform: translateX(0%);
+        max-width: 600px;
+    }
+
     .advantagesListItemDescription {
         font-size: 16px;
         line-height: 24px;
@@ -919,6 +944,12 @@
         max-width: 100%;
         object-fit: cover;
         border-radius: 12px;
+    }
+
+    .advantagesListItem:last-of-type .advantagesListItemImg img {
+        transform: translateX(0%);
+        max-width: 100%;
+        width: 100%;
     }
 }
 

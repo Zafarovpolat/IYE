@@ -208,6 +208,7 @@ export default function Contacts() {
         setTextAreaError('');
         setFileError('');
     };
+
     useEffect(() => {
         setIsClient(true);
     }, []);
@@ -224,18 +225,29 @@ export default function Contacts() {
                         zoom: 15,
                     });
 
+                    // Кастомный layout для балуна (опционально)
+                    const CustomBalloonLayout = window.ymaps.templateLayoutFactory.createClass(
+                        '<div class="custom-balloon" style="padding: 10px; background: white; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">' +
+                        '<div>$[[options.contentLayout]]</div>' +
+                        '</div>'
+                    );
+
                     // Создаем кастомную метку
                     const placemark = new window.ymaps.Placemark(
                         [55.798191, 37.938147],
                         {
-                            hintContent: 'Идеология Еды', // Подсказка при наведении
-                            balloonContent: 'Московская область, город Балашиха, улица Западная, дом 7А', // Контент балуна
+                            hintContent: 'Идеология Еды',
+                            balloonContent: 'Московская область, город Балашиха, улица Западная, дом 7А',
                         },
                         {
                             iconLayout: 'default#image',
-                            iconImageHref: '/Pin.svg', // Путь к вашему изображению метки
-                            iconImageSize: [180, 180], // Размер изображения метки в пикселях
-                            iconImageOffset: [-20, -40], // Смещение метки (чтобы точка привязки была внизу изображения)
+                            iconImageHref: '/Pin.svg',
+                            iconImageSize: [180, 180], // Размер метки
+                            iconImageOffset: [-90, -180], // Смещение метки (центр внизу изображения)
+                            balloonOffset: [0, -180], // Смещение балуна относительно метки
+                            balloonLayout: CustomBalloonLayout, // Кастомный layout для балуна (опционально)
+                            balloonPanelMaxMapArea: 0, // Балун не раскрывается в панель
+                            balloonCloseButton: true, // Кнопка закрытия балуна
                         }
                     );
 
@@ -268,49 +280,6 @@ export default function Contacts() {
     const rippleOrigin = {
         x: '100%',
         y: '100%',
-    };
-
-    const clientCardBackgroundVariants = {
-        initial: {
-            backgroundColor: '#fff',
-            backgroundImage: `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, transparent 0%, transparent 0%)`,
-        },
-        hover: {
-            backgroundColor: '#159F4A',
-            backgroundImage: [
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 0%, transparent 0%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 50%, transparent 50%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 100%, transparent 100%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 150%, transparent 150%)`,
-                `radial-gradient(circle at ${rippleOrigin.x} ${rippleOrigin.y}, #159F4A 200%, transparent 200%)`,
-            ],
-            transition: {
-                backgroundImage: { duration: 0.4, ease: 'easeOut' },
-                backgroundColor: { duration: 0.4, ease: 'easeOut' }
-            }
-        },
-    };
-
-    const clientPartnerTextVariants = {
-        initial: {
-            color: '#2C2C2C',
-        },
-        hover: {
-            color: '#fff',
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
-    };
-
-    const clientArrowVariants = {
-        initial: {
-            stroke: '#2C2C2C',
-            rotate: 0
-        },
-        hover: {
-            stroke: '#fff',
-            rotate: 45,
-            transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
-        },
     };
 
     // Variants for preFooter section partnerCard
@@ -358,23 +327,7 @@ export default function Contacts() {
     };
 
     const SCALE_REDUCTION = 1.5;
-    const rippleVariants = {
-        initial: {
-            scale: 0,
-            transition: { duration: 0 }
-        },
-        hover: (i) => {
-            const baseScale = 5;
-            const maxScale = baseScale - (i * SCALE_REDUCTION);
-            return {
-                scale: [1, 4, maxScale],
-                transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                }
-            };
-        }
-    };
+
     const rippleVariants2 = {
         initial: {
             opacity: 0,

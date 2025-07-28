@@ -419,7 +419,7 @@ export default function Home() {
                                 </h3>
                             </div>
                             <div className={styles.numbersHeaderLink}>
-                                <Button href="/about" />
+                                <Button linkTo="/about" />
                             </div>
                         </div>
                         <div className={styles.cardsContainerBlock}>
@@ -611,7 +611,7 @@ export default function Home() {
                                 viewport={{ once: true }}
                                 style={{ '--ripple-origin-x': rippleOrigin.x, '--ripple-origin-y': rippleOrigin.y }}
                             >
-                                <Link href="/" className={styles.partnerLink}>
+                                <Link href="/clients" className={styles.partnerLink}>
                                     <motion.span className={styles.partnerText} variants={clientPartnerTextVariants}>
                                         Стать нашим партнёром
                                     </motion.span>
@@ -676,7 +676,7 @@ export default function Home() {
                             </motion.div>
                         </div>
                         <div className={`${styles.numbersHeaderLink2} ${styles.clientsLink}`}>
-                            <Button href="/about" text={"Стать нашим партнером"} />
+                            <Button linkTo="/clients" text={"Стать нашим партнером"} />
                         </div>
                     </div>
                 </section>
@@ -950,7 +950,7 @@ export default function Home() {
                                 <h3 className={styles.productsHeaderInfo}>Производим продукцию под СТМ и развиваем наш бренд</h3>
                             </div>
                             <div className={styles.productsHeaderLink}>
-                                <Button text={'О продукции'} href='/products' />
+                                <Button text={'О продукции'} linkTo='/products' />
                             </div>
                         </div>
                         <div className={styles.productsCardsContainer}>
@@ -1043,7 +1043,7 @@ export default function Home() {
                                 </h3>
                             </div>
                             <div className={styles.productionHeaderLink}>
-                                <Button text={'О производстве'} href='/production' />
+                                <Button text={'О производстве'} linkTo='/production' />
                             </div>
                         </div>
                     </div>
@@ -1114,7 +1114,7 @@ export default function Home() {
                                 </h3>
                             </div>
                             <div className={styles.productionHeaderLink}>
-                                <Button text={"Все новости"} href="/news" />
+                                <Button text={"Все новости"} linkTo="/news" />
                             </div>
                         </div>
                         <div className={styles.newsCardsContainer}>

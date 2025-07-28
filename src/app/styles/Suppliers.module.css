@@ -648,9 +648,9 @@
     }
 
     .closeButton {
-        right: 0;
-        top: -50px;
-        right: 20px;
+        top: 10px;
+        right: 4px;
+        color: #2C2C2C;
     }
 
     .contactFormLeft {
@@ -865,11 +865,18 @@
     }
 
     .foodCards {
+        overflow: visible !important;
+        height: auto;
+    }
+
+    .foodCard {
+        padding: 20px;
+        /* Заменить height на min-height */
         margin-bottom: 70px;
     }
 
-    .foodCards {
-        overflow: visible !important;
+    .foodCards .swiper-slide {
+        height: auto !important;
     }
 }
 
@@ -1336,11 +1343,11 @@
     font-weight: 400;
 }
 
-.partnersInput:nth-child(3) {
+.inputContainer:nth-child(3) {
     grid-column: 1 / 2;
 }
 
-.partnersInput:nth-child(4) {
+.inputContainer:nth-child(4) {
     grid-column: 2 / 3;
 }
 
@@ -1459,6 +1466,26 @@
     margin-bottom: 0;
 }
 
+.partnersFileInputInfo {
+    font-family: Literata;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    color: #747B87;
+}
+
+.fileErrorText {
+    color: #F13A3A;
+}
+
+.paperclipIcon {
+    transition: filter 0.3s ease;
+}
+
+.paperclipError {
+    filter: brightness(0) saturate(100%) invert(34%) sepia(94%) saturate(3516%) hue-rotate(338deg) brightness(95%) contrast(92%);
+}
 
 @media (max-width: 1919px) {
     .partnersHeading {
@@ -1608,8 +1635,8 @@
 
     }
 
-    .partnersInput,
-    .partnersInput:nth-child(4) {
+    .inputContainer,
+    .inputContainer:nth-child(4) {
         grid-column: 1 / 2;
     }
 

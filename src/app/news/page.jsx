@@ -12,6 +12,7 @@ export default function News() {
     const [isPreFooterHovered, setIsPreFooterHovered] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [selectedTag, setSelectedTag] = useState('Все новости');
+    const [loadMoreCount, setLoadMoreCount] = useState(0); // New state to track load more clicks
 
     useEffect(() => {
         const handleResize = () => {
@@ -240,8 +241,11 @@ export default function News() {
     };
 
     const handleLoadMore = () => {
-        const newItems = newsItems.slice(0, 3); // Берем первые 3 новости для дублирования
-        setLoadedItems((prev) => [...prev, ...newItems]);
+        if (loadMoreCount < 1) { // Limit to 2 clicks
+            const newItems = newsItems.slice(0, 3); // Take first 3 news items for duplication
+            setLoadedItems((prev) => [...prev, ...newItems]);
+            setLoadMoreCount((prev) => prev + 1); // Increment click count
+        }
     };
 
     const firstHalf = filteredItems.slice(0, Math.min(9, filteredItems.length));

@@ -34,6 +34,7 @@ export default function Suppliers() {
     const [emailError, setEmailError] = useState('');
     const [fileError, setFileError] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false); // Новое состояние
     const [inputValues, setInputValues] = useState({
         name: '',
         company: '',
@@ -190,6 +191,7 @@ export default function Suppliers() {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        setIsFormSubmitted(true); // Устанавливаем, что форма была отправлена
 
         const isNameValid = validateName(inputValues.name);
         const isCompanyValid = validateCompany(inputValues.company);
@@ -211,6 +213,8 @@ export default function Suppliers() {
             email: ''
         });
         setSelectedFile(null);
+        setIsFormSubmitted(false); // Сбрасываем после успешной отправки
+
         setFocusedInputs({
             name: false,
             company: false,
@@ -226,6 +230,7 @@ export default function Suppliers() {
 
     const handleFormSubmit2 = (e) => {
         e.preventDefault();
+        setIsFormSubmitted(true); // Устанавливаем, что форма была отправлена
 
         const isNameValid = validateName(inputValues.name);
         const isCompanyValid = validateCompany(inputValues.company);
@@ -246,6 +251,8 @@ export default function Suppliers() {
             email: ''
         });
         setSelectedFile(null);
+        setIsFormSubmitted(false); // Сбрасываем после успешной отправки
+
         setFocusedInputs({
             name: false,
             company: false,
@@ -531,24 +538,28 @@ export default function Suppliers() {
                                         </div>
                                         <div className={styles.partnersFileBox}>
                                             <input
-                                                className={`${styles.partnersFileInput} ${fileError ? styles.inputError : ''}`}
+                                                className={`${styles.partnersFileInput} ${isFormSubmitted && !selectedFile ? styles.inputError : ''}`}
                                                 type="file"
                                                 id="partnersFile"
                                                 onChange={(e) => handleChange('file', e.target.files[0])}
                                             />
                                             <label className={styles.partnersFileLabel} htmlFor="partnersFile">
-                                                <Image src={'/paperclip.svg'} width={24} height={24} alt="attach" />
+                                                <Image
+                                                    src={'/paperclip.svg'}
+                                                    width={24}
+                                                    height={24}
+                                                    alt="attach"
+                                                    className={`${styles.paperclipIcon} ${isFormSubmitted && !selectedFile ? styles.paperclipError : ''}`}
+                                                />
                                                 <div className={styles.partnersFiletext}>
                                                     <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
-                                                    <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
+                                                    <h6 className={`${styles.partnersFileInputInfo} ${isFormSubmitted && !selectedFile ? styles.fileErrorText : ''}`}>
+                                                        {isFormSubmitted && !selectedFile ? 'Прикрепите файл' : 'pdf, doc до 10 мб'}
+                                                    </h6>
                                                 </div>
                                             </label>
-                                            {fileError && (
-                                                <div className={styles.errorMessage}>
-                                                    {fileError}
-                                                </div>
-                                            )}
                                         </div>
+
                                         <div className={styles.contactFormRightBottom}>
                                             <button type="submit" className={styles.contactFormSubmit}>
                                                 Отправить заявку
@@ -1000,23 +1011,26 @@ export default function Suppliers() {
                                 </div>
                                 <div className={styles.partnersFileBox}>
                                     <input
-                                        className={`${styles.partnersFileInput} ${fileError ? styles.inputError : ''}`}
+                                        className={`${styles.partnersFileInput} ${isFormSubmitted && !selectedFile ? styles.inputError : ''}`}
                                         type="file"
                                         id="partnersFile"
                                         onChange={(e) => handleChange('file', e.target.files[0])}
                                     />
                                     <label className={styles.partnersFileLabel} htmlFor="partnersFile">
-                                        <Image src={'/paperclip.svg'} width={24} height={24} alt="attach" />
+                                        <Image
+                                            src={'/paperclip.svg'}
+                                            width={24}
+                                            height={24}
+                                            alt="attach"
+                                            className={`${styles.paperclipIcon} ${isFormSubmitted && !selectedFile ? styles.paperclipError : ''}`}
+                                        />
                                         <div className={styles.partnersFiletext}>
                                             <h5 className={styles.partnersFileInputTitle}>Прикрепить коммерческое предложение</h5>
-                                            <h6 className={styles.partnersFileInputInfo}>pdf, doc до 10 мб</h6>
+                                            <h6 className={`${styles.partnersFileInputInfo} ${isFormSubmitted && !selectedFile ? styles.fileErrorText : ''}`}>
+                                                {isFormSubmitted && !selectedFile ? 'Прикрепите файл' : 'pdf, doc до 10 мб'}
+                                            </h6>
                                         </div>
                                     </label>
-                                    {fileError && (
-                                        <div className={styles.errorMessage}>
-                                            {fileError}
-                                        </div>
-                                    )}
                                 </div>
                                 <div className={styles.partnersFormRightBottom}>
                                     <button className={styles.partnersFormSubmit} type="submit">
