@@ -47,6 +47,7 @@ export default function Production() {
     const [isAnimationComplete, setIsAnimationComplete] = useState(false); // Track if animation is done
     const listItemRefs = useRef([]); // Refs for list items
     const [isAnimating, setIsAnimating] = useState(false); // Track if an animation is in progress
+    const [isSectionVisible, setIsSectionVisible] = useState(false); // Новое состояние для отслеживания видимости
 
     const handleFocus = (inputName) => {
         setFocusedInputs(prev => ({ ...prev, [inputName]: true }));
@@ -215,12 +216,35 @@ export default function Production() {
 
     useEffect(() => {
         if (window.innerWidth < 1000) return;
-        // Disable scrolling initially
-        document.body.style.overflow = 'hidden';
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !isAnimationComplete && !isMobile) {
+                    setIsSectionVisible(true); // Set section as visible
+                    document.body.style.overflow = 'hidden'; // Lock scroll
+                    observer.disconnect(); // Disconnect observer after first trigger
+                } else {
+                    setIsSectionVisible(false); // Set section as not visible
+                    document.body.style.overflow = 'auto'; // Unlock scroll
+                }
+            },
+            {
+                root: null,
+                threshold: 1.0, // Первая карта должна быть видна полностью
+            }
+        );
+
+        // Наблюдаем за первой картой вместо всей секции
+        if (listItemRefs.current[0]) {
+            observer.observe(listItemRefs.current[0]);
+        }
+
         return () => {
-            document.body.style.overflow = 'auto';
+            if (listItemRefs.current[0]) {
+                observer.unobserve(listItemRefs.current[0]);
+            }
         };
-    }, []);
+    }, [isAnimationComplete, isMobile]);
 
     useEffect(() => {
         // Enable scrolling after animation is complete
@@ -230,7 +254,7 @@ export default function Production() {
     }, [isAnimationComplete]);
 
     const handleScroll = async (e) => {
-        if (isAnimationComplete || isMobile || isAnimating || (window.innerWidth < 1000)) return;
+        if (!isSectionVisible || isAnimationComplete || isMobile || isAnimating || (window.innerWidth < 1000)) return;
         e.preventDefault();
         if (animationStep < 2) {
             setIsAnimating(true);
@@ -272,6 +296,7 @@ export default function Production() {
                                         setIsAnimating(false);
                                         if (nextStep === 2) {
                                             setIsAnimationComplete(true);
+                                            document.body.style.overflow = 'auto';
                                         }
                                     }
                                 }
@@ -287,6 +312,7 @@ export default function Production() {
                                         setIsAnimating(false);
                                         if (nextStep === 2) {
                                             setIsAnimationComplete(true);
+                                            document.body.style.overflow = 'auto';
                                         }
                                     }
                                 }
@@ -317,7 +343,6 @@ export default function Production() {
                 // Ждём завершения обеих анимаций
                 await Promise.all([cardAnimation, sectionAnimation]);
 
-
             } else {
                 setIsAnimating(false);
             }
@@ -329,7 +354,7 @@ export default function Production() {
         return () => {
             window.removeEventListener('wheel', handleScroll);
         };
-    }, [animationStep, isAnimationComplete, isAnimating]);
+    }, [isSectionVisible, animationStep, isAnimationComplete, isAnimating]);
 
     const closeSuccessModal = () => {
         setIsSuccessModalOpen(false);

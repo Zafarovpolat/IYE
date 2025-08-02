@@ -30,12 +30,6 @@ export default function About() {
     const swiperRef = useRef(null);
     const isAnimatingRef = useRef(false);
 
-    const getThreshold = () => {
-        if (window.innerWidth < 1920) {
-            return 0.3;
-        }
-        return 0.4;
-    };
 
     useEffect(() => {
 
@@ -164,7 +158,6 @@ export default function About() {
     }, [isSectionVisible, isAnimationComplete, isAnimating, animationStep, isMobile, isHistoryVisible]);
 
     useEffect(() => {
-
         if (window.innerWidth < 1000) return;
 
         const observer = new IntersectionObserver(
@@ -180,17 +173,18 @@ export default function About() {
             },
             {
                 root: null,
-                threshold: getThreshold(),
+                threshold: 1.0, // Первая карта должна быть видна полностью
             }
         );
 
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
+        // Наблюдаем за первой картой вместо всей секции
+        if (listItemRefs.current[0]) {
+            observer.observe(listItemRefs.current[0]);
         }
 
         return () => {
-            if (sectionRef.current) {
-                observer.unobserve(sectionRef.current);
+            if (listItemRefs.current[0]) {
+                observer.unobserve(listItemRefs.current[0]);
             }
         };
     }, [isAnimationComplete, isMobile]);
@@ -917,23 +911,26 @@ export default function About() {
                                         description: "Используем уникальную систему удалённого мониторинга температурных зон и машинного зрения для отслеживания процессов, выявления отклонений и поддержания стабильного качества продукции"
                                     }
                                 ].map((item, index) => (
-                                    <motion.li
+                                    <li
                                         key={index}
-                                        className={styles.aboutQualityListItem}
                                         ref={el => listItemRefs.current[index] = el}
-                                        custom={index}
-                                        animate={controls}
-                                        initial={{ y: 0 }}
                                     >
-                                        <Image src={item.image} alt={item.alt} width={400} height={320} />
-                                        <div className={styles.aboutQualityListItemContent}>
-                                            <div className={styles.aboutQualityListItemUp}>
-                                                <h4 className={styles.aboutQualityListItemNumber}>{item.number}</h4>
-                                                <h4 className={styles.aboutQualityListItemTitle}>{item.title}</h4>
+                                        <motion.div
+                                            custom={index}
+                                            className={styles.aboutQualityListItem}
+                                            animate={controls}
+                                            initial={{ y: 0 }}
+                                        >
+                                            <Image src={item.image} alt={item.alt} width={400} height={320} />
+                                            <div className={styles.aboutQualityListItemContent}>
+                                                <div className={styles.aboutQualityListItemUp}>
+                                                    <h4 className={styles.aboutQualityListItemNumber}>{item.number}</h4>
+                                                    <h4 className={styles.aboutQualityListItemTitle}>{item.title}</h4>
+                                                </div>
+                                                <p className={styles.aboutQualityListItemDescription}>{item.description}</p>
                                             </div>
-                                            <p className={styles.aboutQualityListItemDescription}>{item.description}</p>
-                                        </div>
-                                    </motion.li>
+                                        </motion.div>
+                                    </li>
                                 ))}
                             </ul>
                         </div>
